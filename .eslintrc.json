@@ -1,25 +1,87 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "eslint-config-prettier",
-    "prettier",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
-  ],
-  "plugins": ["prettier"],
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["import"],
   "rules": {
     "no-unused-vars": "warn",
-    "prettier/prettier": [
-      "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    // unused-import bị lỗi conflict với typescript-eslint/
+    "no-restricted-imports": [
+      "error",
       {
-        "arrowParens": "always",
-        "semi": false,
-        "trailingComma": "none",
-        "tabWidth": 2,
-        "endOfLine": "auto",
-        "useTabs": false,
-        "singleQuote": true,
-        "printWidth": 120,
-        "jsxSingleQuote": true
+        "patterns": [
+          {
+            "group": ["./app", "*/../app"],
+            "message": "App imports must be absolute."
+          },
+          {
+            "group": [
+              "@module/*/**",
+              // core
+              "@core/app-icon/*",
+              // module
+              "!@module/app-common/*",
+              "!@module/app-global/*"
+            ],
+            "message": "Module imports must be absolute."
+          }
+        ]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "src/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@app/**",
+            "group": "internal", // Using internal to keep @app within the same top-level grouping
+            "position": "before"
+          },
+          // {
+          //   "pattern": "@core/app-vendor/**",
+          //   "group": "internal",
+          //   "position": "after"
+          // },
+          // Đúng ra tách ra nhưng làm rối import thêm,
+          // Chỉ ref vào tham khảo, code chạy ok
+          {
+            "pattern": "@core/**",
+            "group": "internal", // Adding @core after @app in the internal group
+            "position": "after"
+          },
+          // app-provider, app-shadcn, app-form, app-vendor đẩy vào app-core
+          // {
+          //   "pattern": "{@module/app-provider/**,@module/app-provider,@core/app-shadcn/**}",
+          //   "group": "internal",
+          //   "position": "after"
+          // },
+          {
+            "pattern": "{@module/app-common/**,@module/app-global}",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@module/**",
+            "group": "internal",
+            "position": "after"
+          }
+          // {
+          //   "pattern": "@vendor/**",
+          //   "group": "internal",
+          //   "position": "after"
+          // }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   }
