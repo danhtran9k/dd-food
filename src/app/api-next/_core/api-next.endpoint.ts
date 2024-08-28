@@ -1,7 +1,9 @@
+export const NEXT_API_PREFIX = 'api'
 // Setup thêm 1 lớp api để chừa cho key khi cần tích hợp React-Query
 export const NEXT_API = {
   AUTH: {
-    api: '/api/auth',
+    api: `/${NEXT_API_PREFIX}/auth`,
+
     LOGIN: {
       api: () => `${NEXT_API.AUTH.api}/login`
     },
@@ -10,6 +12,3 @@ export const NEXT_API = {
     }
   }
 }
-
-export const ENTITY_ERROR_STATUS = 422
-export const AUTHENTICATION_ERROR_STATUS = 401

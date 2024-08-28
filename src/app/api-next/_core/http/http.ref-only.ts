@@ -1,14 +1,20 @@
 import { redirect } from 'next/navigation'
 
-import { EntityError, EntityErrorPayload, HttpError } from '@app/api/_core/api-error.type'
-import { AUTHENTICATION_ERROR_STATUS, ENTITY_ERROR_STATUS, NEXT_API } from '@app/api/_core/api.common'
+import {
+  EntityError,
+  EntityErrorPayload,
+  HttpError,
+  AUTHENTICATION_ERROR_STATUS,
+  ENTITY_ERROR_STATUS
+} from '@app/api-next/_core/api-error.type'
+import { NEXT_API } from '@app/api-next/_core/api-next.endpoint'
 import {
   getLocalStorageToken,
   removeLocalStorageToken,
   setLocalStorageAccessToken,
   setLocalTokenRefreshExpired
-} from '@app/api/_core/token.helper'
-import { LoginResType } from '@app/api/auth/auth.schema'
+} from '@app/api-next/_core/token.helper'
+import { LoginResType } from '@app/api-next/auth/auth.schema'
 
 import envConfig from '@core/config'
 import { ROUTE_PATH } from '@core/path.const'

@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { RoleValues } from '@app/api/_core/api-type.const'
+import { RoleValues } from '@app/api-next/_core/api-type.const'
 
 export const LoginRes = z.object({
   data: z.object({

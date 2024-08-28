@@ -1,4 +1,5 @@
-import { ENTITY_ERROR_STATUS } from './api.common'
+export const ENTITY_ERROR_STATUS = 422
+export const AUTHENTICATION_ERROR_STATUS = 401
 
 export type EntityErrorPayload = {
   message: string
