@@ -1,39 +1,51 @@
+import { NEXT_API } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
+  AUTHENTICATION_ERROR_STATUS,
+  ENTITY_ERROR_STATUS,
   EntityError,
   EntityErrorPayload,
-  HttpError,
-  AUTHENTICATION_ERROR_STATUS,
-  ENTITY_ERROR_STATUS
+  HttpError
 } from '@app/api-next/_core/api-error.type'
-import { NEXT_API } from '@app/api-next/_core/api-next.endpoint'
 import {
   getLocalStorageToken,
   removeLocalStorageToken,
   setLocalStorageAccessToken,
   setLocalTokenRefreshExpired
 } from '@app/api-next/_core/token.helper'
-import { LoginResType } from '@app/api-next/auth/auth.schema'
+
+import { LoginResType } from '@app/api-next/auth/auth.dto'
 
 import { ROUTE_PATH } from '@core/path.const'
 import { normalizePath } from '@core/utils'
 
-import { CustomOptions, THttpMethod, getBaseHeaders, getBody, getFullUrl, mergeFetchOptions } from './http.common'
+import { getHttpRequestInfo, mergeFetchOptions } from './http.common'
+import { THttpMethod, THttpPayload } from './http.type'
 
 // ý tưởng như kiểu useRef, để track khi logout đang gọi, -> ko gọi thêm
 let clientLogoutRequest: null | Promise<any> = null
 
 // private request, client only
-const request = async <Response>(method: THttpMethod, url: string, options?: CustomOptions | undefined) => {
-  const body = getBody(options)
-  const fullUrl = getFullUrl(url, options)
+export const httpClient = async <Response>(
+  method: THttpMethod,
+  url: string,
+  req?: THttpPayload
+) => {
+  const { bodyPayload, fullUrl, baseHeaders } = getHttpRequestInfo(url, req)
 
-  const baseHeaders = getBaseHeaders(body)
   const accessToken = getLocalStorageToken()
   if (accessToken) {
     baseHeaders.Authorization = `Bearer ${accessToken}`
   }
 
-  const res = await fetch(fullUrl, mergeFetchOptions({ options, baseHeaders, body, method }))
+  const res = await fetch(
+    fullUrl,
+    mergeFetchOptions({
+      options: req?.options,
+      baseHeaders,
+      body: bodyPayload,
+      method
+    })
+  )
 
   const payload: Response = await res.json()
   const data = {
@@ -94,19 +106,4 @@ const request = async <Response>(method: THttpMethod, url: string, options?: Cus
   }
 
   return data
-}
-
-export const httpClient = {
-  get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('GET', url, options)
-  },
-  post<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('POST', url, { ...options, body })
-  },
-  put<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('PUT', url, { ...options, body })
-  },
-  delete<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('DELETE', url, { ...options })
-  }
 }

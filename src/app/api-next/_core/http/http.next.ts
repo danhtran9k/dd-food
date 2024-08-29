@@ -3,24 +3,34 @@ import 'server-only'
 import { redirect } from 'next/navigation'
 
 import {
+  AUTHENTICATION_ERROR_STATUS,
+  ENTITY_ERROR_STATUS,
   EntityError,
   EntityErrorPayload,
-  HttpError,
-  AUTHENTICATION_ERROR_STATUS,
-  ENTITY_ERROR_STATUS
+  HttpError
 } from '@app/api-next/_core/api-error.type'
 
 import { ROUTE_PATH } from '@core/path.const'
 
-import { CustomOptions, THttpMethod, getBaseHeaders, getBody, getFullUrl, mergeFetchOptions } from './http.common'
+import { getHttpRequestInfo, mergeFetchOptions } from './http.common'
+import { THttpMethod, THttpPayload } from './http.type'
 
 // private request, SERVER-ONLY
-const request = async <Response>(method: THttpMethod, url: string, options?: CustomOptions | undefined) => {
-  const body = getBody(options)
-  const fullUrl = getFullUrl(url, options)
-  const baseHeaders = getBaseHeaders(body)
-
-  const res = await fetch(fullUrl, mergeFetchOptions({ options, baseHeaders, body, method }))
+export const httpNext = async <Response>(
+  method: THttpMethod,
+  url: string,
+  req?: THttpPayload
+) => {
+  const { bodyPayload, fullUrl, baseHeaders } = getHttpRequestInfo(url, req)
+  const res = await fetch(
+    fullUrl,
+    mergeFetchOptions({
+      options: req?.options,
+      baseHeaders,
+      body: bodyPayload,
+      method
+    })
+  )
 
   const payload: Response = await res.json()
   const data = {
@@ -46,7 +56,9 @@ const request = async <Response>(method: THttpMethod, url: string, options?: Cus
       // Nếu ko muốn trung gian phải forward set-Cookie về client
       // Hoặc redirect client về route logout ngầm, sau đó client lại thông qua useEffect gọi sv để xoá cookie -> lòng vòng
       // Vì route BE ko tự set-Cookie dùm
-      const accessToken = (options?.headers as any)?.Authorization.split('Bearer ')[1]
+      const accessToken = (req?.options?.headers as any)?.Authorization.split(
+        'Bearer '
+      )[1]
       redirect(ROUTE_PATH.LOGOUT.token(accessToken))
       // Ý tưởng là ngay đây server next sẽ gọi báo BE logout, rồi trả Response header cho client luôn
       // Vì code này chạy 2 nợi nên truy cập vào Response được
@@ -64,19 +76,4 @@ const request = async <Response>(method: THttpMethod, url: string, options?: Cus
   }
 
   return data
-}
-
-export const httpServer = {
-  get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('GET', url, options)
-  },
-  post<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('POST', url, { ...options, body })
-  },
-  put<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('PUT', url, { ...options, body })
-  },
-  delete<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
-    return request<Response>('DELETE', url, { ...options })
-  }
 }

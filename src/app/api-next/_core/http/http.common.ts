@@ -1,70 +1,72 @@
-import { NEXT_API_PREFIX } from '@app/api-next/_core/api-next.endpoint'
+import { NEXT_API_PREFIX } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
+import {
+  TBaseHeader,
+  TBodyRequest,
+  THttpPayload,
+  TMergeFetchOptions
+} from '@app/api-next/_core/http/http.type'
 
 import envConfig from '@core/config'
 import { normalizePath } from '@core/utils'
 
-export type CustomOptions = Omit<RequestInit, 'method'> & {
-  baseUrl?: string
-}
+// =====================================
+// PRIVATE
+const getBody = (body?: any): TBodyRequest =>
+  body instanceof FormData ? body : JSON.stringify(body)
 
-export type THttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
-
-type TBaseHeader = {
-  [key: string]: string
-}
-export type TBodyRequest = FormData | string | undefined
-
-export const getBody = (options?: CustomOptions) => {
-  let body: TBodyRequest = undefined
-  if (options?.body instanceof FormData) {
-    body = options.body
-  } else if (options?.body) {
-    body = JSON.stringify(options.body)
-  }
-
-  return body
-}
-
-export const getBaseHeaders = (body: TBodyRequest): TBaseHeader =>
+const getBaseHeaders = (body: TBodyRequest): TBaseHeader =>
   body instanceof FormData
     ? {}
     : {
         'Content-Type': 'application/json'
       }
 
-// slice, substring, regex, indexOf, localCompare -> các solution khác
-const isNextApi = (url: string) => url.startsWith(`${NEXT_API_PREFIX}/`) || url.startsWith(`/${NEXT_API_PREFIX}/`)
+// Cheat solution, phải đảm bảo đầu NEXT và đầu api BE khác nhau
+// BE /api - NEXT /api-next
+const isNextApi = (url: string) =>
+  url.startsWith(`${NEXT_API_PREFIX}/`) ||
+  url.startsWith(`/${NEXT_API_PREFIX}/`)
 
-// Nếu không truyền baseUrl (hoặc baseUrl = undefined) thì lấy từ envConfig.NEXT_PUBLIC_API_ENDPOINT
-// Nếu truyền baseUrl thì lấy giá trị truyền vào, truyền vào '' thì đồng nghĩa với việc chúng ta gọi API đến Next.js Server
-export const getFullUrl = (url: string, options?: CustomOptions) => {
-  let baseUrl: string
-  if (options?.baseUrl) {
-    baseUrl = options.baseUrl
-  } else if (isNextApi(url)) {
-    // Xem như đối với các đầu api đặc biệt mà ko cung cấp path
-    // Mặc định gọi về server next endpoint
-    baseUrl = ''
-  } else {
-    // Các TH khác sẽ gọi về Api BE public  endpoint
-    // Code này chạy ở cả client-server nên ko tạo private BE endpoint được
-    // Phải xử lý riêng ngay trong http-backend
-    baseUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT
+// Code này chạy ở cả client-server nên ko tạo private BE endpoint được
+// Phải xử lý riêng ngay trong http-backend
+const getFullUrl = (url: string, baseUrl?: string) => {
+  // ko truyền + match đầu đặc biệt -> gọi NEXT endpoint
+  // ko truyền + các đầu khác -> gọi về BE
+  // WARNING: thực tế đầu api Next và các đầu api backend có thể trùng nhau
+  // Nên truyền baseUrl = "" để gọi Next endpoint để rõ ràng
+  // SOLUTION lazy cheat
+  if (baseUrl === undefined) {
+    if (isNextApi(url)) {
+      baseUrl = ''
+    } else {
+      baseUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT
+    }
   }
 
-  const fullUrl = `${baseUrl}/${normalizePath(url)}`
+  return `${baseUrl}/${normalizePath(url)}`
+}
+// =====================================
 
-  return fullUrl
+export const getHttpRequestInfo = (url: string, req?: THttpPayload) => {
+  const bodyPayload = getBody(req?.body)
+  const fullUrl = getFullUrl(url, req?.options?.baseUrl)
+  const baseHeaders = getBaseHeaders(bodyPayload)
+
+  return {
+    bodyPayload,
+    fullUrl,
+    baseHeaders
+  }
 }
 
-type TMergeFetchOptions = {
-  options?: CustomOptions
-  baseHeaders: TBaseHeader
-  body?: TBodyRequest
-  method: THttpMethod
-}
+// =====================================
 
-export const mergeFetchOptions = ({ options, baseHeaders, body, method }: TMergeFetchOptions) => ({
+export const mergeFetchOptions = ({
+  options,
+  baseHeaders,
+  body,
+  method
+}: TMergeFetchOptions) => ({
   ...options,
   headers: {
     ...baseHeaders,

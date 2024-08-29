@@ -1,5 +1,10 @@
 export const ENTITY_ERROR_STATUS = 422
 export const AUTHENTICATION_ERROR_STATUS = 401
+export const INTERNAL_ERROR_STATUS = 500
+
+export const statusError = (errorCode: number) => ({
+  status: errorCode
+})
 
 export type EntityErrorPayload = {
   message: string

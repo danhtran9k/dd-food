@@ -1,5 +1,8 @@
 {
-  "extends": ["next/core-web-vitals"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ],
   "plugins": ["import"],
   "rules": {
     "no-unused-vars": "warn",
@@ -20,7 +23,7 @@
               "@core/app-icon/*",
               // module
               "!@module/app-common/*",
-              "!@module/app-global/*"
+              "!@module/app-layout/*"
             ],
             "message": "Module imports must be absolute."
           }
@@ -30,10 +33,22 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "pathGroups": [
           {
             "pattern": "src/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@app/api-next/_core/**",
             "group": "internal",
             "position": "before"
           },
@@ -42,6 +57,7 @@
             "group": "internal", // Using internal to keep @app within the same top-level grouping
             "position": "before"
           },
+
           // {
           //   "pattern": "@core/app-vendor/**",
           //   "group": "internal",
@@ -61,7 +77,7 @@
           //   "position": "after"
           // },
           {
-            "pattern": "{@module/app-common/**,@module/app-global}",
+            "pattern": "{@module/app-common/**,@module/app-layout/**}",
             "group": "internal",
             "position": "after"
           },

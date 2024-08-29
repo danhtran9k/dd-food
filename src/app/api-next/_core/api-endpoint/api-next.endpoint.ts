@@ -1,4 +1,5 @@
-export const NEXT_API_PREFIX = 'api'
+export const NEXT_API_PREFIX = 'api-next'
+
 // Setup thêm 1 lớp api để chừa cho key khi cần tích hợp React-Query
 export const NEXT_API = {
   AUTH: {
