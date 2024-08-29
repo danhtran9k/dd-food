@@ -19,3 +19,9 @@
 
 Đối với TH BE-endpoint nếu chấp nhận có những endpoint client được gọi trực tiếp
 => sẽ expose env ra public (`NEXT_PUBLIC_`)
+
+# Layout component / global component
+
+-> Cơ bản thì layout là 1 dạng global nhỏ
+Tuy nhiên sẽ sửa lại, với các dạng global (ý nghĩa dùng chung) giờ sẽ đưa vào common hết
+app-layout nhưng thực chất là layout trên từng page chứ ko theo nghĩa layout lớn toàn app

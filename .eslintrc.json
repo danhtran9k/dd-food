@@ -20,7 +20,7 @@
               "@core/app-icon/*",
               // module
               "!@module/app-common/*",
-              "!@module/app-global/*"
+              "!@module/app-layout/*"
             ],
             "message": "Module imports must be absolute."
           }
@@ -30,7 +30,14 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
         "pathGroups": [
           {
             "pattern": "src/**",
@@ -61,7 +68,7 @@
           //   "position": "after"
           // },
           {
-            "pattern": "{@module/app-common/**,@module/app-global}",
+            "pattern": "{@module/app-common/**,@module/app-layout/**}",
             "group": "internal",
             "position": "after"
           },
