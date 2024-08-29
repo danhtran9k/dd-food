@@ -7,7 +7,7 @@ import {
   HttpError
 } from '@app/api-next/_core/api-error.type'
 import {
-  getLocalStorageToken,
+  getLocalAccessToken,
   removeLocalStorageToken,
   setLocalStorageAccessToken,
   setLocalTokenRefreshExpired
@@ -32,7 +32,7 @@ export const httpClient = async <Response>(
 ) => {
   const { bodyPayload, fullUrl, baseHeaders } = getHttpRequestInfo(url, req)
 
-  const accessToken = getLocalStorageToken()
+  const accessToken = getLocalAccessToken()
   if (accessToken) {
     baseHeaders.Authorization = `Bearer ${accessToken}`
   }
@@ -97,11 +97,11 @@ export const httpClient = async <Response>(
 
   // Cheat interceptor, tạm chấp nhận, tiện set cookie vào obj clientSessionToken
   const normalizeUrl = normalizePath(url)
-  if (normalizeUrl === NEXT_API.AUTH.LOGIN.api()) {
+  if (normalizeUrl === normalizePath(NEXT_API.AUTH.LOGIN.api())) {
     const { accessToken, refreshToken } = (payload as LoginResType).data
     setLocalStorageAccessToken(accessToken)
     setLocalTokenRefreshExpired(refreshToken)
-  } else if (normalizeUrl === NEXT_API.AUTH.LOGOUT.api()) {
+  } else if (normalizeUrl === normalizePath(NEXT_API.AUTH.LOGOUT.api())) {
     removeLocalStorageToken()
   }
 

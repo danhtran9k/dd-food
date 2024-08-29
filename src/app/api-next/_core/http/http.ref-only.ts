@@ -9,7 +9,6 @@ import {
   HttpError
 } from '@app/api-next/_core/api-error.type'
 import {
-  getLocalStorageToken,
   removeLocalStorageToken,
   setLocalStorageAccessToken,
   setLocalTokenRefreshExpired
@@ -51,7 +50,7 @@ const request = async <Response>(
         }
 
   if (isClient()) {
-    const accessToken = getLocalStorageToken()
+    const accessToken = isClient() ? localStorage.getItem('accessToken') : null
     if (accessToken) {
       baseHeaders.Authorization = `Bearer ${accessToken}`
     }
