@@ -15,6 +15,12 @@
 => đối với endPoint gọi vào BE -> baseUrl có thể thay đổi
 (liên quan tới việc getFullUrl)
 
+## WARNING:
+
+với TH của http ko thể tạo 1 file index.ts chung và export 1 server only + 1 chung ra
+
+- sẽ báo lỗi, chấp nhận đường dẫn dài
+
 ## Private / public BE - endpoint
 
 Đối với TH BE-endpoint nếu chấp nhận có những endpoint client được gọi trực tiếp

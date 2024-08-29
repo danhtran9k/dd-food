@@ -1,20 +1,21 @@
 import { redirect } from 'next/navigation'
 
+import { NEXT_API } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
+  AUTHENTICATION_ERROR_STATUS,
+  ENTITY_ERROR_STATUS,
   EntityError,
   EntityErrorPayload,
-  HttpError,
-  AUTHENTICATION_ERROR_STATUS,
-  ENTITY_ERROR_STATUS
+  HttpError
 } from '@app/api-next/_core/api-error.type'
-import { NEXT_API } from '@app/api-next/_core/api-next.endpoint'
 import {
   getLocalStorageToken,
   removeLocalStorageToken,
   setLocalStorageAccessToken,
   setLocalTokenRefreshExpired
 } from '@app/api-next/_core/token.helper'
-import { LoginResType } from '@app/api-next/auth/auth.schema'
+
+import { LoginResType } from '@app/api-next/auth/auth.dto'
 
 import envConfig from '@core/config'
 import { ROUTE_PATH } from '@core/path.const'
@@ -57,7 +58,10 @@ const request = async <Response>(
   }
   // Nếu không truyền baseUrl (hoặc baseUrl = undefined) thì lấy từ envConfig.NEXT_PUBLIC_API_ENDPOINT
   // Nếu truyền baseUrl thì lấy giá trị truyền vào, truyền vào '' thì đồng nghĩa với việc chúng ta gọi API đến Next.js Server
-  const baseUrl = options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl
+  const baseUrl =
+    options?.baseUrl === undefined
+      ? envConfig.NEXT_PUBLIC_API_ENDPOINT
+      : options.baseUrl
 
   const fullUrl = `${baseUrl}/${normalizePath(url)}`
 
@@ -120,7 +124,9 @@ const request = async <Response>(
         // Nếu ko muốn trung gian phải forward set-Cookie về client
         // Hoặc redirect client về route logout ngầm, sau đó client lại thông qua useEffect gọi sv để xoá cookie -> lòng vòng
         // Vì route BE ko tự set-Cookie dùm
-        const accessToken = (options?.headers as any)?.Authorization.split('Bearer ')[1]
+        const accessToken = (options?.headers as any)?.Authorization.split(
+          'Bearer '
+        )[1]
         redirect(ROUTE_PATH.LOGOUT.token(accessToken))
         // Ý tưởng là ngay đây server next sẽ gọi báo BE logout, rồi trả Response header cho client luôn
         // Vì code này chạy 2 nợi nên truy cập vào Response được
@@ -154,17 +160,31 @@ const request = async <Response>(
   return data
 }
 
-export const http = {
-  get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
+export const httpRefOnly = {
+  get<Response>(
+    url: string,
+    options?: Omit<CustomOptions, 'body'> | undefined
+  ) {
     return request<Response>('GET', url, options)
   },
-  post<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
+  post<Response>(
+    url: string,
+    body: any,
+    options?: Omit<CustomOptions, 'body'> | undefined
+  ) {
     return request<Response>('POST', url, { ...options, body })
   },
-  put<Response>(url: string, body: any, options?: Omit<CustomOptions, 'body'> | undefined) {
+  put<Response>(
+    url: string,
+    body: any,
+    options?: Omit<CustomOptions, 'body'> | undefined
+  ) {
     return request<Response>('PUT', url, { ...options, body })
   },
-  delete<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
+  delete<Response>(
+    url: string,
+    options?: Omit<CustomOptions, 'body'> | undefined
+  ) {
     return request<Response>('DELETE', url, { ...options })
   }
 }

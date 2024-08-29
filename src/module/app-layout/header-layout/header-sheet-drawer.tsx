@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 import { Button } from '@core/app-shadcn/button'
 import { Sheet, SheetContent, SheetTrigger } from '@core/app-shadcn/sheet'
-import { STYLE_BORDER_RED } from '@core/debug.utils'
 import { ROUTE_PATH } from '@core/path.const'
 
 import { NavItems } from './nav-item'
@@ -16,12 +15,7 @@ export const HeaderSheetDrawer = ({ side = 'left' }: THeaderSheetDrawer) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button
-          variant='outline'
-          size='icon'
-          className='shrink-0 md:hidden'
-          {...STYLE_BORDER_RED}
-        >
+        <Button variant='outline' size='icon' className='shrink-0 md:hidden'>
           <Menu className='h-5 w-5' />
 
           <span className='sr-only'>Toggle navigation menu</span>

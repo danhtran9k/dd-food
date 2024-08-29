@@ -48,10 +48,16 @@
             "position": "before"
           },
           {
+            "pattern": "@app/api-next/_core/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
             "pattern": "@app/**",
             "group": "internal", // Using internal to keep @app within the same top-level grouping
             "position": "before"
           },
+
           // {
           //   "pattern": "@core/app-vendor/**",
           //   "group": "internal",

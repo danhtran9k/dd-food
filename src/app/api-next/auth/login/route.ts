@@ -1,15 +1,21 @@
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 
-import { HttpError, INTERNAL_ERROR_STATUS, statusError } from '@app/api-next/_core/api-error.type'
-import { SERVER_API } from '@app/api-next/_core/api-server.endpoint'
-import { http } from '@app/api-next/_core/http/http.ref-only'
-import { LoginResType } from '@app/api-next/auth/auth.type'
+import { SERVER_API } from '@app/api-next/_core/api-endpoint'
+import {
+  HttpError,
+  INTERNAL_ERROR_STATUS,
+  statusError
+} from '@app/api-next/_core/api-error.type'
+import { httpNext } from '@app/api-next/_core/http/http.next'
+
+import { LoginResType } from '@app/api-next/auth/auth.dto'
 
 import { LoginBodyType } from './login.type'
 
 // Ý tưởng giống React Query sẽ tách queryFn ra ngoài
-const serverRequest = (body: LoginBodyType) => http.post<LoginResType>(SERVER_API.LOGIN.api(), body)
+const serverRequest = (body: LoginBodyType) =>
+  httpNext<LoginResType>('POST', SERVER_API.LOGIN.api(), { body })
 
 export async function POST(request: Request) {
   const body = (await request.json()) as LoginBodyType
