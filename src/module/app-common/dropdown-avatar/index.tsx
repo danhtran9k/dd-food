@@ -2,10 +2,9 @@
 
 import Link from 'next/link'
 
+import { useAccountMe } from '@app/api-next/accounts/use-account.hook'
 import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
-import { Button } from '@core/app-shadcn/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +15,13 @@ import {
 } from '@core/app-shadcn/dropdown-menu'
 import { ROUTE_PATH } from '@core/path.const'
 
-export default function DropdownAvatar() {
+import { DropdownAvatarTrigger } from './dropdown-avatar-trigger'
+
+export function DropdownAvatar() {
   const { isPending, mutate } = useLogoutMutation()
+  const { data } = useAccountMe()
+
+  const account = data?.payload.data
 
   const logout = async () => {
     if (isPending) return
@@ -27,21 +31,11 @@ export default function DropdownAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant='outline'
-          size='icon'
-          className='overflow-hidden rounded-full'
-        >
-          <Avatar>
-            <AvatarImage src={account.avatar ?? undefined} alt={account.name} />
-            <AvatarFallback>
-              {account.name.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
+        <DropdownAvatarTrigger account={account} />
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align='end'>
-        <DropdownMenuLabel>{account.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>{account?.name}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
@@ -58,9 +52,4 @@ export default function DropdownAvatar() {
       </DropdownMenuContent>
     </DropdownMenu>
   )
-}
-
-const account = {
-  name: 'Nguyễn Văn A',
-  avatar: 'https://i.pravatar.cc/150'
 }

@@ -1,5 +1,5 @@
-import DarkModeToggle from '@module/app-common/dark-mode-toggle'
-import DropdownAvatar from '@module/app-common/dropdown-avatar'
+import { DarkModeToggle } from '@module/app-common/dark-mode-toggle'
+import { DropdownAvatar } from '@module/app-common/dropdown-avatar'
 import {
   SideManageBar,
   SideManageBarMobile
