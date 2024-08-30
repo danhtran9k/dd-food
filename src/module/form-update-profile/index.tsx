@@ -8,24 +8,52 @@ import { Card, CardContent, CardHeader, CardTitle } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
+import envConfig from '@core/config'
 
 import { BtnFileInput } from '@module/app-common/btn-file-input'
 
 import { useFilePreviewInput } from './use-file-input.hook'
+import { useFormUpdateProfileSubmit } from './use-form-update-profile-submit.hook'
 import { useFormUpdateProfile } from './use-form-update-profile.hook'
 
 export default function UpdateProfileForm() {
-  const { form } = useFormUpdateProfile()
+  const {
+    form,
+    query: { refetch }
+  } = useFormUpdateProfile()
 
   const name = form.watch('name')
   const avatar = form.watch('avatar')
-  const { setFile, previewFileUrl: previewAvatar } = useFilePreviewInput(avatar)
+  const {
+    file,
+    setFile,
+    previewFileUrl: previewAvatar
+  } = useFilePreviewInput(avatar)
+
+  const { onSubmit } = useFormUpdateProfileSubmit({
+    file,
+    reload() {
+      refetch()
+    },
+    setError: form.setError
+  })
+
+  const handleFormSubmit = form.handleSubmit(onSubmit, (e) => {
+    console.log(e)
+  })
+
+  const reset = () => {
+    form.reset()
+    setFile(null)
+  }
 
   return (
     <Form {...form}>
       <form
         noValidate
         className='grid auto-rows-max items-start gap-4 md:gap-8'
+        onReset={reset}
+        onSubmit={handleFormSubmit}
       >
         <Card x-chunk='dashboard-07-chunk-0'>
           <CardHeader>
@@ -38,9 +66,11 @@ export default function UpdateProfileForm() {
                 control={form.control}
                 name='avatar'
                 render={({ field }) => {
-                  // hàm xử lý ở ngoài thì ko tận dụng tối đa setup FormField + name setup sẵn
                   const handleFileSelected = (file: File) => {
                     setFile(file)
+
+                    // hàm xử lý ở ngoài thì ko tận dụng tối đa setup FormField + name setup sẵn
+                    field.onChange(`${envConfig.NEXT_PUBLIC_URL}/${field.name}`)
                   }
 
                   return (
