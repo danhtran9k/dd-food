@@ -9,10 +9,17 @@ import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
 
+import { BtnFileInput } from '@module/app-common/btn-file-input'
+
+import { useFilePreviewInput } from './use-file-input.hook'
 import { useFormUpdateProfile } from './use-form-update-profile.hook'
 
 export default function UpdateProfileForm() {
-  const form = useFormUpdateProfile()
+  const { form } = useFormUpdateProfile()
+
+  const name = form.watch('name')
+  const avatar = form.watch('avatar')
+  const { setFile, previewFileUrl: previewAvatar } = useFilePreviewInput(avatar)
 
   return (
     <Form {...form}>
@@ -30,26 +37,34 @@ export default function UpdateProfileForm() {
               <FormField
                 control={form.control}
                 name='avatar'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex gap-2 items-start justify-start'>
-                      <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
-                        <AvatarImage src={'Duoc'} />
-                        <AvatarFallback className='rounded-none'>
-                          {'duoc'}
-                        </AvatarFallback>
-                      </Avatar>
-                      <input type='file' accept='image/*' className='hidden' />
-                      <button
-                        className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed'
-                        type='button'
-                      >
-                        <Upload className='h-4 w-4 text-muted-foreground' />
-                        <span className='sr-only'>Upload</span>
-                      </button>
-                    </div>
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  // hàm xử lý ở ngoài thì ko tận dụng tối đa setup FormField + name setup sẵn
+                  const handleFileSelected = (file: File) => {
+                    setFile(file)
+                  }
+
+                  return (
+                    <FormItem>
+                      <div className='flex gap-2 items-start justify-start'>
+                        <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
+                          <AvatarImage src={previewAvatar} />
+                          <AvatarFallback className='rounded-none'>
+                            {name}
+                          </AvatarFallback>
+                        </Avatar>
+
+                        <BtnFileInput
+                          accept='image/*'
+                          onFileSelected={handleFileSelected}
+                          className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed'
+                        >
+                          <Upload className='h-4 w-4 text-muted-foreground' />
+                          <span className='sr-only'>Upload</span>
+                        </BtnFileInput>
+                      </div>
+                    </FormItem>
+                  )
+                }}
               />
 
               <FormField
