@@ -1,21 +1,44 @@
 'use client'
 
+import { ChangePasswordBodyType } from '@app/api-next/accounts/account-update.dto'
+import { useMutatePassword } from '@app/api-next/accounts/password/use-mutate-password.hook'
+
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
+import { handleErrorApi } from '@core/hook-form-error.utils'
 
 import { useFormChangePassword } from './use-form-change-password.hook'
 
 export default function ChangePasswordForm() {
   const form = useFormChangePassword()
+  const { mutate, isPending } = useMutatePassword()
+
+  const reset = () => {
+    form.reset()
+  }
+
+  const onSubmit = (data: ChangePasswordBodyType) => {
+    if (isPending) return
+    mutate(data, {
+      onError: (error) => {
+        handleErrorApi({
+          error,
+          setError: form.setError
+        })
+      }
+    })
+  }
 
   return (
     <Form {...form}>
       <form
         noValidate
         className='grid auto-rows-max items-start gap-4 md:gap-8'
+        onSubmit={form.handleSubmit(onSubmit)}
+        onReset={reset}
       >
         <Card className='overflow-hidden' x-chunk='dashboard-07-chunk-4'>
           <CardHeader>
@@ -32,6 +55,7 @@ export default function ChangePasswordForm() {
                     <div className='grid gap-3'>
                       <Label htmlFor='oldPassword'>Mật khẩu cũ</Label>
                       <Input
+                        autoComplete='current-password'
                         id='oldPassword'
                         type='password'
                         className='w-full'
@@ -51,6 +75,7 @@ export default function ChangePasswordForm() {
                     <div className='grid gap-3'>
                       <Label htmlFor='password'>Mật khẩu mới</Label>
                       <Input
+                        autoComplete='new-password'
                         id='password'
                         type='password'
                         className='w-full'
@@ -72,6 +97,7 @@ export default function ChangePasswordForm() {
                         Nhập lại mật khẩu mới
                       </Label>
                       <Input
+                        autoComplete='new-password'
                         id='confirmPassword'
                         type='password'
                         className='w-full'
@@ -84,10 +110,12 @@ export default function ChangePasswordForm() {
               />
 
               <div className=' items-center gap-2 md:ml-auto flex'>
-                <Button variant='outline' size='sm'>
+                <Button variant='outline' size='sm' type='reset'>
                   Hủy
                 </Button>
-                <Button size='sm'>Lưu thông tin</Button>
+                <Button size='sm' type='submit'>
+                  Lưu thông tin
+                </Button>
               </div>
             </div>
           </CardContent>

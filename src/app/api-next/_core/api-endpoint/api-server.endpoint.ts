@@ -22,6 +22,10 @@ export const SERVER_API_ACCOUNT = {
     // Đặt ở feature thì phân tán
     // Style key - api thì gom hằng số lại,
     // tùy feature mà sẽ cấu hình full api sau
+  } as const,
+
+  password: {
+    api: () => `${SERVER_API_ACCOUNT.api}/password` as const
   } as const
 } as const
 
