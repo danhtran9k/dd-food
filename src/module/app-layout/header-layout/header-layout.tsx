@@ -1,4 +1,4 @@
-import DarkModeToggle from '@module/app-common/dark-mode-toggle'
+import { DarkModeToggle } from '@module/app-common/dark-mode-toggle'
 
 import { HeaderSheetDrawer } from './header-sheet-drawer'
 import { IconHeaderLayout } from './icon-header'

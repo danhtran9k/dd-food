@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger
 } from '@core/app-shadcn/dropdown-menu'
 
-export default function DarkModeToggle() {
+export function DarkModeToggle() {
   const { setTheme } = useTheme()
 
   return (
