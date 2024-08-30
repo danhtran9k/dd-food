@@ -1,4 +1,5 @@
 export const ROUTE_PATH = {
+  ROOT: '/',
   LOGIN: '/login',
 
   LOGOUT: {
@@ -12,7 +13,8 @@ export const ROUTE_PATH = {
 
   MANAGE: {
     BASE: '/manage',
-    DASHBOARD: () => `${ROUTE_PATH.MANAGE.BASE}/dashboard`
+    DASHBOARD: () => `${ROUTE_PATH.MANAGE.BASE}/dashboard`,
+    SETTING: () => `${ROUTE_PATH.MANAGE.BASE}/setting`
   },
 
   PLACEHOLDER: '#'

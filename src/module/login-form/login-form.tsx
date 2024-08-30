@@ -8,7 +8,6 @@ import { Card, CardContent } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
-import { toast } from '@core/app-shadcn/use-toast'
 import { handleErrorApi } from '@core/hook-form-error.utils'
 
 import { LoginCardHeader } from './login-card-header'
@@ -25,12 +24,6 @@ export function LoginForm() {
 
     // Có thể dùng style mutateAsync nhưng cảm thấy ko cần
     mutate(data, {
-      // TODO: Check xem thử có nên setup mutation cache global cho mọi mutate ko
-      onSuccess: (result) => {
-        toast({
-          description: result.payload.message
-        })
-      },
       // TODO: Khá khó refactor vấn đề setError ở đây
       // ko dùng useFormContext được vì shadcn nhà form vào Jsx
       // Ngoài ra component cũng đứng ngoài form
