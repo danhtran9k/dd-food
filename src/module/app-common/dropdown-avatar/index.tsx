@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { useAccountMe } from '@app/api-next/accounts/use-account.hook'
 import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
@@ -20,12 +21,18 @@ import { DropdownAvatarTrigger } from './dropdown-avatar-trigger'
 export function DropdownAvatar() {
   const { isPending, mutate } = useLogoutMutation()
   const { data } = useAccountMe()
+  const router = useRouter()
 
   const account = data?.payload.data
 
   const logout = async () => {
     if (isPending) return
-    mutate()
+
+    mutate(undefined, {
+      onSuccess: () => {
+        router.push(ROUTE_PATH.ROOT)
+      }
+    })
   }
 
   return (

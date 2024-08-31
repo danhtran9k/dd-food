@@ -2,7 +2,13 @@ import { Menu, Package2 } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@core/app-shadcn/button'
-import { Sheet, SheetContent, SheetTrigger } from '@core/app-shadcn/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger
+} from '@core/app-shadcn/sheet'
 import { ROUTE_PATH } from '@core/path.const'
 
 import { NavItems } from './nav-item'
@@ -23,6 +29,11 @@ export const HeaderSheetDrawer = ({ side = 'left' }: THeaderSheetDrawer) => {
       </SheetTrigger>
 
       <SheetContent side={side}>
+        <div className='hidden'>
+          <SheetTitle>Header sheet</SheetTitle>
+          <SheetDescription />
+        </div>
+
         <nav className='grid gap-6 text-lg font-medium'>
           <Link
             href={ROUTE_PATH.PLACEHOLDER}

@@ -1,5 +1,7 @@
 'use client'
 
+import { forwardRef } from 'react'
+
 import { AccountType } from '@app/api-next/accounts/account.dto'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
@@ -8,12 +10,19 @@ import { Button } from '@core/app-shadcn/button'
 type TDropDownAvatarTrigger = {
   account?: AccountType
 }
-export const DropdownAvatarTrigger = ({ account }: TDropDownAvatarTrigger) => {
+
+// https://www.radix-ui.com/primitives/docs/guides/composition#your-component-must-forward-ref
+export const DropdownAvatarTrigger = forwardRef<
+  HTMLButtonElement,
+  TDropDownAvatarTrigger
+>(({ account, ...props }, ref) => {
   return (
     <Button
       variant='outline'
       size='icon'
       className='overflow-hidden rounded-full'
+      ref={ref}
+      {...props}
     >
       <Avatar>
         <AvatarImage src={account?.avatar ?? undefined} alt={account?.name} />
@@ -23,4 +32,6 @@ export const DropdownAvatarTrigger = ({ account }: TDropDownAvatarTrigger) => {
       </Avatar>
     </Button>
   )
-}
+})
+
+DropdownAvatarTrigger.displayName = 'DropdownAvatarTrigger'

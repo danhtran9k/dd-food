@@ -5,7 +5,13 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@core/app-shadcn/button'
-import { Sheet, SheetContent, SheetTrigger } from '@core/app-shadcn/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger
+} from '@core/app-shadcn/sheet'
 import { cn } from '@core/utils'
 
 import { menuItems } from './child/menu-item'
@@ -23,6 +29,11 @@ export function SideManageBarMobile() {
       </SheetTrigger>
 
       <SheetContent side='left' className='sm:max-w-xs'>
+        <div className='hidden'>
+          <SheetTitle className='hidden'>Side Sheet</SheetTitle>
+          <SheetDescription />
+        </div>
+
         <nav className='grid gap-6 text-lg font-medium'>
           <SideManageIconMobile />
 
