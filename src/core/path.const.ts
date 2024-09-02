@@ -1,6 +1,7 @@
 export const ROUTE_PATH = {
   ROOT: '/',
   LOGIN: '/login',
+  REFRESH_TOKEN: '/refresh-token',
 
   LOGOUT: {
     BASE: '/logout',

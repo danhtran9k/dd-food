@@ -8,11 +8,7 @@ import {
   EntityErrorPayload,
   HttpError
 } from '@app/api-next/_core/api-error.type'
-import {
-  removeLocalStorageToken,
-  setLocalStorageAccessToken,
-  setLocalTokenRefreshExpired
-} from '@app/api-next/_core/token.helper'
+import { clientLocal } from '@app/api-next/_core/token.helper'
 
 import { LoginResType } from '@app/api-next/auth/auth.dto'
 
@@ -109,7 +105,7 @@ const request = async <Response>(
         } catch (error) {
           console.log('🚀 http L106-error', error)
         } finally {
-          removeLocalStorageToken()
+          clientLocal.authTokens.removeAll()
           // reset flag
           clientLogoutRequest = null
 
@@ -149,10 +145,10 @@ const request = async <Response>(
     const normalizeUrl = normalizePath(url)
     if (normalizeUrl === NEXT_API.AUTH.LOGIN.api()) {
       const { accessToken, refreshToken } = (payload as LoginResType).data
-      setLocalStorageAccessToken(accessToken)
-      setLocalTokenRefreshExpired(refreshToken)
+      clientLocal.access.setToken(accessToken)
+      clientLocal.refresh.setToken(refreshToken)
     } else if (normalizeUrl === NEXT_API.AUTH.LOGOUT.api()) {
-      removeLocalStorageToken()
+      clientLocal.authTokens.removeAll()
     }
   }
 
