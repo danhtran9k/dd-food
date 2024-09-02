@@ -3,6 +3,7 @@ import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
 
 import { ReactQueryProvider, ThemeProvider } from '@core/app-provider'
+import { AuthProvider } from '@core/app-provider/auth-provider'
 import { Toaster } from '@core/app-shadcn/toaster'
 import { cn } from '@core/utils'
 
@@ -28,17 +29,19 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ReactQueryProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster />
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <AuthProvider>
+          <ReactQueryProvider>
+            <ThemeProvider
+              attribute='class'
+              defaultTheme='system'
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   )

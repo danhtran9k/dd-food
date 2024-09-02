@@ -7,6 +7,7 @@ import { httpClient } from '@app/api-next/_core/http/http.client'
 import { LoginResType } from '@app/api-next/auth/auth.dto'
 import { LoginBodyType } from '@app/api-next/auth/login/login.type'
 
+import { useAuthContext } from '@core/app-provider/auth-provider'
 import { toast } from '@core/app-shadcn/use-toast'
 import { ROUTE_PATH } from '@core/path.const'
 
@@ -15,7 +16,7 @@ const loginMutateFn = (body: LoginBodyType) =>
 
 export const useLoginMutation = () => {
   const router = useRouter()
-
+  const { setIsAuth } = useAuthContext()
   return useMutation({
     mutationFn: loginMutateFn,
     // TODO: Check xem thử có nên setup mutation cache global cho mọi mutate ko
@@ -23,6 +24,7 @@ export const useLoginMutation = () => {
       toast({
         description: result.payload.message
       })
+      setIsAuth(true)
       router.push(ROUTE_PATH.MANAGE.DASHBOARD())
     }
   })

@@ -1,13 +1,13 @@
-import { isClient } from '@core/utils'
-
 // Nếu logic này gọi ở cả rsc thì cần check,
 // tuy nhiên rsc sẽ bị mismatch -> dùng ở useEffect
 // nếu chỉ dùng trong useEff thì nên xài local trực tiếp
-export const getClientAccessToken = () =>
-  isClient() ? localStorage.getItem('accessToken') : null
 
-export const getClientRefreshToken = () =>
-  isClient() ? localStorage.getItem('refreshToken') : null
+// Hạn chế xài hàm rộng vậy nếu kiểm soát được scope gọi
+// const getClientAccessToken = () =>
+//   isClient() ? localStorage.getItem('accessToken') : null
+
+// const getClientRefreshToken = () =>
+//   isClient() ? localStorage.getItem('refreshToken') : null
 
 // Ko dùng keyword get / set tránh nhầm lẫn với getter / setter
 // https://www.w3schools.com/js/js_object_accessors.asp
