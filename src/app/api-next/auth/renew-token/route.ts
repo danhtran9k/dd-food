@@ -14,7 +14,7 @@ const mutateFnRenew = (refreshToken: string) =>
     }
   })
 
-export async function POST(request: Request) {
+export async function POST() {
   const cookieStore = cookies()
   const oldRefreshToken = cookieStore.get('refreshToken')?.value
   if (!oldRefreshToken) {

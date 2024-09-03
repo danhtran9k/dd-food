@@ -7,6 +7,8 @@ import { AuthProvider } from '@core/app-provider/auth-provider'
 import { Toaster } from '@core/app-shadcn/toaster'
 import { cn } from '@core/utils'
 
+import { RenewTokenInterval } from '@module/app-layout/renew-token-interval'
+
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans'
@@ -39,6 +41,7 @@ export default function RootLayout({
             >
               {children}
               <Toaster />
+              <RenewTokenInterval />
             </ThemeProvider>
           </ReactQueryProvider>
         </AuthProvider>
