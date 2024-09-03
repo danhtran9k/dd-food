@@ -10,6 +10,9 @@ export const NEXT_API = {
     },
     LOGOUT: {
       api: () => `${NEXT_API.AUTH.api}/logout`
+    },
+    RENEW_TOKEN: {
+      api: () => `${NEXT_API.AUTH.api}/renew-token`
     }
   }
 }

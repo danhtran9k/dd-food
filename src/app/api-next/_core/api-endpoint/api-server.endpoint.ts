@@ -9,6 +9,9 @@ export const SERVER_API = {
       return `${SERVER_API.AUTH}/logout` as const
     }
   },
+  RENEW_TOKEN: {
+    api: () => `${SERVER_API.AUTH}/refresh-token` as const
+  },
   DEBUG_401: {
     api: () => `${SERVER_API.AUTH}/err-debug` as const
   }
