@@ -38,8 +38,11 @@ export function middleware(request: NextRequest) {
 
   // accessToken khi exprired sẽ tự xoá khỏi client nhờ cookie
   // => phải check qua refreshToken
+  // ko có refreshToken thì ko cho vào private path và redirect về login
+  // kèm trigger PROXY page để clear token
   if (isEnterPrivatePath && !refreshToken) {
     const url = new URL(ROUTE_PATH.LOGIN, request.url)
+    url.searchParams.set('clearTokens', 'true')
     return NextResponse.redirect(url)
   }
 
