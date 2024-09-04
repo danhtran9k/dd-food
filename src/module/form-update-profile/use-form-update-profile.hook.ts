@@ -13,7 +13,7 @@ export const useFormUpdateProfile = () => {
     resolver: zodResolver(UpdateMeBody),
     defaultValues: {
       name: '',
-      avatar: ''
+      avatar: undefined
     }
   })
 
@@ -25,7 +25,7 @@ export const useFormUpdateProfile = () => {
       const { name, avatar } = data.payload.data
       form.reset({
         name,
-        avatar: avatar ?? ''
+        avatar: avatar ?? undefined
       })
     }
   }, [form, data])

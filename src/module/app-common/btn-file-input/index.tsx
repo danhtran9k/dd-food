@@ -19,7 +19,6 @@ export function BtnFileInput({
 
     if (files.length) {
       if (isMultiple) {
-        console.log('🚀 index L22-isMultiple', isMultiple)
         onFileSelected(files)
       } else {
         onFileSelected(files[0])
