@@ -1,6 +1,11 @@
 import { Badge } from '@core/app-shadcn/badge'
+import { errNextDebug } from '@core/debug/debug-next.utils'
 
-export default function Setting() {
+export default async function Setting() {
+  let data: any
+  data = await errNextDebug()
+  console.log('🚀 ~ Setting ~ data:', data)
+
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
       <div className='mx-auto grid w-full flex-1 auto-rows-max gap-4'>

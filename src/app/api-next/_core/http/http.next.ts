@@ -52,16 +52,26 @@ export const httpNext = async <Response>(
       // Nếu từ sv gọi tiếp thì liệu có forward set-Cookie được không?
 
       // logout ở server
-      // sv FE gọi 1 api BE, bị trả 401 -> redirect về route logout
+      // sv Next gọi 1 api BE, bị trả 401 -> redirect về route logout
       // Nếu ko muốn trung gian phải forward set-Cookie về client
-      // Hoặc redirect client về route logout ngầm, sau đó client lại thông qua useEffect gọi sv để xoá cookie -> lòng vòng
+
+      // Hoặc redirect client về PAGE PROXY logout ngầm,
+      // => useEffect gọi sv để xoá cookie -> lòng vòng
       // Vì route BE ko tự set-Cookie dùm
+
+      // Chú ý là với httpNext sẽ do rsc hoặc async page gọi
+      // Trước đó sẽ đi qua middleware check có cookie rồi mới vào
+      // Nếu import rsc lung tung vô route middleware ko check thì sẽ lỗi ngầm
       const accessToken = (req?.options?.headers as any)?.Authorization.split(
         'Bearer '
       )[1]
-      redirect(ROUTE_PATH.LOGOUT.token(accessToken))
+
+      const href = ROUTE_PATH.LOGOUT.token(accessToken)
+      // Setup flow đúng thì sẽ có token cho client PROXY PAGE logout
+      redirect(href)
+
       // Ý tưởng là ngay đây server next sẽ gọi báo BE logout, rồi trả Response header cho client luôn
-      // Vì code này chạy 2 nợi nên truy cập vào Response được
+      // Tuy nhiên vì client còn state và localStorage nên cần vào PROXY PAGE logout để xử lí hết ở phía client
       // return Response.json(
       //   {
       //     headers: {

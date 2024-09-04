@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import { useLocalAccessToken } from '@app/api-next/_core/use-has-local-token'
+import { useAuthContext } from '@core/app-provider/auth-provider'
 
 import { menuItems } from './menu-item'
 
@@ -20,7 +20,7 @@ import { menuItems } from './menu-item'
 // Dùng disable SSR component thì theo course vẫn có lỗi
 // Dùng useEffect sẽ flash
 export function NavItems({ className }: { className?: string }) {
-  const isAuth = useLocalAccessToken()
+  const { isAuth } = useAuthContext()
 
   return menuItems.map((item) => {
     const shouldHide =

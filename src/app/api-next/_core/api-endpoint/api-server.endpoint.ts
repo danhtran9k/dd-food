@@ -1,11 +1,19 @@
 export const SERVER_API = {
+  AUTH: '/auth',
+
   LOGIN: {
-    api: () => `/auth/login` as const
+    api: () => `${SERVER_API.AUTH}/login` as const
   },
   LOGOUT: {
     api() {
-      return `/auth/logout` as const
+      return `${SERVER_API.AUTH}/logout` as const
     }
+  },
+  RENEW_TOKEN: {
+    api: () => `${SERVER_API.AUTH}/refresh-token` as const
+  },
+  DEBUG_401: {
+    api: () => `${SERVER_API.AUTH}/err-debug` as const
   }
 } as const
 

@@ -11,11 +11,13 @@ import { Label } from '@core/app-shadcn/label'
 import { handleErrorApi } from '@core/hook-form-error.utils'
 
 import { LoginCardHeader } from './login-card-header'
+import { useClearTokenParams } from './use-clear-token-params'
 import { useLoginForm } from './use-login-form.hook'
 
 export function LoginForm() {
   const form = useLoginForm()
   const { isPending, mutate } = useLoginMutation()
+  useClearTokenParams()
 
   const onSubmit = async (data: LoginBodyType) => {
     // Khi nhấn submit thì React hook form sẽ validate cái form bằng zod schema ở client trước

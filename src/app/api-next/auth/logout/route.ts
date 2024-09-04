@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 
 import { SERVER_API } from '@app/api-next/_core/api-endpoint'
 import { httpNext } from '@app/api-next/_core/http/http.next'
+import { tokenToHeader } from '@app/api-next/_core/token.helper'
 
 type TLogoutPayload = {
   accessToken: string
@@ -13,11 +14,7 @@ const logoutFn = ({ accessToken, refreshToken }: TLogoutPayload) =>
     body: {
       refreshToken
     },
-    options: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
+    options: tokenToHeader(accessToken)
   })
 
 // TODO: Logic Proxy xử lý ở Cookie nhưng FE lại có lưu kèm ở localStorage

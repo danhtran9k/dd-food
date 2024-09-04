@@ -10,3 +10,17 @@ export const isClient = () => typeof window !== 'undefined'
 export const normalizePath = (path: string) => {
   return path.startsWith('/') ? path.slice(1) : path
 }
+
+export const getUrlWithParams = (
+  url: string,
+  params: Record<string, string>
+) => {
+  // check ? include in url
+  const hasQuery = url.includes('?')
+
+  // if (process.env.NODE_ENV === 'production') return url
+
+  return hasQuery
+    ? `${url}&${new URLSearchParams(params)}`
+    : `${url}?${new URLSearchParams(params)}`
+}

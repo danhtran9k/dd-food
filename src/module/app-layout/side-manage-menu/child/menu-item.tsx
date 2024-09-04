@@ -1,10 +1,11 @@
 import {
   Home,
+  Key,
   LineChart,
-  ShoppingCart,
-  Users2,
   Salad,
-  Table
+  ShoppingCart,
+  Table,
+  Users2
 } from 'lucide-react'
 
 export const menuItems = [
@@ -38,5 +39,11 @@ export const menuItems = [
     title: 'Nhân viên',
     Icon: Users2,
     href: '/manage/accounts'
+  },
+  // Check layout home có ăn auth global state ko
+  {
+    title: 'HOME',
+    Icon: Key,
+    href: '/'
   }
 ]

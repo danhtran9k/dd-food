@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useAccountMe } from '@app/api-next/accounts/use-account.hook'
 import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
+import { useAuthContext } from '@core/app-provider/auth-provider'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +20,7 @@ import { ROUTE_PATH } from '@core/path.const'
 import { DropdownAvatarTrigger } from './dropdown-avatar-trigger'
 
 export function DropdownAvatar() {
+  const { setIsAuth } = useAuthContext()
   const { isPending, mutate } = useLogoutMutation()
   const { data } = useAccountMe()
   const router = useRouter()
@@ -30,6 +32,7 @@ export function DropdownAvatar() {
 
     mutate(undefined, {
       onSuccess: () => {
+        setIsAuth(false)
         router.push(ROUTE_PATH.ROOT)
       }
     })
