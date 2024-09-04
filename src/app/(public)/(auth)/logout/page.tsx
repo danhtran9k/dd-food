@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 
 import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
@@ -10,7 +10,7 @@ import { useAuthContext } from '@core/app-provider/auth-provider'
 import { ROUTE_PATH } from '@core/path.const'
 import { getUrlWithParams } from '@core/utils'
 
-export default function LogoutPage() {
+function ProxyComponentLogout() {
   // Bắt buộc phải destruct tra chứ ko đuọc mutate.mutateAsync
   // obj mutate lớn bị thay đổi và dùng trong eff dep gây loop
   const { mutateAsync } = useLogoutMutation()
@@ -67,4 +67,12 @@ export default function LogoutPage() {
     }
   }, [checkTokenParamMatch, mutateAsync, router, setIsAuth])
   return <div>Log out....</div>
+}
+
+export default function LogoutPage() {
+  return (
+    <Suspense>
+      <ProxyComponentLogout />
+    </Suspense>
+  )
 }

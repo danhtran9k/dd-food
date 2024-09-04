@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 
 import { checkCanRenewOrClearLocal } from '@app/api-next/_core/token.helper'
 
@@ -13,7 +13,7 @@ import { ROUTE_PATH } from '@core/path.const'
 // const mutateFnRenew = () =>
 //   httpClient<RefreshTokenResType>('POST', NEXT_API.AUTH.RENEW_TOKEN.api())
 
-export default function RenewTokenPage() {
+function ProxyComponentRenew() {
   const router = useRouter()
   const { searchParams, checkTokenParamMatch } = useIsParamTokenMatch()
   const redirectPathname = searchParams.get('redirect')
@@ -26,7 +26,7 @@ export default function RenewTokenPage() {
 
       if (canRenew) {
         mutateFnRenew().then(() => {
-          const url = redirectPathname || ROUTE_PATH.ROOT
+          const url = redirectPathname ?? ROUTE_PATH.ROOT
           router.push(url)
         })
       } else {
@@ -35,4 +35,12 @@ export default function RenewTokenPage() {
     }
   }, [checkTokenParamMatch, mutateFnRenew, redirectPathname, router])
   return <div>Refresh token....</div>
+}
+
+export default function RenewTokenPage() {
+  return (
+    <Suspense>
+      <ProxyComponentRenew />
+    </Suspense>
+  )
 }

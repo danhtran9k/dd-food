@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { clientLocal } from '@app/api-next/_core/token.helper'
 
 export const useIsParamTokenMatch = () => {
+  // https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
   const searchParams = useSearchParams()
 
   // Không viết dạng value trực tiếp được vì nằm ngoài hook
