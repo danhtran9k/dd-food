@@ -10,9 +10,11 @@ import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
 import envConfig from '@core/config'
 
-import { BtnFileInput } from '@module/app-common/btn-file-input'
+import {
+  BtnFileInput,
+  useFilePreviewInput
+} from '@module/app-common/btn-file-input'
 
-import { useFilePreviewInput } from './use-file-input.hook'
 import { useFormUpdateProfileSubmit } from './use-form-update-profile-submit.hook'
 import { useFormUpdateProfile } from './use-form-update-profile.hook'
 
