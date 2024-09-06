@@ -1,25 +1,30 @@
 'use client'
 
+import { useMemo } from 'react'
+
 import { useGetAccountList } from '@app/api-next/accounts/crud/use-get-account-list.hook'
 
-import { TanStackTable } from '@module/app-vendor/app-table'
+import {
+  TanStackTable,
+  useTanStackTable
+} from '@module/app-vendor/tanstack-table'
 
 import { AccountTableCol } from './account-table-col'
 import { AccountTableProvider } from './account-table-provider'
 
 export function AccountTable() {
   const { data } = useGetAccountList((res) => res.payload.data)
+  const columns = useMemo(() => AccountTableCol(), [])
+
+  const { table } = useTanStackTable({ data: data ?? [], columns })
 
   return (
-    <div className='w-full'>
-      <div className='flex items-center py-4'>
-        <div className='ml-auto flex items-center gap-2'></div>
+    <AccountTableProvider>
+      <div className='w-full'>
+        <div className='rounded-md border'>
+          <TanStackTable table={{ ...table }} />
+        </div>
       </div>
-      <div className='rounded-md border'>
-        <AccountTableProvider>
-          <TanStackTable data={data ?? []} columns={AccountTableCol()} />
-        </AccountTableProvider>
-      </div>
-    </div>
+    </AccountTableProvider>
   )
 }

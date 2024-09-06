@@ -2,9 +2,7 @@
 
 import { createContext, useContext, useMemo, useState } from 'react'
 
-import { AccountListResType } from '@app/api-next/accounts/account.dto'
-
-type AccountItem = AccountListResType['data'][0]
+import { AccountItem } from '@app/api-next/accounts/account.dto'
 
 /* eslint-disable no-unused-vars */
 type TAccountTableContext = {

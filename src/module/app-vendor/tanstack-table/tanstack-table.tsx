@@ -1,32 +1,32 @@
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable
-} from '@tanstack/react-table'
+'use client'
+
+import { Table as TTanStackTable, flexRender } from '@tanstack/react-table'
+import { memo } from 'react'
 
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
+  Table as TableRoot,
   TableRow
 } from '@core/app-shadcn/table'
 
-import { TTableShadcn } from './app-table.type'
+type TAppTable<T> = {
+  table: TTanStackTable<T>
+}
 
+// T sẽ tự infer,
 // https://ui.shadcn.com/docs/components/data-table
-export const TanStackTable = <K, T>({ data, columns }: TTableShadcn<K, T>) => {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel()
-  })
+// https://github.com/TanStack/table/issues/2344
+const Table = <T,>({ table }: TAppTable<T>) => {
+  const { getHeaderGroups, getRowModel, getAllColumns } = table
+  const rows = getRowModel().rows
 
   return (
-    <Table>
+    <TableRoot>
       <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
+        {getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
@@ -44,8 +44,8 @@ export const TanStackTable = <K, T>({ data, columns }: TTableShadcn<K, T>) => {
         ))}
       </TableHeader>
       <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
+        {rows?.length ? (
+          rows.map((row) => (
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && 'selected'}
@@ -59,12 +59,19 @@ export const TanStackTable = <K, T>({ data, columns }: TTableShadcn<K, T>) => {
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={columns.length} className='h-24 text-center'>
+            <TableCell
+              colSpan={getAllColumns().length}
+              className='h-24 text-center'
+            >
               No results.
             </TableCell>
           </TableRow>
         )}
       </TableBody>
-    </Table>
+    </TableRoot>
   )
 }
+
+export const TanStackTable = memo(Table) as <T>(
+  props: TAppTable<T>
+) => JSX.Element
