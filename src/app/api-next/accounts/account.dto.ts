@@ -18,3 +18,11 @@ export const AccountRes = z
   .strict()
 
 export type AccountResType = z.TypeOf<typeof AccountRes>
+
+export const AccountListRes = z.object({
+  data: z.array(AccountSchema),
+  message: z.string()
+})
+
+export type AccountListResType = z.TypeOf<typeof AccountListRes>
+export type AccountItem = AccountListResType['data'][0]

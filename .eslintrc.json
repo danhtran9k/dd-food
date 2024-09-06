@@ -18,12 +18,14 @@
           },
           {
             "group": [
-              "@module/*/**",
-              // core
+              // core, icon basic
+              // hạn chế file export nhiều hoặc có login
               "@core/app-icon/*",
               // module
+              "@module/*/**",
               "!@module/app-common/*",
-              "!@module/app-layout/*"
+              "!@module/app-layout/*",
+              "!@module/app-vendor/*"
             ],
             "message": "Module imports must be absolute."
           }

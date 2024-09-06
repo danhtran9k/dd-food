@@ -18,3 +18,5 @@ export const twHighLightRed = 'border border-red-500 border-solid'
 
 export const twHighLight = (color = 'red') =>
   `border border-solid border-${color}-500`
+
+export const mapDefaultPortUrl = (url: string) => url?.replace(':4000', ':4999')
