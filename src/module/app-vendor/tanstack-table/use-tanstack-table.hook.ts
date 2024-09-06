@@ -1,4 +1,8 @@
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table'
 
 import { TUseTanStackTable } from './tanstack-table.type'
 
@@ -11,6 +15,8 @@ export const useTanStackTable = <K, T>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    autoResetPageIndex: false,
+    getPaginationRowModel: getPaginationRowModel(),
 
     ...option,
     // state phải để ở dưới để ko bị option override lại
