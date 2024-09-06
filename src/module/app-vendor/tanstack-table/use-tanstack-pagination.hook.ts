@@ -1,3 +1,4 @@
+import { getPaginationRowModel } from '@tanstack/react-table'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -5,6 +6,8 @@ import { PAGE_SIZE } from './tanstack-table.type'
 
 export const useTanStackPagination = () => {
   const searchParam = useSearchParams()
+  // Cách 2 gọn hơn
+  // const params = Object.fromEntries(searchParam.entries())
   const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
   const pageIndex = page - 1
 
@@ -41,9 +44,21 @@ export const useTanStackPagination = () => {
   // Nhưng cần có object table hoặc full control
   // totalFiltered -> table.getFilteredRowModel().rows.length
 
+  const tanStackPaginationOptions = {
+    autoResetPageIndex: false,
+
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setTablePagination,
+
+    state: {
+      pagination: tablePagination
+    }
+  }
+
   return {
     tablePagination,
     setTablePagination,
-    handleChangePage
+    handleChangePage,
+    tanStackPaginationOptions
   }
 }

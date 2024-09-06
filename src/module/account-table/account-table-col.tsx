@@ -41,10 +41,10 @@ export const AccountTableCol = () => {
     {
       accessorKey: 'email',
       header: ({ column }) => {
-        // TODO-account: handle sort
         const handleSort = () => {
-          console.log('🚀 account-table-col L46-column', column)
+          column.toggleSorting(column.getIsSorted() === 'asc')
         }
+
         return (
           <Button variant='ghost' onClick={handleSort}>
             Email
