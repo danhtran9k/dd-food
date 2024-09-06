@@ -19,6 +19,7 @@ import {
 
 import { AccountTableCol } from './account-table-col'
 import { AccountTableProvider } from './account-table-provider'
+import { AddEmployee } from './child'
 import { useAccountTableFeature } from './use-accout-table-feature.hook'
 
 export function AccountTable() {
@@ -72,6 +73,10 @@ export function AccountTable() {
             onChange={onChangeEmailFilter}
             className='max-w-sm'
           />
+
+          <div className='ml-auto flex items-center gap-2'>
+            <AddEmployee />
+          </div>
         </div>
 
         <div className='rounded-md border'>
