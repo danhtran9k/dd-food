@@ -14,7 +14,7 @@ import { clientLocal } from '@app/api-next/_core/token.helper'
 
 const AuthContext = createContext({
   isAuth: false,
-  setIsAuth: (isAuth: boolean) => {}
+  setIsAuth: (_TIsAuth: boolean) => {}
 })
 
 export const useAuthContext = () => {

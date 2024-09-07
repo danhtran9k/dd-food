@@ -5,7 +5,6 @@ import { useUncontrolled } from '@core/app-hook/use-uncontrolled.hook'
 // Mantine usePagination hook
 // https://github.com/mantinedev/mantine/blob/master/packages/%40mantine/hooks/src/use-pagination/use-pagination.ts
 
-/* eslint-disable no-unused-vars */
 function range(start: number, end: number) {
   const length = end - start + 1
   return Array.from({ length }, (_, index) => index + start)
@@ -30,7 +29,7 @@ export interface PaginationParams {
   boundaries?: number
 
   /** Callback fired after change of each page */
-  onChange?: (page: number) => void
+  onChange?: (_TPage: number) => void
 }
 
 export function usePaginationControl({

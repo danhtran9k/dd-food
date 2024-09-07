@@ -1,5 +1,5 @@
-type TSelectMulti = (selected: File[]) => void
-type TSelectSingle = (selected: File) => void
+type TSelectMulti = (_TSelected: File[]) => void
+type TSelectSingle = (_TSelected: File) => void
 
 type TBTnExtends = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   accept: string

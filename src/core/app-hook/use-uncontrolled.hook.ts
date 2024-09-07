@@ -3,7 +3,6 @@ import { useState } from 'react'
 // Mantine useUncontrolled hook
 // https://github.com/mantinedev/mantine/blob/master/packages/%40mantine/hooks/src/use-uncontrolled/use-uncontrolled.ts
 
-/* eslint-disable no-unused-vars */
 interface UseUncontrolledInput<T> {
   /** Value for controlled state */
   value?: T
@@ -15,7 +14,7 @@ interface UseUncontrolledInput<T> {
   finalValue?: T
 
   /** Controlled state onChange handler */
-  onChange?: (value: T, ...payload: any[]) => void
+  onChange?: (_TValue: T, ..._TPayload: any[]) => void
 }
 
 export function useUncontrolled<T>({
@@ -25,7 +24,7 @@ export function useUncontrolled<T>({
   onChange = () => {}
 }: UseUncontrolledInput<T>): [
   T,
-  (value: T, ...payload: any[]) => void,
+  (_TValue: T, ..._TPayload: any[]) => void,
   boolean
 ] {
   const [uncontrolledValue, setUncontrolledValue] = useState(

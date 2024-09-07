@@ -16,7 +16,7 @@ import {
 type EmployeeFormLayoutProps = {
   children: React.ReactNode
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange: (_TOpen: boolean) => void
 }
 
 export const EmployeeFormLayout = ({

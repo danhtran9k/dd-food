@@ -4,19 +4,18 @@ import { createContext, useContext, useMemo, useState } from 'react'
 
 import { AccountItem } from '@app/api-next/accounts/account.dto'
 
-/* eslint-disable no-unused-vars */
 type TAccountTableContext = {
   employeeIdEdit: number | undefined
-  setEmployeeIdEdit: (value: number | undefined) => void
+  setEmployeeIdEdit: (_TValue: number | undefined) => void
   employeeDelete: AccountItem | null
-  setEmployeeDelete: (value: AccountItem | null) => void
+  setEmployeeDelete: (_TValue: AccountItem | null) => void
 }
 
 const AccountTableContext = createContext<TAccountTableContext>({
   employeeIdEdit: undefined,
-  setEmployeeIdEdit: (value: number | undefined) => {},
+  setEmployeeIdEdit: (_TValue: number | undefined) => {},
   employeeDelete: null,
-  setEmployeeDelete: (value: AccountItem | null) => {}
+  setEmployeeDelete: (_TValue: AccountItem | null) => {}
 })
 
 // Vì table gọi PopUp + nhiều item con nên bọc Provider luôn

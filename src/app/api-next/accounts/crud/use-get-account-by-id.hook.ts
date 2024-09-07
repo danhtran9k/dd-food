@@ -17,7 +17,7 @@ export const useGetAccountById = <TData = TQueryFnAccount>({
 }: {
   id: number
   enabled?: boolean
-  select?: (data: TQueryFnAccount) => TData
+  select?: (_TData: TQueryFnAccount) => TData
 }) => {
   return useQuery({
     queryKey: SERVER_API_ACCOUNT.detail.key(id),

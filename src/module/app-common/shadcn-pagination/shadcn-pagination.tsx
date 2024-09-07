@@ -20,11 +20,11 @@ import { usePaginationControl } from './use-pagination-control.hook'
 type TShadcnPagination = {
   page: number
   total: number
-  onChange: (page: number) => void
+  onChange: (_TValue: number) => void
   pathname?: string
 }
 
-export const ShadcnPagination = (props: TShadcnPagination) => {
+export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
   const { range, active, previous, next, setPage, first, last } =
     usePaginationControl(props)
 
@@ -32,11 +32,11 @@ export const ShadcnPagination = (props: TShadcnPagination) => {
   const disableLast = active === props.total
 
   const defaultPath = usePathname()
-  const pathname = props.pathname ?? defaultPath
+  const pathUrl = pathname ?? defaultPath
 
   const getHref = (page: number) => {
     return {
-      pathname,
+      pathname: pathUrl,
       query: {
         page
       }

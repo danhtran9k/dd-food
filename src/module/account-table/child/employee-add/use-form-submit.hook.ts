@@ -10,7 +10,7 @@ import { handleErrorApi } from '@core/hook-form-error.utils'
 type TUseForm = {
   reset: () => void
   file: File | null
-  setOpen: (open: boolean) => void
+  setOpen: (_TOpen: boolean) => void
   setError: UseFormSetError<any>
 }
 

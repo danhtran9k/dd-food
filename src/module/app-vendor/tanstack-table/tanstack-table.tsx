@@ -73,5 +73,5 @@ const Table = <T,>({ table }: TAppTable<T>) => {
 }
 
 export const TanStackTable = memo(Table) as <T>(
-  props: TAppTable<T>
+  _TProps: TAppTable<T>
 ) => JSX.Element

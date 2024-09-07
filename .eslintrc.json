@@ -5,7 +5,14 @@
   ],
   "plugins": ["import"],
   "rules": {
-    "no-unused-vars": "warn",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_T",
+        "varsIgnorePattern": "^_T",
+        "caughtErrorsIgnorePattern": "^_T"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "off",
     // unused-import bị lỗi conflict với typescript-eslint/
     "no-restricted-imports": [
@@ -79,7 +86,7 @@
           //   "position": "after"
           // },
           {
-            "pattern": "{@module/app-common/**,@module/app-layout/**}",
+            "pattern": "{@module/app-common/**,@module/app-layout/**,@module/app-vendor/**}",
             "group": "internal",
             "position": "after"
           },

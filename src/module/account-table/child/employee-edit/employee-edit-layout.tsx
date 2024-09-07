@@ -13,7 +13,7 @@ import {
 type EmployeeEditLayoutProps = {
   children: React.ReactNode
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange: (_TOpen: boolean) => void
 }
 
 export const EDIT_EMPLOYEE_FORM_ID = 'edit-employee-form'

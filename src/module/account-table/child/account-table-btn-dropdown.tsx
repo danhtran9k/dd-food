@@ -18,8 +18,7 @@ import { useAccountTableContext } from '../account-table-provider'
 export const AccountTableBtnDropdown = ({
   row
 }: CellContext<AccountType, string>) => {
-  const { setEmployeeIdEdit, setEmployeeDelete, employeeIdEdit } =
-    useAccountTableContext()
+  const { setEmployeeIdEdit, setEmployeeDelete } = useAccountTableContext()
 
   const openEditEmployee = () => {
     setEmployeeIdEdit(row.original.id)

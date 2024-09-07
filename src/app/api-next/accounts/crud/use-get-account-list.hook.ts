@@ -11,7 +11,7 @@ const queryFnAccountList = () =>
   httpClient<AccountListResType>('GET', SERVER_API_ACCOUNT.api)
 
 export const useGetAccountList = <TData = TQueryFnAccountList>(
-  select?: (data: TQueryFnAccountList) => TData
+  select?: (_TData: TQueryFnAccountList) => TData
 ) => {
   return useQuery({
     queryKey: SERVER_API_ACCOUNT.key,
