@@ -19,13 +19,12 @@ import {
 
 import { AccountTableCol } from './account-table-col'
 import { AccountTableProvider } from './account-table-provider'
-import { AddEmployee } from './child'
+import { AddEmployee, EditEmployee } from './child'
 import { useAccountTableFeature } from './use-accout-table-feature.hook'
 
 export function AccountTable() {
   const { data } = useGetAccountList((res) => res.payload.data)
   const columns = useMemo(() => AccountTableCol(), [])
-
   // setup pagination đầu tiên vì ảnh hưởng tới các table features khác
   const {
     handleChangePage,
@@ -66,6 +65,8 @@ export function AccountTable() {
   return (
     <AccountTableProvider>
       <div className='w-full'>
+        <EditEmployee onSubmitSuccess={() => {}} />
+
         <div className='flex items-center py-4'>
           <Input
             placeholder='Filter emails...'
