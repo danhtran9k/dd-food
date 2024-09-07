@@ -44,6 +44,16 @@ export const SERVER_API_ACCOUNT = {
   } as const
 } as const
 
+export const SERVER_API_DISHES = {
+  api: `/dishes`,
+  key: ['dishes'],
+
+  byId: {
+    api: (id: number) => `${SERVER_API_DISHES.api}/${id}` as const,
+    key: (id: number) => [...SERVER_API_DISHES.key, id] as const
+  }
+} as const
+
 export const SERVER_API_MEDIA = {
   upload: {
     api: `/media/upload`
