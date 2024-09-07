@@ -19,7 +19,7 @@ import {
 
 import { AccountTableCol } from './account-table-col'
 import { AccountTableProvider } from './account-table-provider'
-import { AddEmployee, EditEmployee } from './child'
+import { AddEmployee, AlertDialogDeleteAccount, EditEmployee } from './child'
 import { useAccountTableFeature } from './use-accout-table-feature.hook'
 
 export function AccountTable() {
@@ -66,6 +66,7 @@ export function AccountTable() {
     <AccountTableProvider>
       <div className='w-full'>
         <EditEmployee onSubmitSuccess={() => {}} />
+        <AlertDialogDeleteAccount />
 
         <div className='flex items-center py-4'>
           <Input
