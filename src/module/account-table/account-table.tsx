@@ -19,12 +19,12 @@ import {
 
 import { AccountTableCol } from './account-table-col'
 import { AccountTableProvider } from './account-table-provider'
+import { AddEmployee, AlertDialogDeleteAccount, EditEmployee } from './child'
 import { useAccountTableFeature } from './use-accout-table-feature.hook'
 
 export function AccountTable() {
   const { data } = useGetAccountList((res) => res.payload.data)
   const columns = useMemo(() => AccountTableCol(), [])
-
   // setup pagination đầu tiên vì ảnh hưởng tới các table features khác
   const {
     handleChangePage,
@@ -65,6 +65,9 @@ export function AccountTable() {
   return (
     <AccountTableProvider>
       <div className='w-full'>
+        <EditEmployee onSubmitSuccess={() => {}} />
+        <AlertDialogDeleteAccount />
+
         <div className='flex items-center py-4'>
           <Input
             placeholder='Filter emails...'
@@ -72,6 +75,10 @@ export function AccountTable() {
             onChange={onChangeEmailFilter}
             className='max-w-sm'
           />
+
+          <div className='ml-auto flex items-center gap-2'>
+            <AddEmployee />
+          </div>
         </div>
 
         <div className='rounded-md border'>

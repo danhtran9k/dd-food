@@ -20,6 +20,7 @@ export const SERVER_API = {
 export const SERVER_API_ACCOUNT = {
   api: `/accounts`,
   key: ['accounts'],
+  inValidKeys: ['accounts'],
 
   me: {
     api: () => `${SERVER_API_ACCOUNT.api}/me` as const,
@@ -35,6 +36,11 @@ export const SERVER_API_ACCOUNT = {
 
   password: {
     api: () => `${SERVER_API_ACCOUNT.api}/password` as const
+  } as const,
+
+  detail: {
+    api: (id: number) => `${SERVER_API_ACCOUNT.api}/detail/${id}` as const,
+    key: (id: number) => [...SERVER_API_ACCOUNT.key, id] as const
   } as const
 } as const
 

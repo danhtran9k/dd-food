@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import { Button } from '@core/app-shadcn/button'
 import { mapDefaultPortUrl } from '@core/debug/debug.utils'
 
-import { AccountTableBtnDropdown } from './child/account-table-btn-dropdown'
+import { AccountTableBtnDropdown } from './child'
 
 export const AccountTableCol = () => {
   return [
