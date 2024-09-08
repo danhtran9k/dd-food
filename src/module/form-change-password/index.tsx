@@ -12,7 +12,7 @@ import { useMutatePassword } from '@app/api-next/accounts/password/use-mutate-pa
 
 import { useFormChangePassword } from './use-form-change-password.hook'
 
-export default function ChangePasswordForm() {
+export function ChangePasswordForm() {
   const form = useFormChangePassword()
   const { mutate, isPending } = useMutatePassword()
 
@@ -40,7 +40,7 @@ export default function ChangePasswordForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         onReset={reset}
       >
-        <Card className='overflow-hidden' x-chunk='dashboard-07-chunk-4'>
+        <Card className='overflow-hidden'>
           <CardHeader>
             <CardTitle>Đổi mật khẩu</CardTitle>
           </CardHeader>

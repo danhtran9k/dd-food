@@ -35,7 +35,7 @@ export const SERVER_API_ACCOUNT = {
   } as const,
 
   password: {
-    api: () => `${SERVER_API_ACCOUNT.api}/password` as const
+    api: () => `${SERVER_API_ACCOUNT.api}/change-password` as const
   } as const,
 
   detail: {
