@@ -3,11 +3,11 @@
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { AccountType } from '@app/api-next/accounts/account.dto'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import { Button } from '@core/app-shadcn/button'
 import { mapDefaultPortUrl } from '@core/debug/debug.utils'
+
+import { AccountType } from '@app/api-next/accounts/account.dto'
 
 import { AccountTableBtnDropdown } from './child'
 

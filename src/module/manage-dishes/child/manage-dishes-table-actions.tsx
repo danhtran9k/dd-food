@@ -1,8 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { CellContext } from '@tanstack/react-table'
 
-import { DishItem } from '@app/api-next/dishes/dishes.dto'
-
 import { Button } from '@core/app-shadcn/button'
 import {
   DropdownMenu,
@@ -12,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@core/app-shadcn/dropdown-menu'
+
+import { DishItem } from '@app/api-next/dishes/dishes.dto'
 
 import { useManageDishesContext } from '@module/manage-dishes'
 

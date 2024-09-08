@@ -1,11 +1,11 @@
 import { UseFormSetError } from 'react-hook-form'
 
+import { toast } from '@core/app-shadcn/use-toast'
+import { handleErrorApi } from '@core/hook-form-error.utils'
+
 import { UpdateMeBodyType } from '@app/api-next/accounts/account-update.dto'
 import { useUpdateMeMutation } from '@app/api-next/accounts/use-account-mutation.hook'
 import { useMediaMutation } from '@app/api-next/media/use-media-mutation.hook'
-
-import { toast } from '@core/app-shadcn/use-toast'
-import { handleErrorApi } from '@core/hook-form-error.utils'
 
 type TUseForm = {
   reload: () => void

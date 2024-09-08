@@ -1,7 +1,5 @@
 'use client'
 
-import { useMutationDeleteDish } from '@app/api-next/dishes/mutate/use-mutation-delete-dish.hook'
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +10,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@core/app-shadcn/alert-dialog'
+
+import { useMutationDeleteDish } from '@app/api-next/dishes/mutate/use-mutation-delete-dish.hook'
 
 import { useManageDishesContext } from '@module/manage-dishes'
 

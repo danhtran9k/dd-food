@@ -1,3 +1,6 @@
+import envConfig from '@core/config'
+import { normalizePath } from '@core/utils'
+
 import { NEXT_API_PREFIX } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
   TBaseHeader,
@@ -5,9 +8,6 @@ import {
   THttpPayload,
   TMergeFetchOptions
 } from '@app/api-next/_core/http/http.type'
-
-import envConfig from '@core/config'
-import { normalizePath } from '@core/utils'
 
 // =====================================
 // PRIVATE

@@ -1,8 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { CellContext } from '@tanstack/react-table'
 
-import { AccountType } from '@app/api-next/accounts/account.dto'
-
 import { Button } from '@core/app-shadcn/button'
 import {
   DropdownMenu,
@@ -12,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@core/app-shadcn/dropdown-menu'
+
+import { AccountType } from '@app/api-next/accounts/account.dto'
 
 import { useAccountTableContext } from '../account-table-provider'
 

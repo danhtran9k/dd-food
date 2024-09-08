@@ -3,14 +3,14 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
+import { NON_RENEW_TOKEN_PATH, ROUTE_PATH } from '@core/path.const'
+
 import {
   checkCanRenewOrClearLocal,
   INTERVAL_RENEW
 } from '@app/api-next/_core/token.helper'
 
 import { useDedupRenew } from '@app/api-next/auth/renew-token/use-dedup-renew'
-
-import { NON_RENEW_TOKEN_PATH, ROUTE_PATH } from '@core/path.const'
 
 // Những page sau sẽ không check refesh token
 export function RenewTokenInterval() {

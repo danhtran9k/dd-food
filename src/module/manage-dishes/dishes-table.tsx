@@ -2,9 +2,9 @@
 
 import { ChangeEvent, useMemo } from 'react'
 
-import { useDishesList } from '@app/api-next/dishes/use-dishes-list.hook'
-
 import { Input } from '@core/app-shadcn/input'
+
+import { useDishesList } from '@app/api-next/dishes/use-dishes-list.hook'
 
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { PAGE_SIZE, TanStackTable } from '@module/app-vendor/tanstack-table'

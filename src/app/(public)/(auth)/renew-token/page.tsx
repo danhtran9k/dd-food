@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
 
+import { useIsParamTokenMatch } from '@core/app-hook/use-is-param-token-match.hook'
+import { ROUTE_PATH } from '@core/path.const'
+
 import { checkCanRenewOrClearLocal } from '@app/api-next/_core/token.helper'
 
 import { useDedupRenew } from '@app/api-next/auth/renew-token/use-dedup-renew'
-
-import { useIsParamTokenMatch } from '@core/app-hook/use-is-param-token-match.hook'
-import { ROUTE_PATH } from '@core/path.const'
 
 // const mutateFnRenew = () =>
 //   httpClient<RefreshTokenResType>('POST', NEXT_API.AUTH.RENEW_TOKEN.api())

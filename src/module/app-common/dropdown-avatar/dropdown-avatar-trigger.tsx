@@ -2,10 +2,10 @@
 
 import { forwardRef } from 'react'
 
-import { AccountType } from '@app/api-next/accounts/account.dto'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import { Button } from '@core/app-shadcn/button'
+
+import { AccountType } from '@app/api-next/accounts/account.dto'
 
 type TDropDownAvatarTrigger = {
   account?: AccountType

@@ -2,11 +2,6 @@
 
 import { Upload } from 'lucide-react'
 
-import {
-  DishStatusValues,
-  getVietnameseDishStatus
-} from '@app/api-next/dishes/dishes.dto'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import {
   Form,
@@ -25,6 +20,11 @@ import {
   SelectValue
 } from '@core/app-shadcn/select'
 import { Textarea } from '@core/app-shadcn/text-area'
+
+import {
+  DishStatusValues,
+  getVietnameseDishStatus
+} from '@app/api-next/dishes/dishes.dto'
 
 import {
   BtnFileInput,

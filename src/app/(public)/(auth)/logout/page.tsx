@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useRef } from 'react'
 
-import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
-
 import { useIsParamTokenMatch } from '@core/app-hook/use-is-param-token-match.hook'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import { ROUTE_PATH } from '@core/path.const'
 import { getUrlWithParams } from '@core/utils'
+
+import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
 function ProxyComponentLogout() {
   // Bắt buộc phải destruct tra chứ ko đuọc mutate.mutateAsync

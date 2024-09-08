@@ -1,14 +1,14 @@
 'use client'
 
-import { ChangePasswordBodyType } from '@app/api-next/accounts/account-update.dto'
-import { useMutatePassword } from '@app/api-next/accounts/password/use-mutate-password.hook'
-
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
 import { handleErrorApi } from '@core/hook-form-error.utils'
+
+import { ChangePasswordBodyType } from '@app/api-next/accounts/account-update.dto'
+import { useMutatePassword } from '@app/api-next/accounts/password/use-mutate-password.hook'
 
 import { useFormChangePassword } from './use-form-change-password.hook'
 

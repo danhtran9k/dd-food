@@ -1,7 +1,5 @@
 'use client'
 
-import { useMutationDeleteAccount } from '@app/api-next/accounts/crud/use-mutation-delete-account.hook'
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +10,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@core/app-shadcn/alert-dialog'
+
+import { useMutationDeleteAccount } from '@app/api-next/accounts/crud/use-mutation-delete-account.hook'
 
 import { useAccountTableContext } from '@module/account-table'
 

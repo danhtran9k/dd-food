@@ -3,9 +3,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { useAccountMe } from '@app/api-next/accounts/use-account.hook'
-import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
-
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import {
   DropdownMenu,
@@ -16,6 +13,9 @@ import {
   DropdownMenuTrigger
 } from '@core/app-shadcn/dropdown-menu'
 import { ROUTE_PATH } from '@core/path.const'
+
+import { useAccountMe } from '@app/api-next/accounts/use-account.hook'
+import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
 import { DropdownAvatarTrigger } from './dropdown-avatar-trigger'
 

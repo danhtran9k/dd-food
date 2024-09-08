@@ -1,3 +1,6 @@
+import { ROUTE_PATH } from '@core/path.const'
+import { normalizePath } from '@core/utils'
+
 import { NEXT_API } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
   AUTHENTICATION_ERROR_STATUS,
@@ -9,9 +12,6 @@ import {
 import { clientLocal } from '@app/api-next/_core/token.helper'
 
 import { LoginResType } from '@app/api-next/auth/auth.dto'
-
-import { ROUTE_PATH } from '@core/path.const'
-import { normalizePath } from '@core/utils'
 
 import { getHttpRequestInfo, mergeFetchOptions } from './http.common'
 import { THttpMethod, THttpPayload } from './http.type'

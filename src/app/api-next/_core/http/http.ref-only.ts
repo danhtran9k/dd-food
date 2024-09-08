@@ -1,5 +1,9 @@
 import { redirect } from 'next/navigation'
 
+import envConfig from '@core/config'
+import { ROUTE_PATH } from '@core/path.const'
+import { isClient, normalizePath } from '@core/utils'
+
 import { NEXT_API } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
   AUTHENTICATION_ERROR_STATUS,
@@ -11,10 +15,6 @@ import {
 import { clientLocal } from '@app/api-next/_core/token.helper'
 
 import { LoginResType } from '@app/api-next/auth/auth.dto'
-
-import envConfig from '@core/config'
-import { ROUTE_PATH } from '@core/path.const'
-import { isClient, normalizePath } from '@core/utils'
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
   baseUrl?: string

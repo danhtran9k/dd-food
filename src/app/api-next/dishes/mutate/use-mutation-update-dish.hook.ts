@@ -6,13 +6,7 @@ import { httpClient } from '@app/api-next/_core/http/http.client'
 import { DishResType } from '@app/api-next/dishes/dishes.dto'
 import { UpdateDishBodyType } from '@app/api-next/dishes/mutate/mutate-dishes.dto'
 
-const updateDish = ({
-  id,
-  body
-}: {
-  id: number
-  body: UpdateDishBodyType
-}) =>
+const updateDish = ({ id, body }: { id: number; body: UpdateDishBodyType }) =>
   httpClient<DishResType>('PUT', SERVER_API_DISHES.byId.api(id), {
     body
   })

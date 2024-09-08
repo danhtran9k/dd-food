@@ -26,13 +26,14 @@
           {
             "group": [
               // core, icon basic
-              // hạn chế file export nhiều hoặc có login
               "@core/app-icon/*",
               // module
               "@module/*/**",
               "!@module/app-common/*",
+              "!@module/app-vendor/*",
+              // forbidden export child of global/layout unless manual export
               "!@module/app-layout/*",
-              "!@module/app-vendor/*"
+              "@module/app-layout/*/**"
             ],
             "message": "Module imports must be absolute."
           }
@@ -57,34 +58,20 @@
             "position": "before"
           },
           {
+            "pattern": "@core/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
             "pattern": "@app/api-next/_core/**",
             "group": "internal",
             "position": "before"
           },
           {
             "pattern": "@app/**",
-            "group": "internal", // Using internal to keep @app within the same top-level grouping
-            "position": "before"
-          },
-
-          // {
-          //   "pattern": "@core/app-vendor/**",
-          //   "group": "internal",
-          //   "position": "after"
-          // },
-          // Đúng ra tách ra nhưng làm rối import thêm,
-          // Chỉ ref vào tham khảo, code chạy ok
-          {
-            "pattern": "@core/**",
-            "group": "internal", // Adding @core after @app in the internal group
+            "group": "internal",
             "position": "after"
           },
-          // app-provider, app-shadcn, app-form, app-vendor đẩy vào app-core
-          // {
-          //   "pattern": "{@module/app-provider/**,@module/app-provider,@core/app-shadcn/**}",
-          //   "group": "internal",
-          //   "position": "after"
-          // },
           {
             "pattern": "{@module/app-common/**,@module/app-layout/**,@module/app-vendor/**}",
             "group": "internal",
@@ -95,11 +82,6 @@
             "group": "internal",
             "position": "after"
           }
-          // {
-          //   "pattern": "@vendor/**",
-          //   "group": "internal",
-          //   "position": "after"
-          // }
         ],
         "pathGroupsExcludedImportTypes": ["builtin"],
         "newlines-between": "always",
