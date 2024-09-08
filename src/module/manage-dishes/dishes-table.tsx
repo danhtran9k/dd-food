@@ -9,6 +9,7 @@ import { Input } from '@core/app-shadcn/input'
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { PAGE_SIZE, TanStackTable } from '@module/app-vendor/tanstack-table'
 
+import { AddDishes, AlertDialogDeleteDish, EditDishes } from './child'
 import { ManageDishesColumns } from './manage-dishes-col'
 import { ManageDishesProvider } from './manage-dishes-provider'
 import { useManageDishesTable } from './use-manage-dishes-table.hook'
@@ -36,6 +37,9 @@ export function DishTable() {
   return (
     <ManageDishesProvider>
       <div className='w-full'>
+        <EditDishes />
+        <AlertDialogDeleteDish />
+
         <div className='flex items-center py-4'>
           <Input
             placeholder='Lọc tên'
@@ -43,6 +47,9 @@ export function DishTable() {
             onChange={onChangeNameFilter}
             className='max-w-sm'
           />
+          <div className='ml-auto flex items-center gap-2'>
+            <AddDishes />
+          </div>
         </div>
 
         <div className='rounded-md border'>

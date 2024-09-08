@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 
+import { mapDefaultPortUrl } from '@core/debug/debug.utils'
+
 export const useFilePreviewInput = (defaultUrl?: string) => {
   const [file, setFile] = useState<File | null>(null)
 
@@ -8,7 +10,7 @@ export const useFilePreviewInput = (defaultUrl?: string) => {
     if (file) {
       return URL.createObjectURL(file)
     }
-    return defaultUrl
+    return mapDefaultPortUrl(defaultUrl ?? '')
   }, [defaultUrl, file])
 
   return { file, setFile, previewFileUrl }
