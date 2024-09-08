@@ -1,24 +1,21 @@
 'use client'
 
-import { Upload } from 'lucide-react'
-
-import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
-import envConfig from '@core/config'
+import { getUrlImage } from '@core/utils'
 
 import {
-  BtnFileInput,
+  FileInputAndPreview,
   useFilePreviewInput
 } from '@module/app-common/btn-file-input'
 
 import { useFormUpdateProfileSubmit } from './use-form-update-profile-submit.hook'
 import { useFormUpdateProfile } from './use-form-update-profile.hook'
 
-export default function UpdateProfileForm() {
+export function UpdateProfileForm() {
   const {
     form,
     query: { refetch }
@@ -70,31 +67,16 @@ export default function UpdateProfileForm() {
                 render={({ field }) => {
                   const handleFileSelected = (file: File) => {
                     setFile(file)
-
                     // hàm xử lý ở ngoài thì ko tận dụng tối đa setup FormField + name setup sẵn
-                    field.onChange(`${envConfig.NEXT_PUBLIC_URL}/${field.name}`)
+                    field.onChange(getUrlImage(file.name))
                   }
 
                   return (
-                    <FormItem>
-                      <div className='flex gap-2 items-start justify-start'>
-                        <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
-                          <AvatarImage src={previewAvatar} />
-                          <AvatarFallback className='rounded-none'>
-                            {name}
-                          </AvatarFallback>
-                        </Avatar>
-
-                        <BtnFileInput
-                          accept='image/*'
-                          onFileSelected={handleFileSelected}
-                          className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed'
-                        >
-                          <Upload className='h-4 w-4 text-muted-foreground' />
-                          <span className='sr-only'>Upload</span>
-                        </BtnFileInput>
-                      </div>
-                    </FormItem>
+                    <FileInputAndPreview
+                      previewAvatarFromFile={previewAvatar}
+                      previewFallback={name}
+                      handleFileSelected={handleFileSelected}
+                    />
                   )
                 }}
               />

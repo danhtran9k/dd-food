@@ -1,15 +1,14 @@
 'use client'
 
-import { Upload } from 'lucide-react'
 import { useState } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@core/app-shadcn/avatar'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
+import { getUrlImage } from '@core/utils'
 
 import {
-  BtnFileInput,
+  FileInputAndPreview,
   useFilePreviewInput
 } from '@module/app-common/btn-file-input'
 
@@ -33,7 +32,7 @@ export function AddEmployee() {
   // Phải manual pass field name vào
   // const onFileSelected = (file: File) => {
   //   setFile(file)
-  //   form.setValue('avatar', 'http://localhost:3000/' + file.name)
+  //   form.setValue('avatar', getUrlImage(file.name))
   // }
 
   const reset = () => {
@@ -64,31 +63,20 @@ export function AddEmployee() {
             <FormField
               control={form.control}
               name='avatar'
-              render={({ field }) => (
-                <FormItem>
-                  <div className='flex gap-2 items-start justify-start'>
-                    <Avatar className='aspect-square w-[100px] h-[100px] rounded-md object-cover'>
-                      <AvatarImage src={previewAvatarFromFile} />
-                      <AvatarFallback className='rounded-none'>
-                        {name || 'Avatar'}
-                      </AvatarFallback>
-                    </Avatar>
+              render={({ field }) => {
+                const handleFileSelected = (file: File) => {
+                  setFile(file)
+                  field.onChange(getUrlImage(file.name))
+                }
 
-                    <BtnFileInput
-                      accept='image/*'
-                      onFileSelected={(file) => {
-                        // Nếu extract ra hàm riêng phải manual truyền field name vào
-                        setFile(file)
-                        field.onChange('http://localhost:3000/' + file.name)
-                      }}
-                      className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed'
-                    >
-                      <Upload className='h-4 w-4 text-muted-foreground' />
-                      <span className='sr-only'>Upload</span>
-                    </BtnFileInput>
-                  </div>
-                </FormItem>
-              )}
+                return (
+                  <FileInputAndPreview
+                    previewAvatarFromFile={previewAvatarFromFile}
+                    previewFallback={name || 'Avatar'}
+                    handleFileSelected={handleFileSelected}
+                  />
+                )
+              }}
             />
 
             <FormField

@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+import envConfig from '@core/config'
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -23,6 +25,10 @@ export const getUrlWithParams = (
   return hasQuery
     ? `${url}&${new URLSearchParams(params)}`
     : `${url}?${new URLSearchParams(params)}`
+}
+
+export const getUrlImage = (imageName: string) => {
+  return `${envConfig.NEXT_PUBLIC_URL}/${imageName}`
 }
 
 export const formatCurrency = (number: number) => {
