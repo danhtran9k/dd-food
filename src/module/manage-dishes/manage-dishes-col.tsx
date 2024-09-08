@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
+import DOMPurify from 'dompurify'
 
 import {
   DishItem,
@@ -52,7 +53,9 @@ export const ManageDishesColumns = () =>
       header: 'Mô tả',
       cell: ({ row }) => (
         <div
-          dangerouslySetInnerHTML={{ __html: row.getValue('description') }}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(row.getValue('description'))
+          }}
           className='whitespace-pre-line'
         />
       )
