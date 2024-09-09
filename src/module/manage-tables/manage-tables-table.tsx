@@ -4,21 +4,21 @@ import { ChangeEvent, useMemo } from 'react'
 
 import { Input } from '@core/app-shadcn/input'
 
-import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
-import {
-  PAGE_SIZE,
-  TanStackTable,
-  useTanStackTable
-} from '@module/app-vendor/tanstack-table'
+import { useTablesList } from '@app/api-next/tables/use-tables-list.hook'
 
+import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
+import { PAGE_SIZE, TanStackTable } from '@module/app-vendor/tanstack-table'
+
+import { AddTable, AlertDialogDeleteTable, EditTables } from './child'
 import { ManageTablesColumns } from './managa-tables-col'
 import { ManageTablesProvider } from './managa-tables-provider'
+import { useManageTablesTable } from './use-manage-tables-table.hook'
 
 export const ManageTablesTable = () => {
-  const data: any[] = []
+  const { data } = useTablesList((res) => res.payload.data)
   const columns = useMemo(() => ManageTablesColumns(), [])
 
-  const { table } = useTanStackTable({ data, columns })
+  const table = useManageTablesTable({ data: data ?? [], columns })
 
   const FILTER_NAME = 'number'
   const nameValue =
@@ -34,6 +34,9 @@ export const ManageTablesTable = () => {
   return (
     <ManageTablesProvider>
       <div className='w-full'>
+        <EditTables />
+        <AlertDialogDeleteTable />
+
         <div className='flex items-center py-4'>
           <Input
             placeholder='Lọc số bàn'
@@ -41,6 +44,10 @@ export const ManageTablesTable = () => {
             onChange={onChangeNameFilter}
             className='max-w-sm'
           />
+
+          <div className='ml-auto flex items-center gap-2'>
+            <AddTable />
+          </div>
         </div>
 
         <div className='rounded-md border'>
