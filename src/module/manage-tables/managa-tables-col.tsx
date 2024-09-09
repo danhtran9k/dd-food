@@ -7,6 +7,8 @@ import {
   TableItem
 } from '@app/api-next/tables/tables.dto'
 
+import { QRCodeTable } from '@module/app-vendor/qrcode'
+
 import { ManageTablesTableAction } from './child'
 
 export const ManageTablesColumns = () =>
@@ -16,7 +18,12 @@ export const ManageTablesColumns = () =>
       header: 'Số bàn',
       cell: ({ row }) => (
         <div className='capitalize'>{row.getValue('number')}</div>
-      )
+      ),
+      // https://tanstack.com/table/latest/docs/guide/column-filtering#custom-filter-functions
+      filterFn: (rows, _TColumnId, filterValue: string) => {
+        if (!filterValue) return true
+        return String(filterValue) === String(rows.getValue('number'))
+      }
     },
     {
       accessorKey: 'capacity',
@@ -35,7 +42,14 @@ export const ManageTablesColumns = () =>
     {
       accessorKey: 'token',
       header: 'QR Code',
-      cell: ({ row }) => <div>{row.getValue('number')}</div>
+      cell: ({ row }) => (
+        <div>
+          <QRCodeTable
+            token={row.getValue('token')}
+            tableNumber={row.getValue('number')}
+          />
+        </div>
+      )
     },
     {
       id: 'actions',
