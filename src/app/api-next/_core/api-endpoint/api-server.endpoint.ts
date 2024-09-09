@@ -59,3 +59,13 @@ export const SERVER_API_MEDIA = {
     api: `/media/upload`
   }
 } as const
+
+export const SERVER_API_TABLES = {
+  api: `/tables`,
+  key: ['tables'],
+
+  byId: {
+    api: (id: number) => `${SERVER_API_TABLES.api}/${id}` as const,
+    key: (id: number) => [...SERVER_API_TABLES.key, id] as const
+  }
+} as const
