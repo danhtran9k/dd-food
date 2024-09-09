@@ -121,6 +121,7 @@ export function AddEmployee() {
                         id='password'
                         className='w-full'
                         type='password'
+                        autoComplete='on'
                         {...field}
                       />
                       <FormMessage />
@@ -141,6 +142,7 @@ export function AddEmployee() {
                         id='confirmPassword'
                         className='w-full'
                         type='password'
+                        autoComplete='on'
                         {...field}
                       />
                       <FormMessage />

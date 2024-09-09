@@ -6,6 +6,7 @@ import { Button } from '@core/app-shadcn/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -37,6 +38,7 @@ export const AddTableDialogLayout = ({
     <DialogContent className='sm:max-w-[600px] max-h-screen overflow-auto'>
       <DialogHeader>
         <DialogTitle>Thêm bàn</DialogTitle>
+        <DialogDescription />
       </DialogHeader>
 
       {children}

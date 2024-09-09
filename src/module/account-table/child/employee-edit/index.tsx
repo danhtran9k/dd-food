@@ -145,6 +145,7 @@ export function EditEmployee({ onSubmitSuccess }: EditEmployeeProps) {
                             id={fieldName}
                             className='w-full'
                             type='password'
+                            autoComplete='on'
                             {...field}
                           />
                           <FormMessage />

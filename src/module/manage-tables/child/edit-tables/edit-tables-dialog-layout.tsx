@@ -2,6 +2,7 @@ import { Button } from '@core/app-shadcn/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle
@@ -24,6 +25,7 @@ export const EditTablesDialogLayout = ({
     <DialogContent className='sm:max-w-[600px] max-h-screen overflow-auto'>
       <DialogHeader>
         <DialogTitle>Cập nhật bàn</DialogTitle>
+        <DialogDescription />
       </DialogHeader>
 
       {children}
