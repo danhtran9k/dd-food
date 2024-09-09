@@ -12,6 +12,19 @@ export const TableStatusValues = [
   TableStatus.Reserved
 ] as const
 
+export const getVietnameseTableStatus = (
+  status: (typeof TableStatus)[keyof typeof TableStatus]
+) => {
+  switch (status) {
+    case TableStatus.Available:
+      return 'Có sẵn'
+    case TableStatus.Reserved:
+      return 'Đã đặt'
+    default:
+      return 'Ẩn'
+  }
+}
+
 export const TableSchema = z.object({
   number: z.coerce.number(),
   capacity: z.coerce.number(),
