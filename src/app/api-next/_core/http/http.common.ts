@@ -3,24 +3,12 @@ import { normalizePath } from '@core/utils'
 
 import { NEXT_API_PREFIX } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
+  CustomOptions,
   TBaseHeader,
-  TBodyRequest,
-  THttpPayload,
-  TMergeFetchOptions
+  THttpPayload
 } from '@app/api-next/_core/http/http.type'
 
 // =====================================
-// PRIVATE
-const getBody = (body?: any): TBodyRequest =>
-  body instanceof FormData ? body : JSON.stringify(body)
-
-const getBaseHeaders = (body: TBodyRequest): TBaseHeader =>
-  body instanceof FormData
-    ? {}
-    : {
-        'Content-Type': 'application/json'
-      }
-
 // Cheat solution, phải đảm bảo đầu NEXT và đầu api BE khác nhau
 // BE /api - NEXT /api-next
 const isNextApi = (url: string) =>
@@ -48,30 +36,40 @@ const getFullUrl = (url: string, baseUrl?: string) => {
 // =====================================
 
 export const getHttpRequestInfo = (url: string, req?: THttpPayload) => {
-  const bodyPayload = getBody(req?.body)
   const fullUrl = getFullUrl(url, req?.options?.baseUrl)
-  const baseHeaders = getBaseHeaders(bodyPayload)
+
+  const reqBody = req?.body
+  const { body, baseHeader } =
+    reqBody instanceof FormData
+      ? {
+          body: reqBody,
+          baseHeader: {}
+        }
+      : {
+          body: JSON.stringify(reqBody),
+          baseHeader: {
+            'Content-Type': 'application/json'
+          }
+        }
+
+  let reqHeaders: HeadersInit | undefined
+  let optionsExcludeHeaders: CustomOptions | undefined
+
+  if (req?.options) {
+    const { headers, ...restOptions } = req.options
+    optionsExcludeHeaders = restOptions
+    reqHeaders = headers
+  }
+
+  const headers = {
+    ...baseHeader,
+    ...reqHeaders
+  } as TBaseHeader
 
   return {
-    bodyPayload,
     fullUrl,
-    baseHeaders
+    body,
+    headers,
+    options: optionsExcludeHeaders
   }
 }
-
-// =====================================
-
-export const mergeFetchOptions = ({
-  options,
-  baseHeaders,
-  body,
-  method
-}: TMergeFetchOptions) => ({
-  ...options,
-  headers: {
-    ...baseHeaders,
-    ...options?.headers
-  },
-  body,
-  method
-})

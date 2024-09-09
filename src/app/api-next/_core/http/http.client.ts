@@ -13,7 +13,7 @@ import { clientLocal } from '@app/api-next/_core/token.helper'
 
 import { LoginResType } from '@app/api-next/auth/auth.dto'
 
-import { getHttpRequestInfo, mergeFetchOptions } from './http.common'
+import { getHttpRequestInfo } from './http.common'
 import { THttpMethod, THttpPayload } from './http.type'
 
 // ý tưởng như kiểu useRef, để track khi logout đang gọi, -> ko gọi thêm
@@ -25,22 +25,19 @@ export const httpClient = async <Response>(
   url: string,
   req?: THttpPayload
 ) => {
-  const { bodyPayload, fullUrl, baseHeaders } = getHttpRequestInfo(url, req)
+  const { body, fullUrl, headers, options } = getHttpRequestInfo(url, req)
 
   const accessToken = clientLocal.access.getToken()
   if (accessToken) {
-    baseHeaders.Authorization = `Bearer ${accessToken}`
+    headers.Authorization = `Bearer ${accessToken}`
   }
 
-  const res = await fetch(
-    fullUrl,
-    mergeFetchOptions({
-      options: req?.options,
-      baseHeaders,
-      body: bodyPayload,
-      method
-    })
-  )
+  const res = await fetch(fullUrl, {
+    headers,
+    body,
+    method,
+    ...options
+  })
 
   const payload: Response = await res.json()
   const data = {
@@ -75,9 +72,7 @@ export const httpClient = async <Response>(
           clientLogoutRequest = fetch(NEXT_API.AUTH.LOGOUT.api(), {
             method: 'POST',
             body: null, //assume logout luôn thành công ?!, cũng tạm, nếu AT có trên db thì tức là AT đó đã valid sẵn, việc người dùng lộ AT hoặc bị force thì chấp nhận ??
-            headers: {
-              ...baseHeaders
-            }
+            headers
           })
 
           await clientLogoutRequest

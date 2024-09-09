@@ -12,7 +12,7 @@ import {
   HttpError
 } from '@app/api-next/_core/api-error.type'
 
-import { getHttpRequestInfo, mergeFetchOptions } from './http.common'
+import { getHttpRequestInfo } from './http.common'
 import { THttpMethod, THttpPayload } from './http.type'
 
 // private request, SERVER-ONLY
@@ -21,16 +21,13 @@ export const httpNext = async <Response>(
   url: string,
   req?: THttpPayload
 ) => {
-  const { bodyPayload, fullUrl, baseHeaders } = getHttpRequestInfo(url, req)
-  const res = await fetch(
-    fullUrl,
-    mergeFetchOptions({
-      options: req?.options,
-      baseHeaders,
-      body: bodyPayload,
-      method
-    })
-  )
+  const { body, fullUrl, headers, options } = getHttpRequestInfo(url, req)
+  const res = await fetch(fullUrl, {
+    headers,
+    body,
+    method,
+    ...options
+  })
 
   const payload: Response = await res.json()
   const data = {

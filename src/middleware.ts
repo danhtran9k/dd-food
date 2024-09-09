@@ -9,6 +9,15 @@ const privatePaths = [ROUTE_PATH.MANAGE.BASE]
 // Khác với path public là log hay ko vẫn vào được
 const nonAuthOnlyPaths = [ROUTE_PATH.LOGIN]
 
+export const config = {
+  // [...privatePaths, ...nonAuthOnlyPaths]
+  // Cách path trong config bắt buộc phải hard-code
+  // Check docs Next
+  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+
+  matcher: ['/manage/:path*', '/login']
+}
+
 // Middleware helper ko nên extract ra file khác
 const checkPathEnter = (pathname: string) => ({
   isEnterPrivatePath: privatePaths.some((path) => pathname.startsWith(path)),
@@ -30,12 +39,6 @@ export function middleware(request: NextRequest) {
   const { isEnterPrivatePath, isEnterNonAuthOnlyPath } =
     checkPathEnter(pathname)
 
-  // Đăng nhập rồi thì sẽ không cho vào login nữa, tránh loop
-  // Có phân tích trong httpClient
-  if (isEnterNonAuthOnlyPath && refreshToken) {
-    return NextResponse.redirect(new URL(ROUTE_PATH.ROOT, request.url))
-  }
-
   // accessToken khi exprired sẽ tự xoá khỏi client nhờ cookie
   // => phải check qua refreshToken
   // ko có refreshToken thì ko cho vào private path và redirect về login
@@ -45,6 +48,22 @@ export function middleware(request: NextRequest) {
     url.searchParams.set('clearTokens', 'true')
     return NextResponse.redirect(url)
   }
+
+  // =========================================================
+  // !(A & B) = !A || !B
+  //  - CASE_A: hoặc ko phải privatePath
+  //  - CASE_B: có refreshToken (path vẫn thuộc config mdw)
+  // =========================================================
+
+  // CASE_A
+  // Đăng nhập rồi thì sẽ không cho vào login nữa, tránh loop
+  // Có phân tích trong httpClient
+  if (isEnterNonAuthOnlyPath && refreshToken) {
+    return NextResponse.redirect(new URL(ROUTE_PATH.ROOT, request.url))
+  }
+
+  // CASE_B: về logic chắn chắn sẽ có refreshToken
+  // Nếu ko có thể throw error thì config path thiếu
 
   // Trường hợp đăng nhập rồi, AT hết hạn nhưng RT còn
   // Đúng flow của AT-RT thì sẽ đẩy về route refresh token
@@ -62,11 +81,4 @@ export function middleware(request: NextRequest) {
   }
 
   return NextResponse.next()
-}
-
-// Cách path trong config bắt buộc phải hard-code
-// Check docs Next
-// https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-export const config = {
-  matcher: ['/manage/:path*', '/login']
 }
