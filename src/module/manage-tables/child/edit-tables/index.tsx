@@ -26,7 +26,7 @@ import {
 } from '@app/api-next/tables/tables.dto'
 import { getTableLink } from '@app/api-next/tables/tables.utils'
 
-import { QRCodeTable } from '@module/app-vendor/qrcode'
+import QRCodeTable from '../qr-code-table'
 
 import {
   EDIT_TABLE_FORM_ID,
