@@ -1,26 +1,39 @@
 import { ROUTE_PATH } from '@core/path.const'
 
-// undefined -> public
-// false -> chỉ hiện khi chưa auth (login)
-// true ->  chỉ hiện khi đã auth
-export const menuItems = [
+import { Role, RoleType, RoleValues } from '@app/api-next/_core/api-type.const'
+
+type TMenuItem = {
+  title: string
+  href: string
+  role: (RoleType | undefined)[]
+}
+
+// undefined -> chưa log vẫn xem được
+// ko chia thành khái niệm public nữa mà explicit ra luôn
+export const menuItems: TMenuItem[] = [
   {
-    title: 'Món ăn',
-    href: ROUTE_PATH.MENU
+    title: 'Trang chủ',
+    href: ROUTE_PATH.ROOT,
+    role: [undefined, ...RoleValues]
   },
   {
     title: 'Menu',
     href: ROUTE_PATH.GUEST.MENU(),
-    shouldShowWhenAuth: true
+    role: [Role.Guest]
+  },
+  {
+    title: 'Đơn hàng',
+    href: ROUTE_PATH.GUEST.ORDERS(),
+    role: [Role.Guest]
   },
   {
     title: 'Đăng nhập',
     href: ROUTE_PATH.LOGIN,
-    shouldShowWhenAuth: false
+    role: [undefined]
   },
   {
     title: 'Quản lý',
     href: ROUTE_PATH.MANAGE.DASHBOARD(),
-    shouldShowWhenAuth: true
+    role: [Role.Owner, Role.Employee]
   }
 ]

@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { RoleValues } from '@app/api-next/_core/api-type.const'
+import { Role } from '@app/api-next/_core/api-type.const'
 
 export const LoginRes = z.object({
   data: z.object({
@@ -10,7 +10,7 @@ export const LoginRes = z.object({
       id: z.number(),
       name: z.string(),
       email: z.string(),
-      role: z.enum(RoleValues)
+      role: z.nativeEnum(Role)
     })
   }),
   message: z.string()

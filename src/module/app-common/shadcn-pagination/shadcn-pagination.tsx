@@ -24,6 +24,8 @@ type TShadcnPagination = {
   pathname?: string
 }
 
+const CSS_DISABLE = 'cursor-not-allowed pointer-events-none text-gray-400'
+
 export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
   const { range, active, previous, next, setPage, first, last } =
     usePaginationControl(props)
@@ -50,7 +52,7 @@ export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
           onClick={first}
           href={getHref(1)}
           className={cn({
-            'cursor-not-allowed': disablePrevious
+            [CSS_DISABLE]: disablePrevious
           })}
         />
 
@@ -58,7 +60,7 @@ export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
           onClick={previous}
           href={getHref(active - 1)}
           className={cn({
-            'cursor-not-allowed': disablePrevious
+            [CSS_DISABLE]: disablePrevious
           })}
         />
 
@@ -83,7 +85,7 @@ export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
           onClick={next}
           href={getHref(active + 1)}
           className={cn({
-            'cursor-not-allowed': disableLast
+            [CSS_DISABLE]: disableLast
           })}
         />
 
@@ -91,7 +93,7 @@ export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
           onClick={last}
           href={getHref(props.total)}
           className={cn({
-            'cursor-not-allowed': disableLast
+            [CSS_DISABLE]: disableLast
           })}
         />
       </PaginationContent>

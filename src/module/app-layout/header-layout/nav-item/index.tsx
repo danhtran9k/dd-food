@@ -1,10 +1,19 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { useAuthContext } from '@core/app-provider/auth-provider'
+import { handleErrorApi } from '@core/hook-form-error.utils'
 
+import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
+
+import { LogoutDialog } from './logout-dialog'
 import { menuItems } from './menu-item'
+
+type NavItemsProps = {
+  className?: string
+}
 
 // Server: Món ăn, Đăng nhập. Do server không biết trạng thái đăng nhập của user
 // CLient: Đầu tiên client sẽ hiển thị là Món ăn, Đăng nhập.
@@ -19,18 +28,21 @@ import { menuItems } from './menu-item'
 // Dùng cookie thì ko còn static rendering toàn page
 // Dùng disable SSR component thì theo course vẫn có lỗi
 // Dùng useEffect sẽ flash
-export function NavItems({ className }: { className?: string }) {
-  const { isAuth } = useAuthContext()
 
-  return menuItems.map((item) => {
-    const shouldHide =
-      (item.shouldShowWhenAuth === false && isAuth) ||
-      (item.shouldShowWhenAuth === true && !isAuth)
+export function NavItems({ className }: NavItemsProps) {
+  const { role } = useAuthContext()
 
-    return shouldHide ? null : (
-      <Link href={item.href} key={item.href} className={className}>
-        {item.title}
-      </Link>
-    )
-  })
+  return (
+    <>
+      {menuItems.map((item) =>
+        item.role.includes(role) ? (
+          <Link href={item.href} key={item.href} className={className}>
+            {item.title}
+          </Link>
+        ) : null
+      )}
+
+      <LogoutDialog className={className} />
+    </>
+  )
 }
