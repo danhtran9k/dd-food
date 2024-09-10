@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { jwtDecode } from '@app/api-next/_core/jwt'
 
 export const INTERVAL_RENEW = 1000
 export const INTERVAL_PERCENT_TRIGGER = 3
@@ -71,14 +71,10 @@ export const checkCanRenewOrClearLocal = (): TCheckCanRenew => {
     return { isExpired: null, canRenew: false }
   }
 
-  const decodedAccessToken = jwt.decode(accessToken) as {
-    exp: number
-    iat: number
-  }
-  const decodedRefreshToken = jwt.decode(refreshToken) as {
-    exp: number
-    iat: number
-  }
+  const [decodedAccessToken, decodedRefreshToken] = jwtDecode([
+    accessToken,
+    refreshToken
+  ])
 
   const now = Math.round(new Date().getTime() / 1000)
   if (now >= decodedRefreshToken.exp) {

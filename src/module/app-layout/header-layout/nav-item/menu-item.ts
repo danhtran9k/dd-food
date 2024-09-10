@@ -9,8 +9,8 @@ export const menuItems = [
     href: ROUTE_PATH.MENU
   },
   {
-    title: 'Đơn hàng',
-    href: ROUTE_PATH.ORDERS,
+    title: 'Menu',
+    href: ROUTE_PATH.GUEST.MENU(),
     shouldShowWhenAuth: true
   },
   {
