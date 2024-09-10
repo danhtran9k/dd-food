@@ -14,7 +14,7 @@ function ProxyComponentLogout() {
   // Bắt buộc phải destruct tra chứ ko đuọc mutate.mutateAsync
   // obj mutate lớn bị thay đổi và dùng trong eff dep gây loop
   const { mutateAsync } = useLogoutMutation()
-  const { setIsAuth } = useAuthContext()
+  const { setRoleAuth } = useAuthContext()
   const router = useRouter()
 
   // Dùng 1 ref ngầm + timeOut để né React strict mode, de-duplicate request
@@ -56,7 +56,7 @@ function ProxyComponentLogout() {
         setTimeout(() => {
           ref.current = null
         }, 1000)
-        setIsAuth(false)
+        setRoleAuth()
         router.push(url)
       })
     } else {
@@ -65,7 +65,7 @@ function ProxyComponentLogout() {
         getUrlWithParams(ROUTE_PATH.ROOT, { debug: 'logout-PAGE-PROXY-fail' })
       )
     }
-  }, [checkTokenParamMatch, mutateAsync, router, setIsAuth])
+  }, [checkTokenParamMatch, mutateAsync, router, setRoleAuth])
   return <div>Log out....</div>
 }
 
