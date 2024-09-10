@@ -14,5 +14,12 @@ export const NEXT_API = {
     RENEW_TOKEN: {
       api: () => `${NEXT_API.AUTH.api}/renew-token`
     }
+  },
+
+  // TODO: next tags là 1 string[]
+  // api thì nhận string -> phải convert ra
+  // https://nodejs.org/api/url.html#new-urlsearchparamsobj
+  REVALIDATE: {
+    api: (tag: string) => `/${NEXT_API_PREFIX}/revalidate?tag=${tag}` as const
   }
 }

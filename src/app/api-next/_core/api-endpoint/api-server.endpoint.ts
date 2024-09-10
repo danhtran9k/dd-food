@@ -48,11 +48,16 @@ export const SERVER_API_DISHES = {
   api: `/dishes`,
   key: ['dishes'],
 
+  // https://nextjs.org/docs/app/building-your-application/caching#fetch-optionsnexttags-and-revalidatetag
+  // no best practice
+  nextTags: ['dishes'],
+
   byId: {
     api: (id: number) => `${SERVER_API_DISHES.api}/${id}` as const,
     key: (id: number) => [...SERVER_API_DISHES.key, id] as const
   }
-} as const
+}
+// Nếu setup as const ở cuối thì khi truyền vào tag phải `as unknown as string[]`
 
 export const SERVER_API_MEDIA = {
   upload: {

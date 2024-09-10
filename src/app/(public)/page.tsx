@@ -8,8 +8,30 @@ import { httpNext } from '@app/api-next/_core/http/http.next'
 
 import { DishListResType } from '@app/api-next/dishes/dishes.dto'
 
+// Note:
+// Next.js 15 thì mặc định fetch sẽ là { cache: 'no-store' }
+// (dynamic rendering page)
+// 14 default:  { cache: 'force-cache' }
+// nghĩa là cache (static rendering page)
+
+// next khi build sẽ cache lại data lần trước -> phải xóa thư mục cache đi
+// Đổi lại build sẽ lâu hơn, chỉ xảy ra với static rendering page
+
 const nextGetDishes = () =>
-  httpNext<DishListResType>('GET', SERVER_API_DISHES.api)
+  // httpNext<DishListResType>('GET', SERVER_API_DISHES.api)
+  httpNext<DishListResType>('GET', SERVER_API_DISHES.api, {
+    options: {
+      next: {
+        tags: SERVER_API_DISHES.nextTags as unknown as string[]
+      }
+    }
+  })
+
+// httpNext<DishListResType>('GET', SERVER_API_DISHES.api, {
+//   options: {
+//     cache: 'no-store'
+//   }
+// })
 
 export default async function Home() {
   let dishList: DishListResType['data'] = []

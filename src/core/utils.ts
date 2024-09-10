@@ -31,6 +31,10 @@ export const getUrlImage = (imageName: string) => {
   return `${envConfig.NEXT_PUBLIC_URL}/${imageName}`
 }
 
+export const encodeTag = (tag: string[]) => {
+  return tag.toString()
+}
+
 export const formatCurrency = (number: number) => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',

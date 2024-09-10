@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 4224",
-    "build": "next build",
-    "start": "next start",
+    "build:cache": "next build",
+    "build": "rm -rf .next && next build",
+    "start": "next start -p 4224",
     "lint": "next lint",
     "chk": "tsc && yarn lint",
     "lint:fix": "eslint . --fix",
@@ -40,6 +41,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
