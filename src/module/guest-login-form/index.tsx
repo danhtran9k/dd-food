@@ -1,28 +1,17 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
 
-import {
-  GuestLoginBody,
-  GuestLoginBodyType
-} from '@app/api-next/guest/guest.dto'
+import { useFormGuestLogin } from './use-form-guest-login.hook'
+import { useSubmitFormGuestLogin } from './use-submit-form-guest-login.hook'
 
 export default function GuestLoginForm() {
-  const form = useForm<GuestLoginBodyType>({
-    resolver: zodResolver(GuestLoginBody),
-    defaultValues: {
-      name: '',
-      token: '',
-      tableNumber: 1
-    }
-  })
+  const form = useFormGuestLogin()
+  const { onSubmit } = useSubmitFormGuestLogin(form.setError)
 
   return (
     <Card className='mx-auto max-w-sm'>
@@ -35,6 +24,7 @@ export default function GuestLoginForm() {
           <form
             className='space-y-2 max-w-[600px] flex-shrink-0 w-full'
             noValidate
+            onSubmit={form.handleSubmit(onSubmit, console.log)}
           >
             <div className='grid gap-4'>
               <FormField

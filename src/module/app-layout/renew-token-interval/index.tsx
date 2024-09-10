@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
+import { useAuthContext } from '@core/app-provider/auth-provider'
 import { NON_RENEW_TOKEN_PATH, ROUTE_PATH } from '@core/path.const'
 
 import {
@@ -16,11 +17,17 @@ import { useDedupRenew } from '@app/api-next/auth/renew-token/use-dedup-renew'
 export function RenewTokenInterval() {
   const pathname = usePathname()
   const router = useRouter()
+  const { isAuth } = useAuthContext()
   const mutateFnRenew = useDedupRenew()
 
   useEffect(() => {
-    if ((Object.values(NON_RENEW_TOKEN_PATH) as string[]).includes(pathname))
-      return
+    const isRootNotLogin = !isAuth && pathname === ROUTE_PATH.ROOT
+    const isNonRenewTokenPath = (
+      Object.values(NON_RENEW_TOKEN_PATH) as string[]
+    ).includes(pathname)
+
+    if (isRootNotLogin || isNonRenewTokenPath) return
+
     let interval: any = null
     // Phải gọi lần đầu tiên, vì interval sẽ chạy sau thời gian TIMEOUT
 
