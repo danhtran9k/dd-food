@@ -74,3 +74,22 @@ export const SERVER_API_TABLES = {
     key: (id: number) => [...SERVER_API_TABLES.key, id] as const
   }
 } as const
+
+export const SERVER_API_GUEST = {
+  api: `/guest`,
+  key: ['guest'],
+
+  AUTH: {
+    api: () => `${SERVER_API_GUEST.api}/auth` as const,
+
+    LOGIN: {
+      api: () => `${SERVER_API_GUEST.AUTH.api()}/login` as const
+    },
+    LOGOUT: {
+      api: () => `${SERVER_API_GUEST.AUTH.api()}/logout` as const
+    },
+    RENEW_TOKEN: {
+      api: () => `${SERVER_API_GUEST.AUTH.api()}/refresh-token` as const
+    }
+  }
+} as const
