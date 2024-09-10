@@ -6,7 +6,7 @@ import { Suspense, useEffect } from 'react'
 import { useIsParamTokenMatch } from '@core/app-hook/use-is-param-token-match.hook'
 import { ROUTE_PATH } from '@core/path.const'
 
-import { checkCanRenewOrClearLocal } from '@app/api-next/_core/token.helper'
+import { checkCanRenewWithRoleOrClearLocal } from '@app/api-next/_core/token.helper'
 
 import { useDedupRenew } from '@app/api-next/auth/renew-token/use-dedup-renew'
 
@@ -22,10 +22,10 @@ function ProxyComponentRenew() {
   useEffect(() => {
     const { hasAndMatchRefreshToken } = checkTokenParamMatch()
     if (hasAndMatchRefreshToken) {
-      const { canRenew } = checkCanRenewOrClearLocal()
+      const { canRenew, role } = checkCanRenewWithRoleOrClearLocal()
 
-      if (canRenew) {
-        mutateFnRenew().then(() => {
+      if (canRenew && role) {
+        mutateFnRenew(role)().then(() => {
           const url = redirectPathname ?? ROUTE_PATH.ROOT
           router.push(url)
         })
