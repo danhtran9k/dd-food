@@ -1,4 +1,5 @@
-import jwt from 'jsonwebtoken'
+import { RoleType } from '@app/api-next/_core/api-type.const'
+import { jwtDecode } from '@app/api-next/_core/jwt'
 
 export const INTERVAL_RENEW = 1000
 export const INTERVAL_PERCENT_TRIGGER = 3
@@ -48,14 +49,17 @@ type TCheckCanRenew =
   | {
       isExpired: null
       canRenew: false
+      role: undefined
     }
   | {
       isExpired: true
       canRenew: false
+      role: RoleType
     }
   | {
       isExpired: false
       canRenew: boolean
+      role: RoleType
     }
 
 // thực thi side-eff khi isExpired true - clear token
@@ -65,25 +69,23 @@ type TCheckCanRenew =
 
 // onError?: () => void;
 // onSuccess?: () => void;
-export const checkCanRenewOrClearLocal = (): TCheckCanRenew => {
+export const checkCanRenewWithRoleOrClearLocal = (): TCheckCanRenew => {
   const { accessToken, refreshToken } = clientLocal.authTokens.getAll()
   if (!accessToken || !refreshToken) {
-    return { isExpired: null, canRenew: false }
+    return { isExpired: null, canRenew: false, role: undefined }
   }
 
-  const decodedAccessToken = jwt.decode(accessToken) as {
-    exp: number
-    iat: number
-  }
-  const decodedRefreshToken = jwt.decode(refreshToken) as {
-    exp: number
-    iat: number
-  }
+  const [decodedAccessToken, decodedRefreshToken] = jwtDecode([
+    accessToken,
+    refreshToken
+  ])
+
+  const role = decodedAccessToken.role
 
   const now = Math.round(new Date().getTime() / 1000)
   if (now >= decodedRefreshToken.exp) {
     clientLocal.authTokens.removeAll()
-    return { isExpired: true, canRenew: false }
+    return { isExpired: true, canRenew: false, role }
     // return param?.onError && param.onError();
   }
 
@@ -92,7 +94,7 @@ export const checkCanRenewOrClearLocal = (): TCheckCanRenew => {
       INTERVAL_PERCENT_TRIGGER >
     decodedAccessToken.exp - now
   ) {
-    return { isExpired: false, canRenew: true }
+    return { isExpired: false, canRenew: true, role }
 
     // refresh Token phải xử lý nested bên trong, dạng global
 
@@ -106,5 +108,5 @@ export const checkCanRenewOrClearLocal = (): TCheckCanRenew => {
     // }
   }
 
-  return { isExpired: false, canRenew: false }
+  return { isExpired: false, canRenew: false, role }
 }

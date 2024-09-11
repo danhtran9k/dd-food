@@ -10,11 +10,14 @@ import {
   useState
 } from 'react'
 
+import { RoleType } from '@app/api-next/_core/api-type.const'
+import { jwtDecode } from '@app/api-next/_core/jwt'
 import { clientLocal } from '@app/api-next/_core/token.helper'
 
 const AuthContext = createContext({
   isAuth: false,
-  setIsAuth: (_TIsAuth: boolean) => {}
+  role: undefined as RoleType | undefined,
+  setRoleAuth: (_TRole?: RoleType | undefined) => {}
 })
 
 export const useAuthContext = () => {
@@ -22,13 +25,11 @@ export const useAuthContext = () => {
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [isAuth, setIsAuthState] = useState(false)
+  const [role, setRole] = useState<RoleType | undefined>()
 
-  const setIsAuth = useCallback((isAuth: boolean) => {
-    if (isAuth) {
-      setIsAuthState(true)
-    } else {
-      setIsAuthState(false)
+  const setRoleAuth = useCallback((role?: RoleType) => {
+    setRole(role)
+    if (!role) {
       clientLocal.authTokens.removeAll()
     }
   }, [])
@@ -36,16 +37,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
   // https://react.dev/reference/react/useContext#optimizing-re-renders-when-passing-objects-and-functions
   const contextValue = useMemo(
     () => ({
-      isAuth,
-      setIsAuth
+      role,
+      setRoleAuth,
+      isAuth: !!role
     }),
-    [isAuth, setIsAuth]
+    [role, setRoleAuth]
   )
 
   useEffect(() => {
+    // accessToken vì được re-fretch nhiều nên sẽ có data mới
+    // re-freshToken có thể dính role cũ nếu check ko kỹ
     const accessToken = clientLocal.access.getToken()
     if (accessToken) {
-      setIsAuthState(true)
+      const [{ role }] = jwtDecode([accessToken])
+      setRole(role)
     }
   }, [])
 

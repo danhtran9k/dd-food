@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
+
+import { jwtDecode } from '@app/api-next/_core/jwt'
 
 type TTokens = {
   accessToken: string
@@ -10,12 +11,11 @@ export function setTokensFromPayload(tokens: TTokens) {
   const { accessToken, refreshToken } = tokens
   const cookieStore = cookies()
 
-  const decodedAccessToken = jwt.decode(accessToken) as {
-    exp: number
-  }
-  const decodedRefreshToken = jwt.decode(refreshToken) as {
-    exp: number
-  }
+  const [decodedAccessToken, decodedRefreshToken] = jwtDecode([
+    accessToken,
+    refreshToken
+  ])
+
   cookieStore.set('accessToken', accessToken, {
     path: '/',
     httpOnly: true,

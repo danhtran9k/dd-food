@@ -20,7 +20,7 @@ import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.h
 import { DropdownAvatarTrigger } from './dropdown-avatar-trigger'
 
 export function DropdownAvatar() {
-  const { setIsAuth } = useAuthContext()
+  const { setRoleAuth } = useAuthContext()
   const { isPending, mutate } = useLogoutMutation()
   const { data } = useAccountMe()
   const router = useRouter()
@@ -32,7 +32,7 @@ export function DropdownAvatar() {
 
     mutate(undefined, {
       onSuccess: () => {
-        setIsAuth(false)
+        setRoleAuth()
         router.push(ROUTE_PATH.ROOT)
       }
     })

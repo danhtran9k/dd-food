@@ -16,7 +16,7 @@ const loginMutateFn = (body: LoginBodyType) =>
 
 export const useLoginMutation = () => {
   const router = useRouter()
-  const { setIsAuth } = useAuthContext()
+  const { setRoleAuth } = useAuthContext()
   return useMutation({
     mutationFn: loginMutateFn,
     // TODO: Check xem thử có nên setup mutation cache global cho mọi mutate ko
@@ -24,7 +24,7 @@ export const useLoginMutation = () => {
       toast({
         description: result.payload.message
       })
-      setIsAuth(true)
+      setRoleAuth(result.payload.data.account.role)
       router.push(ROUTE_PATH.MANAGE.DASHBOARD())
     }
   })

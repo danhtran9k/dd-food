@@ -1,7 +1,10 @@
 import { ROUTE_PATH } from '@core/path.const'
 import { normalizePath } from '@core/utils'
 
-import { NEXT_API } from '@app/api-next/_core/api-endpoint/api-next.endpoint'
+import {
+  NEXT_API,
+  NEXT_API_GUEST
+} from '@app/api-next/_core/api-endpoint/api-next.endpoint'
 import {
   AUTHENTICATION_ERROR_STATUS,
   ENTITY_ERROR_STATUS,
@@ -18,6 +21,12 @@ import { THttpMethod, THttpPayload } from './http.type'
 
 // ý tưởng như kiểu useRef, để track khi logout đang gọi, -> ko gọi thêm
 let clientLogoutRequest: null | Promise<any> = null
+
+const LOGIN_PATHS = [NEXT_API.AUTH.LOGIN.api(), NEXT_API_GUEST.AUTH.LOGIN.api()]
+const LOGOUT_PATHS = [
+  NEXT_API.AUTH.LOGOUT.api(),
+  NEXT_API_GUEST.AUTH.LOGOUT.api()
+]
 
 // private request, client only
 export const httpClient = async <Response>(
@@ -104,11 +113,11 @@ export const httpClient = async <Response>(
   const normalizeUrl = normalizePath(url)
 
   // api login phải manual call nên sẽ set state lại ở nơi gọi
-  if (normalizeUrl === normalizePath(NEXT_API.AUTH.LOGIN.api())) {
+  if (LOGIN_PATHS.map(normalizePath).includes(normalizeUrl)) {
     const { accessToken, refreshToken } = (payload as LoginResType).data
     clientLocal.access.setToken(accessToken)
     clientLocal.refresh.setToken(refreshToken)
-  } else if (normalizeUrl === normalizePath(NEXT_API.AUTH.LOGOUT.api())) {
+  } else if (LOGOUT_PATHS.map(normalizePath).includes(normalizeUrl)) {
     // Với api logout TH này là call chủ động và thành công
     // Việc syn app state do nơi gọi set
     clientLocal.authTokens.removeAll()

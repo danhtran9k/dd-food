@@ -3,16 +3,16 @@ export const NEXT_API_PREFIX = 'api-next'
 // Setup thêm 1 lớp api để chừa cho key khi cần tích hợp React-Query
 export const NEXT_API = {
   AUTH: {
-    api: `/${NEXT_API_PREFIX}/auth`,
+    api: `/${NEXT_API_PREFIX}/auth` as const,
 
     LOGIN: {
-      api: () => `${NEXT_API.AUTH.api}/login`
+      api: () => `${NEXT_API.AUTH.api}/login` as const
     },
     LOGOUT: {
-      api: () => `${NEXT_API.AUTH.api}/logout`
+      api: () => `${NEXT_API.AUTH.api}/logout` as const
     },
     RENEW_TOKEN: {
-      api: () => `${NEXT_API.AUTH.api}/renew-token`
+      api: () => `${NEXT_API.AUTH.api}/renew-token` as const
     }
   },
 
@@ -21,5 +21,23 @@ export const NEXT_API = {
   // https://nodejs.org/api/url.html#new-urlsearchparamsobj
   REVALIDATE: {
     api: (tag: string) => `/${NEXT_API_PREFIX}/revalidate?tag=${tag}` as const
+  }
+}
+
+export const NEXT_API_GUEST = {
+  api: `/${NEXT_API_PREFIX}/guest` as const,
+
+  AUTH: {
+    api: () => `${NEXT_API_GUEST.api}/auth` as const,
+
+    LOGIN: {
+      api: () => `${NEXT_API_GUEST.AUTH.api()}/login` as const
+    },
+    LOGOUT: {
+      api: () => `${NEXT_API_GUEST.AUTH.api()}/logout` as const
+    },
+    RENEW_TOKEN: {
+      api: () => `${NEXT_API_GUEST.AUTH.api()}/renew-token` as const
+    }
   }
 }
