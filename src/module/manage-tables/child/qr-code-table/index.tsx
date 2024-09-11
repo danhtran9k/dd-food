@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-import { getTableLink } from '@app/api-next/tables/tables.utils'
+import { getTableLink } from '@core/path.const'
 
 import { createQrVirtualCanvas } from '@module/app-vendor/qrcode-table'
 
@@ -14,7 +14,7 @@ interface QRCodeTableProps {
   width?: number
 }
 
-export default function QRCodeTable({
+export function QRCodeTable({
   token,
   tableNumber,
   width = 250

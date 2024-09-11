@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode, useMemo } from 'react'
 
 import { DishItem } from '@app/api-next/dishes/dishes.dto'
 
@@ -19,12 +19,15 @@ export function ManageDishesProvider({ children }: { children: ReactNode }) {
   const [dishIdEdit, setDishIdEdit] = useState<number | undefined>(undefined)
   const [dishDelete, setDishDelete] = useState<DishItem | null>(null)
 
-  const value = {
-    dishIdEdit,
-    setDishIdEdit,
-    dishDelete,
-    setDishDelete
-  }
+  const value = useMemo(
+    () => ({
+      dishIdEdit,
+      setDishIdEdit,
+      dishDelete,
+      setDishDelete
+    }),
+    [dishIdEdit, setDishIdEdit, dishDelete, setDishDelete]
+  )
 
   return (
     <ManageDishesContext.Provider value={value}>

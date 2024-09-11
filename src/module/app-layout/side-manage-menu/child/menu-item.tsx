@@ -8,42 +8,43 @@ import {
   Users2
 } from 'lucide-react'
 
+import { ROUTE_PATH } from '@core/path.const'
+
 export const menuItems = [
   {
     title: 'Dashboard',
     Icon: Home,
-    href: '/manage/dashboard'
+    href: ROUTE_PATH.MANAGE.DASHBOARD()
   },
   {
     title: 'Đơn hàng',
     Icon: ShoppingCart,
-    href: '/manage/orders'
+    href: ROUTE_PATH.MANAGE.ORDERS()
   },
   {
     title: 'Bàn ăn',
     Icon: Table,
-    href: '/manage/tables'
+    href: ROUTE_PATH.MANAGE.TABLES()
   },
   {
     title: 'Món ăn',
     Icon: Salad,
-    href: '/manage/dishes'
+    href: ROUTE_PATH.MANAGE.DISHES()
   },
-
   {
     title: 'Phân tích',
     Icon: LineChart,
-    href: '/manage/analytics'
+    href: ROUTE_PATH.MANAGE.ANALYTICS()
   },
   {
     title: 'Nhân viên',
     Icon: Users2,
-    href: '/manage/accounts'
+    href: ROUTE_PATH.MANAGE.ACCOUNTS()
   },
   // Check layout home có ăn auth global state ko
   {
     title: 'HOME',
     Icon: Key,
-    href: '/'
+    href: ROUTE_PATH.ROOT
   }
 ]

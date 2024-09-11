@@ -10,8 +10,8 @@ import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { PAGE_SIZE, TanStackTable } from '@module/app-vendor/tanstack-table'
 
 import { AddTable, AlertDialogDeleteTable, EditTables } from './child'
-import { ManageTablesColumns } from './managa-tables-col'
-import { ManageTablesProvider } from './managa-tables-provider'
+import { ManageTablesColumns } from './manage-tables-col'
+import { ManageTablesProvider } from './manage-tables-provider'
 import { useManageTablesTable } from './use-manage-tables-table.hook'
 
 export const ManageTablesTable = () => {

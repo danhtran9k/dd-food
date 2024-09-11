@@ -1,12 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 import { useAuthContext } from '@core/app-provider/auth-provider'
-import { handleErrorApi } from '@core/hook-form-error.utils'
-
-import { useLogoutMutation } from '@app/api-next/auth/logout/use-logout-mutate.hook'
 
 import { LogoutDialog } from './logout-dialog'
 import { menuItems } from './menu-item'

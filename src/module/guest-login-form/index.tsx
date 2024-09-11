@@ -9,7 +9,7 @@ import { Label } from '@core/app-shadcn/label'
 import { useFormGuestLogin } from './use-form-guest-login.hook'
 import { useSubmitFormGuestLogin } from './use-submit-form-guest-login.hook'
 
-export default function GuestLoginForm() {
+export function GuestLoginForm() {
   const form = useFormGuestLogin()
   const { onSubmit } = useSubmitFormGuestLogin(form.setError)
 

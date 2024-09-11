@@ -3,6 +3,8 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { ROUTE_PATH } from '@core/path.const'
+
 import {
   GuestLoginBody,
   GuestLoginBodyType
@@ -28,10 +30,9 @@ export const useFormGuestLogin = () => {
 
   useEffect(() => {
     if (!token) {
-      router.push('/')
+      router.push(ROUTE_PATH.ROOT)
     }
   }, [token, router])
 
   return form
 }
-

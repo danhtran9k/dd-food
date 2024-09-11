@@ -1,6 +1,8 @@
 import { ColumnDef, TableOptions } from '@tanstack/react-table'
 
 export const PAGE_SIZE = 2
+export const PAGE_SIZE_5 = 5
+export const PAGE_SIZE_10 = 10
 
 export type TTanStackHookOption<T> = Omit<
   TableOptions<T>,

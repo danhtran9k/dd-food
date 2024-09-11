@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger
 } from '@core/app-shadcn/alert-dialog'
 import { handleErrorApi } from '@core/hook-form-error.utils'
+import { ROUTE_PATH } from '@core/path.const'
 import { cn } from '@core/utils'
 
 import { Role } from '@app/api-next/_core/api-type.const'
@@ -34,7 +35,7 @@ export function LogoutDialog({ className }: LogoutDialogProps) {
     try {
       await logoutMutation.mutateAsync()
       setRoleAuth()
-      router.push('/')
+      router.push(ROUTE_PATH.ROOT)
     } catch (error: any) {
       handleErrorApi({
         error

@@ -19,14 +19,14 @@ import {
   SelectValue
 } from '@core/app-shadcn/select'
 import { Switch } from '@core/app-shadcn/switch'
+import { getTableLink } from '@core/path.const'
 
 import {
   TableStatusValues,
   getVietnameseTableStatus
 } from '@app/api-next/tables/tables.dto'
-import { getTableLink } from '@app/api-next/tables/tables.utils'
 
-import QRCodeTable from '../qr-code-table'
+import { QRCodeTable } from '../qr-code-table'
 
 import {
   EDIT_TABLE_FORM_ID,

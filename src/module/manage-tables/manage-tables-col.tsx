@@ -8,7 +8,7 @@ import {
 } from '@app/api-next/tables/tables.dto'
 
 import { ManageTablesTableAction } from './child'
-import QRCodeTable from './child/qr-code-table'
+import { QRCodeTable } from './child/qr-code-table'
 
 export const ManageTablesColumns = () =>
   [

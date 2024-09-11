@@ -52,7 +52,7 @@ export function RenewTokenInterval() {
     return () => {
       clearInterval(interval)
     }
-  }, [mutateFnRenew, pathname, router])
+  }, [mutateFnRenew, pathname, router, isAuth])
 
   return null
 }

@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
 import { useAuthContext } from '@core/app-provider/auth-provider'
+import { ROUTE_PATH } from '@core/path.const'
 
 import { NEXT_API_GUEST } from '@app/api-next/_core/api-endpoint'
 import { httpClient } from '@app/api-next/_core/http/http.client'
@@ -24,7 +25,7 @@ export const useGuestLoginMutation = () => {
     mutationFn: mutateFnGuestLogin,
     onSuccess: (result) => {
       setRoleAuth(result.payload.data.guest.role)
-      router.push('/guest/menu')
+      router.push(ROUTE_PATH.GUEST.MENU())
     }
   })
 }

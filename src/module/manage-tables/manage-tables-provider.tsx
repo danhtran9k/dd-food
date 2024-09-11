@@ -1,6 +1,12 @@
 'use client'
 
-import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useMemo,
+  useState
+} from 'react'
 
 import { TableItem } from '@app/api-next/tables/tables.dto'
 
@@ -19,12 +25,15 @@ export function ManageTablesProvider({ children }: PropsWithChildren) {
   const [tableIdEdit, setTableIdEdit] = useState<number | undefined>(undefined)
   const [tableDelete, setTableDelete] = useState<TableItem | null>(null)
 
-  const value = {
-    tableIdEdit,
-    setTableIdEdit,
-    tableDelete,
-    setTableDelete
-  }
+  const value = useMemo(
+    () => ({
+      tableIdEdit,
+      setTableIdEdit,
+      tableDelete,
+      setTableDelete
+    }),
+    [tableIdEdit, setTableIdEdit, tableDelete, setTableDelete]
+  )
 
   return (
     <ManageTablesContext.Provider value={value}>

@@ -6,6 +6,7 @@ import {
   useQuery
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { PropsWithChildren } from 'react'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,11 +19,7 @@ const queryClient = new QueryClient({
 })
 
 // Setup theo style React basic bình thường thử
-export function ReactQueryProvider({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export function ReactQueryProvider({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
