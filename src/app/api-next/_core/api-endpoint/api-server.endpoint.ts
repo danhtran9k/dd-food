@@ -91,5 +91,21 @@ export const SERVER_API_GUEST = {
     RENEW_TOKEN: {
       api: () => `${SERVER_API_GUEST.AUTH.api()}/refresh-token` as const
     }
+  },
+
+  ORDERS: {
+    api: () => `${SERVER_API_GUEST.api}/orders` as const,
+    key: ['guest-orders']
+  }
+} as const
+
+export const SERVER_API_ORDERS = {
+  api: `/orders`,
+  prefix_keys: 'orders',
+  key: () => [`${SERVER_API_ORDERS.prefix_keys}-list`] as const,
+
+  byId: {
+    api: (id: number) => `${SERVER_API_ORDERS.api}/${id}` as const,
+    key: (id: number) => [SERVER_API_ORDERS.prefix_keys, id] as const
   }
 } as const
