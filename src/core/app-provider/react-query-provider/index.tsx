@@ -1,13 +1,18 @@
 'use client'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery
+} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false
+      refetchOnWindowFocus: false
+      // gỡ DK này ra vì guest khi tạo order -> navigate qua my-order thì ko refetch
+      // refetchOnMount: false
     }
   }
 })
@@ -25,3 +30,8 @@ export function ReactQueryProvider({
     </QueryClientProvider>
   )
 }
+
+// Nếu cần custom để get được data type của refetch thì cần phải setup lên useQuery gốc để tận dụng,
+// Nếu ko thì ng6a2m hiểu return void / unknown và chỉ dùng để gọi
+// ko tương tác với data resolve
+export type TQueryRefetch = ReturnType<typeof useQuery>['refetch']
