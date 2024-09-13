@@ -6,24 +6,18 @@ import { SERVER_API_ORDERS } from '@app/api-next/_core/api-endpoint'
 import { httpClient } from '@app/api-next/_core/http/http.client'
 
 import {
-  UpdateOrderPayload,
-  UpdateOrderResType
+  PayGuestOrdersBodyType,
+  PayGuestOrdersResType
 } from '@app/api-next/orders/mutate/mutate-orders.dto'
 
-const mutationFnOrdersUpdate = ({
-  orderId,
-  data
-}: {
-  orderId: number
-  data: UpdateOrderPayload
-}) =>
-  httpClient<UpdateOrderResType>('PUT', SERVER_API_ORDERS.byId.api(orderId), {
-    body: data
+const mutationFnOrderPay = (payload: PayGuestOrdersBodyType) =>
+  httpClient<PayGuestOrdersResType>('PUT', SERVER_API_ORDERS.PAY.api(), {
+    body: payload
   })
 
-export const useMutateOrdersUpdate = () => {
+export const usePayForGuestMutation = () => {
   return useMutation({
-    mutationFn: mutationFnOrdersUpdate,
+    mutationFn: mutationFnOrderPay,
     onError: handleErrorApi
   })
 }

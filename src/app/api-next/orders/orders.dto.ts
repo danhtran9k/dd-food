@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { AccountSchema } from '@app/api-next/accounts/account.dto'
 import { DishStatusValues } from '@app/api-next/dishes/dishes.dto'
+import { TableSchema } from '@app/api-next/tables/tables.dto'
 
 export const OrderStatus = {
   Pending: 'Pending',
@@ -11,13 +12,7 @@ export const OrderStatus = {
   Paid: 'Paid'
 } as const
 
-export const OrderStatusValues = [
-  OrderStatus.Pending,
-  OrderStatus.Processing,
-  OrderStatus.Rejected,
-  OrderStatus.Delivered,
-  OrderStatus.Paid
-] as const
+export type TOrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 export const getVietnameseOrderStatus = (
   status: (typeof OrderStatus)[keyof typeof OrderStatus]
@@ -55,6 +50,8 @@ export const OrderSchema = z.object({
     .object({
       id: z.number(),
       name: z.string(),
+      createdAt: z.date(),
+      updatedAt: z.date(),
       tableNumber: z.number().nullable()
     })
     .nullable(),
@@ -64,7 +61,9 @@ export const OrderSchema = z.object({
   quantity: z.number(),
   orderHandlerId: z.number().nullable(),
   orderHandler: AccountSchema.nullable(),
-  status: z.enum(OrderStatusValues)
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  status: z.nativeEnum(OrderStatus)
 })
 
 export const GetOrdersRes = z.object({
@@ -73,3 +72,20 @@ export const GetOrdersRes = z.object({
 })
 
 export type GetOrdersResType = z.TypeOf<typeof GetOrdersRes>
+
+export const GetOrdersQueryParams = z.object({
+  fromDate: z.coerce.date().optional(),
+  toDate: z.coerce.date().optional()
+})
+
+export type GetOrdersQueryParamsType = z.TypeOf<typeof GetOrdersQueryParams>
+
+export const GetOrderDetailRes = z.object({
+  message: z.string(),
+  data: OrderSchema.extend({
+    table: TableSchema
+  })
+})
+
+export type GetOrderDetailResType = z.TypeOf<typeof GetOrderDetailRes>
+export type OrderItem = GetOrdersResType['data'][0]
