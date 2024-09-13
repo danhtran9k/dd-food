@@ -1,13 +1,16 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import Image from 'next/image'
 
-import { mapDefaultPortUrl } from '@core/debug/debug.utils'
 import { simpleMatchText } from '@core/utils'
 import { formatDateTimeToLocaleString } from '@core/utils/date-time.utils'
 
 import { OrderItem } from '@app/api-next/orders/orders.dto'
+
+import { OrderStatusSelectCell } from './order-status-select-cell'
+import { PopoverDishesImage } from './popover-dishes-image'
+import { PopoverGuest } from './popover-guest'
+import { ManageDishesTableAction } from './table-action-dropdown'
 
 const DELETED_GUEST_NAME = 'Đã bị xóa'
 export const OrderTableColumns = () =>
@@ -24,10 +27,7 @@ export const OrderTableColumns = () =>
     {
       id: 'guestName',
       header: 'Khách hàng',
-      cell: function Cell({ row }) {
-        const guest = row.original.guest
-        return guest?.name
-      },
+      cell: (cell) => <PopoverGuest {...cell} />,
       filterFn: (row, columnId, filterValue: string) => {
         if (filterValue === undefined) return true
         return simpleMatchText(
@@ -39,22 +39,12 @@ export const OrderTableColumns = () =>
     {
       id: 'dishName',
       header: 'Món ăn',
-      cell: ({ row }) => (
-        <Image
-          src={mapDefaultPortUrl(row.original.dishSnapshot.image)}
-          alt={row.original.dishSnapshot.name}
-          width={50}
-          height={50}
-          className='rounded-md object-cover w-[50px] h-[50px] cursor-pointer'
-        />
-      )
+      cell: (cell) => <PopoverDishesImage {...cell} />
     },
     {
       accessorKey: 'status',
       header: 'Trạng thái',
-      cell: function Cell({ row }) {
-        return <div>{row.original.status}</div>
-      }
+      cell: (cell) => <OrderStatusSelectCell {...cell} />
     },
     {
       id: 'orderHandlerName',
@@ -69,6 +59,7 @@ export const OrderTableColumns = () =>
           <div className='flex items-center space-x-4'>
             {formatDateTimeToLocaleString(row.getValue('createdAt'))}
           </div>
+
           <div className='flex items-center space-x-4'>
             {formatDateTimeToLocaleString(row.original.updatedAt)}
           </div>
@@ -78,8 +69,6 @@ export const OrderTableColumns = () =>
     {
       id: 'actions',
       enableHiding: false,
-      cell: function Actions({ row }) {
-        return <span className='sr-only'>Open menu</span>
-      }
+      cell: (cell) => <ManageDishesTableAction {...cell} />
     }
-  ] satisfies ColumnDef<OrderItem>[]
+  ] satisfies ColumnDef<OrderItem, string>[]

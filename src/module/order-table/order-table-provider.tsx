@@ -1,5 +1,6 @@
 'use client'
 
+import { CellContext } from '@tanstack/react-table'
 import {
   createContext,
   PropsWithChildren,
@@ -8,10 +9,14 @@ import {
   useState
 } from 'react'
 
+import { OrderItem } from '@app/api-next/orders/orders.dto'
+
 type TOrderTableContext = {
   orderIdEdit: number | undefined
   setOrderIdEdit: (_TValue: number | undefined) => void
 }
+
+export type TOrderTableCellContext = CellContext<OrderItem, string>
 
 const OrderTableContext = createContext<TOrderTableContext | undefined>(
   undefined
