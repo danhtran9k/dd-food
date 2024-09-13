@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import {
-  PAGE_SIZE,
+  PAGE_SIZE_10,
   TUseTanStackTable,
   useTanStackTable
 } from '@module/app-vendor/tanstack-table'
@@ -28,7 +28,7 @@ export const useOrderTable = <K, T>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [pagination, setPagination] = useState({
     pageIndex: 0, // Gía trị mặc định ban đầu, không có ý nghĩa khi data được fetch bất đồng bộ
-    pageSize: PAGE_SIZE //default page size
+    pageSize: PAGE_SIZE_10 //default page size
   })
 
   const tableOption = {
@@ -68,7 +68,7 @@ export const useOrderTable = <K, T>({
   useEffect(() => {
     table.setPagination({
       pageIndex,
-      pageSize: PAGE_SIZE
+      pageSize: PAGE_SIZE_10
     })
   }, [table, pageIndex])
 

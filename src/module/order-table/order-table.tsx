@@ -12,18 +12,20 @@ import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
 import { OrderTableSkeleton } from './child'
+import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
 import { OrderTableProvider } from './order-table-provider'
 import { OrderTableColumns } from './table-col'
-import { useDateInput } from './hook'
-import { useOrderTable } from './hook'
 
 export function OrderTable() {
   const { fromDate, toDate, resetDateFilter, handleChange } = useDateInput()
+  const params = {
+    fromDate,
+    toDate
+  }
+
+  useOrderTableSocket(params)
   const { data, isPending } = useOrderList(
-    {
-      fromDate,
-      toDate
-    },
+    params,
     (data) => data?.payload?.data
   )
 
