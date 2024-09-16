@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 
+import { useDateInput } from '@core/app-hook/use-date-input.hook'
 import { Button } from '@core/app-shadcn/button'
 import { Input } from '@core/app-shadcn/input'
 import { formatDateInput } from '@core/utils/date-time.utils'
@@ -12,7 +13,7 @@ import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
 import { ComboBoxStatus, OrderStatistic, OrderTableSkeleton } from './child'
-import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
+import { useOrderTable, useOrderTableSocket } from './hook'
 import { OrderAdd } from './order-add'
 import { EditOrder } from './order-edit'
 import { OrderTableProvider } from './order-table-provider'

@@ -13,7 +13,7 @@ import { ROUTE_PATH } from '@core/path.const'
 export const menuItems = [
   {
     title: 'Dashboard',
-    Icon: Home,
+    Icon: LineChart,
     href: ROUTE_PATH.MANAGE.DASHBOARD()
   },
   {
@@ -32,19 +32,19 @@ export const menuItems = [
     href: ROUTE_PATH.MANAGE.DISHES()
   },
   {
-    title: 'Phân tích',
-    Icon: LineChart,
-    href: ROUTE_PATH.MANAGE.ANALYTICS()
-  },
-  {
     title: 'Nhân viên',
     Icon: Users2,
     href: ROUTE_PATH.MANAGE.ACCOUNTS()
   },
+  {
+    title: 'Dummy RSC test',
+    Icon: Key,
+    href: ROUTE_PATH.MANAGE.ANALYTICS()
+  },
   // Check layout home có ăn auth global state ko
   {
     title: 'HOME',
-    Icon: Key,
+    Icon: Home,
     href: ROUTE_PATH.ROOT
   }
 ]

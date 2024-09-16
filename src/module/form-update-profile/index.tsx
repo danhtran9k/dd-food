@@ -54,7 +54,7 @@ export function UpdateProfileForm() {
         onReset={reset}
         onSubmit={handleFormSubmit}
       >
-        <Card x-chunk='dashboard-07-chunk-0'>
+        <Card>
           <CardHeader>
             <CardTitle>Thông tin cá nhân</CardTitle>
           </CardHeader>

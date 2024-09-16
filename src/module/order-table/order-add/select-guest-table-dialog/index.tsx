@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 
+import { useDateInput } from '@core/app-hook/use-date-input.hook'
 import { Button } from '@core/app-shadcn/button'
 import {
   Dialog,
@@ -21,8 +22,6 @@ import {
   TanStackTable,
   useTanStackFull
 } from '@module/app-vendor/tanstack-table'
-
-import { useDateInput } from '@module/order-table'
 
 import { SelectGuestTableDialogCol } from './select-guest-table-dialog-col'
 
