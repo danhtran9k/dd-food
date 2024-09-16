@@ -40,7 +40,7 @@ export function OrderTable() {
   const [tableStatus, _THandleEvent, handleValue] = useFilterField('status')
 
   return (
-    <OrderTableProvider>
+    <OrderTableProvider data={data ?? []}>
       <div className='w-full'>
         <div className=' flex items-center'>
           <div className='flex flex-wrap gap-2'>

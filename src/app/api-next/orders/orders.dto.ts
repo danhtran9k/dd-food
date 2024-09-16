@@ -14,6 +14,12 @@ export const OrderStatus = {
 
 export type TOrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
+export const SERVING_STATUS: TOrderStatus[] = [
+  OrderStatus.Pending,
+  OrderStatus.Processing,
+  OrderStatus.Delivered
+]
+
 export const getVietnameseOrderStatus = (
   status: (typeof OrderStatus)[keyof typeof OrderStatus]
 ) => {
