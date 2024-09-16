@@ -41,6 +41,12 @@ export const SERVER_API_ACCOUNT = {
   detail: {
     api: (id: number) => `${SERVER_API_ACCOUNT.api}/detail/${id}` as const,
     key: (id: number) => [...SERVER_API_ACCOUNT.key, id] as const
+  } as const,
+
+  guest: {
+    api: () => `${SERVER_API_ACCOUNT.api}/guests` as const,
+    prefix_key: 'accounts/guests',
+    key: () => [SERVER_API_ACCOUNT.guest.prefix_key] as const
   } as const
 } as const
 

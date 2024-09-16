@@ -1,10 +1,12 @@
 import z from 'zod'
 
+import { Role } from '@app/api-next/_core/api-type.const'
+
 export const AccountSchema = z.object({
   id: z.number(),
   name: z.string(),
   email: z.string(),
-  role: z.string(),
+  role: z.nativeEnum(Role),
   avatar: z.string().nullable()
 })
 
