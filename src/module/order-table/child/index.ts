@@ -1,5 +1,4 @@
 export * from './combo-box-status'
-export * from './order-edit'
 export * from './order-guest-detail'
 export * from './order-statistic'
 export * from './order-status-icon'

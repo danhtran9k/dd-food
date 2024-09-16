@@ -1,29 +1,20 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo } from 'react'
 
 import { Badge } from '@core/app-shadcn/badge'
 import { mapDefaultPortUrl } from '@core/debug/debug.utils'
 import { formatCurrency } from '@core/utils'
 
-import { useGuestGetOrderListQuery } from '@app/api-next/guest/orders/use-guest-orders-list.hook'
 import { getVietnameseOrderStatus } from '@app/api-next/orders/orders.dto'
 
+import { useOrdersCartGuestBill } from './use-orders-cart-guest-bill.hook'
 import { useQuerySocketOrdersCart } from './use-query-socket-orders-cart.hook'
 
 export function OrdersCartGuest() {
   useQuerySocketOrdersCart()
 
-  const { data: orders } = useGuestGetOrderListQuery(
-    (data) => data.payload.data
-  )
-
-  const totalPrice = useMemo(() => {
-    return (orders ?? []).reduce((result, order) => {
-      return result + order.dishSnapshot.price * order.quantity
-    }, 0)
-  }, [orders])
+  const { data: orders, paid, waitingForPaying } = useOrdersCartGuestBill()
 
   return (
     <>
@@ -58,10 +49,19 @@ export function OrdersCartGuest() {
         </div>
       ))}
 
+      {paid.quantity !== 0 && (
+        <div className='sticky bottom-0 '>
+          <div className='w-full flex space-x-4 text-xl font-semibold'>
+            <span>Đơn đã thanh toán · {paid.quantity} món</span>
+            <span>{formatCurrency(paid.price)}</span>
+          </div>
+        </div>
+      )}
+
       <div className='sticky bottom-0 '>
         <div className='w-full flex space-x-4 text-xl font-semibold'>
-          <span>Tổng cộng · {orders?.length} món</span>
-          <span>{formatCurrency(totalPrice)}</span>
+          <span>Đơn chưa thanh toán · {waitingForPaying.quantity} món</span>
+          <span>{formatCurrency(waitingForPaying.price)}</span>
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { toast } from '@core/app-shadcn/use-toast'
 
@@ -9,7 +9,10 @@ import { SERVER_API_GUEST } from '@app/api-next/_core/api-endpoint'
 import { socketInstance, useSocketConnect } from '@app/api-next/_core/socket'
 import { EV_SOCKET } from '@app/api-next/_core/socket/socket.dto'
 
-import { UpdateOrderResType } from '@app/api-next/orders/mutate/mutate-orders.dto'
+import {
+  PayGuestOrdersResType,
+  UpdateOrderResType
+} from '@app/api-next/orders/mutate/mutate-orders.dto'
 import { getVietnameseOrderStatus } from '@app/api-next/orders/orders.dto'
 
 // Về core thì socket cho mỗi role có thể khác nhau
@@ -19,6 +22,11 @@ import { getVietnameseOrderStatus } from '@app/api-next/orders/orders.dto'
 // Nên copy lại
 export const useQuerySocketOrdersCart = () => {
   const queryClient = useQueryClient()
+  const refetch = useCallback(() => {
+    queryClient.invalidateQueries({
+      queryKey: SERVER_API_GUEST.ORDERS.key
+    })
+  }, [queryClient])
 
   useSocketConnect()
   useEffect(() => {
@@ -36,15 +44,20 @@ export const useQuerySocketOrdersCart = () => {
         )}"`
       })
 
-      queryClient.invalidateQueries({
-        queryKey: SERVER_API_GUEST.ORDERS.key
+      refetch()
+    }
+
+    function onPayment(data: PayGuestOrdersResType['data']) {
+      const { guest } = data[0]
+      toast({
+        description: `${guest?.name} tại bàn ${guest?.tableNumber} thanh toán thành công ${data.length} đơn`
       })
+      refetch()
     }
 
     socketInstance.on(EV_SOCKET.UPDATE_ORDER, onUpdateOrder)
-
-    return () => {
-      socketInstance.off(EV_SOCKET.UPDATE_ORDER, onUpdateOrder)
-    }
-  }, [queryClient])
+    socketInstance.on(EV_SOCKET.PAYMENT, onPayment)
+    // WANRNING : check dependency cẩn thận, ko kỹ có thể dính double listen
+    // Việc unlisten sẽ được handle ở useSocketConnect
+  }, [refetch])
 }
