@@ -4,18 +4,21 @@ import {
   PopoverTrigger
 } from '@core/app-shadcn/popover'
 
-import { TOrderTableCellContext } from '@module/order-table'
+import {
+  OrderGuestDetail,
+  TOrderTableCellContext,
+  useOrderTableContext
+} from '@module/order-table'
 
 export const PopoverGuest = ({ row }: TOrderTableCellContext) => {
+  const {
+    orderStats: { orderByGuestId }
+  } = useOrderTableContext()
   const guest = row.original.guest
+
   return (
     <div>
-      {!guest && (
-        <div>
-          <span>Đã bị xóa</span>
-        </div>
-      )}
-      {guest && (
+      {guest ? (
         <Popover>
           <PopoverTrigger>
             <div>
@@ -24,9 +27,13 @@ export const PopoverGuest = ({ row }: TOrderTableCellContext) => {
             </div>
           </PopoverTrigger>
           <PopoverContent className='w-[320px] sm:w-[440px]'>
-            OrderGuestDetail
+            <OrderGuestDetail guest={guest} orders={orderByGuestId[guest.id]} />
           </PopoverContent>
         </Popover>
+      ) : (
+        <div>
+          <span>Đã bị xóa</span>
+        </div>
       )}
     </div>
   )

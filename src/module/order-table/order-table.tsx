@@ -11,7 +11,7 @@ import { useOrderList } from '@app/api-next/orders/use-order-list.hook'
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
-import { ComboBoxStatus, OrderTableSkeleton } from './child'
+import { ComboBoxStatus, OrderStatistic, OrderTableSkeleton } from './child'
 import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
 import { OrderTableProvider } from './order-table-provider'
 import { OrderTableColumns } from './table-col'
@@ -68,6 +68,19 @@ export function OrderTable() {
             <Button className='' variant={'outline'} onClick={resetDateFilter}>
               Reset
             </Button>
+            {/* 2024-01-13T17:00 */}
+
+            <Button
+              className='bg-red-300'
+              variant={'outline'}
+              onClick={() =>
+                handleChange('form')({
+                  target: { value: '2024-01-13T17:00' }
+                } as React.ChangeEvent<HTMLInputElement>)
+              }
+            >
+              DEBUG
+            </Button>
           </div>
         </div>
 
@@ -91,6 +104,8 @@ export function OrderTable() {
             handleStatusValue={handleValue}
           />
         </div>
+
+        <OrderStatistic />
 
         <div className='rounded-md border'>
           {isPending ? (

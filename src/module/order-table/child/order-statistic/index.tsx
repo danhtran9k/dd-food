@@ -14,6 +14,7 @@ import { useTablesList } from '@app/api-next/tables/use-tables-list.hook'
 
 import { useOrderTableContext } from '@module/order-table'
 
+import { DialogOrderStatistic } from './dialog-order-statistic'
 import { StatisticsTableItem } from './statistics-table-item'
 
 export const OrderStatistic = () => {
@@ -32,14 +33,24 @@ export const OrderStatistic = () => {
 
   return (
     <>
+      <DialogOrderStatistic
+        isOpen={!!selectedTableNumber}
+        setSelectedTableNumber={setSelectedTableNumber}
+        selectedTableNumber={selectedTableNumber}
+      />
+
       <div className='flex justify-start items-stretch gap-4 flex-wrap py-4'>
         {tablesSorted?.map(({ number: tableNumber }) => {
           // prevent undefined
           const servingGuest = Object.keys(
             servingOrderByTable[tableNumber] ?? 0
           ).length
-          const isEmptyTable = !servingGuest
           const countObject = statTable[tableNumber] ?? {}
+
+          const isEmptyTable = !servingGuest
+          const onClick = () => {
+            if (!isEmptyTable) setSelectedTableNumber(tableNumber)
+          }
 
           return (
             <TooltipProvider key={tableNumber}>
@@ -51,9 +62,7 @@ export const OrderStatistic = () => {
                     'border-transparent': !isEmptyTable
                   }
                 )}
-                onClick={() => {
-                  if (!isEmptyTable) setSelectedTableNumber(tableNumber)
-                }}
+                onClick={onClick}
               >
                 <StatisticsTableItem
                   tableNumber={tableNumber}
