@@ -107,5 +107,9 @@ export const SERVER_API_ORDERS = {
   byId: {
     api: (id: number) => `${SERVER_API_ORDERS.api}/${id}` as const,
     key: (id: number) => [SERVER_API_ORDERS.prefix_keys, id] as const
+  },
+
+  PAY: {
+    api: () => `${SERVER_API_ORDERS.api}/pay` as const
   }
 } as const
