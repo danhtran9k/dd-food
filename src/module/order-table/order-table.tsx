@@ -11,7 +11,12 @@ import { useOrderList } from '@app/api-next/orders/use-order-list.hook'
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
-import { ComboBoxStatus, OrderStatistic, OrderTableSkeleton } from './child'
+import {
+  ComboBoxStatus,
+  EditOrder,
+  OrderStatistic,
+  OrderTableSkeleton
+} from './child'
 import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
 import { OrderTableProvider } from './order-table-provider'
 import { OrderTableColumns } from './table-col'
@@ -42,6 +47,7 @@ export function OrderTable() {
   return (
     <OrderTableProvider data={data ?? []}>
       <div className='w-full'>
+        <EditOrder />
         <div className=' flex items-center'>
           <div className='flex flex-wrap gap-2'>
             <div className='flex items-center'>
