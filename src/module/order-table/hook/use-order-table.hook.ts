@@ -72,13 +72,17 @@ export const useOrderTable = <K, T>({
     })
   }, [table, pageIndex])
 
-  const useFilterField = (columnId: string) => {
-    const value = table.getColumn(columnId)?.getFilterValue() as string
-    const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const useFilterField = <T = string>(columnId: string) => {
+    const value = table.getColumn(columnId)?.getFilterValue() as T
+    const handleEventInput = (event: React.ChangeEvent<HTMLInputElement>) => {
       table.getColumn(columnId)?.setFilterValue(event.target.value)
     }
 
-    return [value, handleValue] as const
+    const handleValue = (value: T) => {
+      table.getColumn(columnId)?.setFilterValue(value)
+    }
+
+    return [value, handleEventInput, handleValue] as const
   }
 
   return { table, useFilterField }

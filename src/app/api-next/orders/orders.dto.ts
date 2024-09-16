@@ -26,8 +26,10 @@ export const getVietnameseOrderStatus = (
       return 'Chờ xử lý'
     case OrderStatus.Processing:
       return 'Đang nấu'
-    default:
+    case OrderStatus.Rejected:
       return 'Từ chối'
+    default:
+      return 'Unknown Status'
   }
 }
 

@@ -11,7 +11,7 @@ import { useOrderList } from '@app/api-next/orders/use-order-list.hook'
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
-import { OrderTableSkeleton } from './child'
+import { ComboBoxStatus, OrderTableSkeleton } from './child'
 import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
 import { OrderTableProvider } from './order-table-provider'
 import { OrderTableColumns } from './table-col'
@@ -34,6 +34,10 @@ export function OrderTable() {
 
   const [guestName, handleGuestName] = useFilterField('guestName')
   const [tableNumber, handleTableNumber] = useFilterField('tableNumber')
+
+  // Đúng ra nên define state open bên ngoài để kiểm soát tốt hơn
+  // Cheat 1 tí, đẩy state vào trong
+  const [tableStatus, _THandleEvent, handleValue] = useFilterField('status')
 
   return (
     <OrderTableProvider>
@@ -80,6 +84,11 @@ export function OrderTable() {
             value={tableNumber}
             onChange={handleTableNumber}
             className='max-w-[80px]'
+          />
+
+          <ComboBoxStatus
+            statusValue={tableStatus}
+            handleStatusValue={handleValue}
           />
         </div>
 
