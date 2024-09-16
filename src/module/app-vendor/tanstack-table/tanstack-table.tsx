@@ -14,13 +14,18 @@ import {
 
 type TAppTable<T> = {
   table: TTanStackTable<T>
+
   onRowSelect?: (_TRow: T) => unknown
+
+  customClass?: {
+    row?: (_TRow: T) => string
+  }
 }
 
 // T sẽ tự infer,
 // https://ui.shadcn.com/docs/components/data-table
 // https://github.com/TanStack/table/issues/2344
-const Table = <T,>({ table, onRowSelect }: TAppTable<T>) => {
+const Table = <T,>({ table, onRowSelect, customClass }: TAppTable<T>) => {
   const { getHeaderGroups, getRowModel, getAllColumns } = table
   const rows = getRowModel().rows
 
@@ -44,6 +49,7 @@ const Table = <T,>({ table, onRowSelect }: TAppTable<T>) => {
           </TableRow>
         ))}
       </TableHeader>
+
       <TableBody>
         {rows?.length ? (
           rows.map((row) => (
@@ -53,6 +59,7 @@ const Table = <T,>({ table, onRowSelect }: TAppTable<T>) => {
               onClick={() => {
                 onRowSelect && onRowSelect(row.original)
               }}
+              className={customClass?.row?.(row.original)}
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>

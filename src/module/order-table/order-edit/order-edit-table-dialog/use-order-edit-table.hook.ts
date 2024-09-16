@@ -66,6 +66,7 @@ export const useOrderEditTable = ({ data, columns }: TUseOrderEditTable) => {
     const value = table.getColumn(columnId)?.getFilterValue() as string
     const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
       table.getColumn(columnId)?.setFilterValue(event.target.value)
+      table.setPageIndex(0)
     }
 
     return [value, handleValue] as const
@@ -78,5 +79,9 @@ export const useOrderEditTable = ({ data, columns }: TUseOrderEditTable) => {
     })
   }, [table])
 
-  return { table, useFilterField }
+  const customClass = {
+    row: () => 'cursor-pointer'
+  }
+
+  return { table, useFilterField, customClass }
 }

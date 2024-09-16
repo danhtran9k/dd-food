@@ -34,7 +34,7 @@ export const OrderEditTableDialog = ({ onChoose }: TOrderEditTable) => {
     setOpen(false)
   }
 
-  const { table, useFilterField } = useOrderEditTable({
+  const { table, useFilterField, customClass } = useOrderEditTable({
     data: data ?? [],
     columns
   })
@@ -64,7 +64,11 @@ export const OrderEditTableDialog = ({ onChoose }: TOrderEditTable) => {
             </div>
 
             <div className='rounded-md border'>
-              <TanStackTable table={{ ...table }} onRowSelect={choose} />
+              <TanStackTable
+                table={{ ...table }}
+                onRowSelect={choose}
+                customClass={customClass}
+              />
             </div>
 
             <div className='flex items-center justify-end space-x-2 py-4'>
