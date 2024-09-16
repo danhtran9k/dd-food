@@ -13,6 +13,7 @@ import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
 import { ComboBoxStatus, OrderStatistic, OrderTableSkeleton } from './child'
 import { useDateInput, useOrderTable, useOrderTableSocket } from './hook'
+import { OrderAdd } from './order-add'
 import { EditOrder } from './order-edit'
 import { OrderTableProvider } from './order-table-provider'
 import { OrderTableColumns } from './table-col'
@@ -82,8 +83,12 @@ export function OrderTable() {
                 } as React.ChangeEvent<HTMLInputElement>)
               }
             >
-              DEBUG
+              DB
             </Button>
+          </div>
+
+          <div className='ml-auto'>
+            <OrderAdd />
           </div>
         </div>
 

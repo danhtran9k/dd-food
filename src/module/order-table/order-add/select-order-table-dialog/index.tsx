@@ -10,35 +10,59 @@ import {
   DialogTrigger
 } from '@core/app-shadcn/dialog'
 import { Input } from '@core/app-shadcn/input'
+import { cn } from '@core/utils'
 
-import { DishItem } from '@app/api-next/dishes/dishes.dto'
-import { useDishesList } from '@app/api-next/dishes/use-dishes-list.hook'
+import { TableItem, TableStatus } from '@app/api-next/tables/tables.dto'
+import { useTablesList } from '@app/api-next/tables/use-tables-list.hook'
 
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
-import { TanStackTable } from '@module/app-vendor/tanstack-table'
+import {
+  TanStackTable,
+  useTanStackFull
+} from '@module/app-vendor/tanstack-table'
 
-import { OrderEditTableCol } from './order-edit-table-col'
-import { useOrderEditTable } from './use-order-edit-table.hook'
+import { SelectOrderTableDialogCol } from './select-order-table-dialog-col'
 
-type TOrderEditTable = {
-  onChoose: (_TDish: DishItem) => void
+type TSelectOrderTableDialog = {
+  onRowSelect: (_TRow: TableItem) => void
 }
 
-export const OrderEditTableDialog = ({ onChoose }: TOrderEditTable) => {
+export const SelectOrderTableDialog = ({
+  onRowSelect
+}: TSelectOrderTableDialog) => {
   const [open, setOpen] = useState(false)
-  const columns = useMemo(() => OrderEditTableCol(), [])
-  const { data } = useDishesList((data) => data.payload.data)
 
-  const choose = (dish: DishItem) => {
-    onChoose(dish)
-    setOpen(false)
-  }
+  const { data } = useTablesList((data) => data.payload.data)
+  const columns = useMemo(() => SelectOrderTableDialogCol(), [])
 
-  const { table, useFilterField, customClass } = useOrderEditTable({
+  const { table, useFilterField } = useTanStackFull({
     data: data ?? [],
     columns
   })
-  const [value, handleValueChange] = useFilterField('dishName')
+  const [number, setNumber] = useFilterField('number')
+
+  const handleRowSelect = (row: TableItem) => {
+    // TODO: business logic liệu có được chọn row đã reserved bất kì ko
+    // Logic reserved giải quyết ntn ? phía BE 100% ?
+
+    if (
+      row.status === TableStatus.Available ||
+      row.status === TableStatus.Reserved
+    ) {
+      onRowSelect(row)
+      setOpen(false)
+    }
+  }
+
+  const customClass = {
+    row: (row: TableItem) =>
+      cn({
+        'cursor-pointer':
+          row.status === TableStatus.Available ||
+          row.status === TableStatus.Reserved,
+        'cursor-not-allowed': row.status === TableStatus.Hidden
+      })
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -48,7 +72,7 @@ export const OrderEditTableDialog = ({ onChoose }: TOrderEditTable) => {
 
       <DialogContent className='sm:max-w-[600px] max-h-full overflow-auto'>
         <DialogHeader>
-          <DialogTitle>Chọn món ăn</DialogTitle>
+          <DialogTitle>Chọn bàn</DialogTitle>
           <DialogDescription />
         </DialogHeader>
 
@@ -56,17 +80,17 @@ export const OrderEditTableDialog = ({ onChoose }: TOrderEditTable) => {
           <div className='w-full'>
             <div className='flex items-center py-4'>
               <Input
-                placeholder='Lọc tên'
-                value={value}
-                onChange={handleValueChange}
-                className='max-w-sm'
+                placeholder='Số bàn'
+                value={number}
+                onChange={setNumber}
+                className='w-[80px]'
               />
             </div>
 
             <div className='rounded-md border'>
               <TanStackTable
                 table={{ ...table }}
-                onRowSelect={choose}
+                onRowSelect={handleRowSelect}
                 customClass={customClass}
               />
             </div>

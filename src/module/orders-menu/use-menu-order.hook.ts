@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo, useState } from 'react'
 
 import { useDishesList } from '@app/api-next/dishes/use-dishes-list.hook'
@@ -36,6 +38,7 @@ export const useMenuOrder = () => {
     dishes,
     totalPrice,
     orders,
+    setOrders,
     handleQuantityChange
   }
 }
