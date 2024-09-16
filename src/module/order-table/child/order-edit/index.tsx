@@ -29,6 +29,7 @@ import {
 import { useOrderTableContext } from '@module/order-table'
 
 import { OrderEditDialogLayout } from './order-edit-dialog-layout'
+import { OrderEditTableDialog } from './order-edit-table-dialog'
 import { useOrderEditForm } from './use-order-edit-form.hook'
 import { useOrderEditSubmit } from './use-order-edit-submit.hook'
 
@@ -98,6 +99,13 @@ export function EditOrder({ onSubmitSuccess }: TEditOrder) {
 
                     <div>{selectedDish?.name}</div>
                   </div>
+
+                  <OrderEditTableDialog
+                    onChoose={(dish) => {
+                      field.onChange(dish.id)
+                      setSelectedDish(dish)
+                    }}
+                  />
                 </FormItem>
               )}
             />

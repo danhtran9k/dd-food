@@ -20,13 +20,18 @@ import { usePaginationControl } from './use-pagination-control.hook'
 type TShadcnPagination = {
   page: number
   total: number
+  isLink?: boolean
   onChange: (_TValue: number) => void
   pathname?: string
 }
 
 const CSS_DISABLE = 'cursor-not-allowed pointer-events-none text-gray-400'
 
-export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
+export const ShadcnPagination = ({
+  pathname,
+  isLink = true,
+  ...props
+}: TShadcnPagination) => {
   const { range, active, previous, next, setPage, first, last } =
     usePaginationControl(props)
 
@@ -37,12 +42,14 @@ export const ShadcnPagination = ({ pathname, ...props }: TShadcnPagination) => {
   const pathUrl = pathname ?? defaultPath
 
   const getHref = (page: number) => {
-    return {
-      pathname: pathUrl,
-      query: {
-        page
-      }
-    }
+    return isLink
+      ? {
+          pathname: pathUrl,
+          query: {
+            page
+          }
+        }
+      : undefined
   }
 
   return (
