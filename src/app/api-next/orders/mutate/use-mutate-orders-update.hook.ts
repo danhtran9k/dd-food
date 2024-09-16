@@ -1,5 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
+import { UseFormSetError } from 'react-hook-form'
 
+import { toast } from '@core/app-shadcn/use-toast'
 import { handleErrorApi } from '@core/hook-form-error.utils'
 
 import { SERVER_API_ORDERS } from '@app/api-next/_core/api-endpoint'
@@ -21,9 +23,14 @@ const mutationFnOrdersUpdate = ({
     body: data
   })
 
-export const useMutateOrdersUpdate = () => {
+export const useMutateOrdersUpdate = (setError?: UseFormSetError<any>) => {
   return useMutation({
     mutationFn: mutationFnOrdersUpdate,
-    onError: handleErrorApi
+    onError: (error) => handleErrorApi({ error, setError }),
+    onSuccess: (data) => {
+      toast({
+        description: data.payload.message
+      })
+    }
   })
 }

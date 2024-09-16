@@ -10,7 +10,7 @@ const queryFnGetOrderById = (id: number) => () =>
 
 export const useGetOrderById = (id: number, enabled = true) => {
   return useQuery({
-    queryFn: () => queryFnGetOrderById(id),
+    queryFn: queryFnGetOrderById(id),
     queryKey: SERVER_API_ORDERS.byId.key(id),
     enabled
   })

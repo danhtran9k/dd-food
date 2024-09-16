@@ -5,11 +5,11 @@ import {
   ChevronsRight,
   MoreHorizontal
 } from 'lucide-react'
-import Link from 'next/link'
 import * as React from 'react'
 
-import { ButtonProps, buttonVariants } from '@core/app-shadcn/button'
 import { cn } from '@core/utils'
+
+import { PaginationLink } from './pagination-link'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -41,31 +41,31 @@ const PaginationItem = React.forwardRef<
 ))
 PaginationItem.displayName = 'PaginationItem'
 
-type PaginationLinkProps = {
-  isActive?: boolean
-} & Pick<ButtonProps, 'size'> &
-  React.ComponentProps<typeof Link>
-// React.ComponentProps<'a'>
+// type PaginationLinkProps = {
+//   isActive?: boolean
+// } & Pick<ButtonProps, 'size'> &
+//   React.ComponentProps<typeof Link>
+// // React.ComponentProps<'a'>
 
-const PaginationLink = ({
-  className,
-  isActive,
-  size = 'icon',
-  ...props
-}: PaginationLinkProps) => (
-  <Link
-    aria-current={isActive ? 'page' : undefined}
-    className={cn(
-      buttonVariants({
-        variant: isActive ? 'outline' : 'ghost',
-        size
-      }),
-      className
-    )}
-    {...props}
-  />
-)
-PaginationLink.displayName = 'PaginationLink'
+// const PaginationLink = ({
+//   className,
+//   isActive,
+//   size = 'icon',
+//   ...props
+// }: PaginationLinkProps) => (
+//   <Link
+//     aria-current={isActive ? 'page' : undefined}
+//     className={cn(
+//       buttonVariants({
+//         variant: isActive ? 'outline' : 'ghost',
+//         size
+//       }),
+//       className
+//     )}
+//     {...props}
+//   />
+// )
+// PaginationLink.displayName = 'PaginationLink'
 
 const PaginationPrevious = ({
   className,
@@ -148,11 +148,11 @@ PaginationLast.displayName = 'PaginationLast'
 export {
   Pagination,
   PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
+  PaginationEllipsis,
   PaginationFirst,
+  PaginationItem,
   PaginationLast,
-  PaginationEllipsis
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
 }

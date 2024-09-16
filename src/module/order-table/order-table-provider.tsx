@@ -9,11 +9,14 @@ import {
   useState
 } from 'react'
 
-import { OrderItem } from '@app/api-next/orders/orders.dto'
+import { GetOrdersResType, OrderItem } from '@app/api-next/orders/orders.dto'
+
+import { useOrderService } from '@module/order-table'
 
 type TOrderTableContext = {
   orderIdEdit: number | undefined
   setOrderIdEdit: (_TValue: number | undefined) => void
+  orderStats: ReturnType<typeof useOrderService>
 }
 
 export type TOrderTableCellContext = CellContext<OrderItem, string>
@@ -22,15 +25,23 @@ const OrderTableContext = createContext<TOrderTableContext | undefined>(
   undefined
 )
 
-export function OrderTableProvider({ children }: PropsWithChildren) {
+type TOrderTableProviderProps = PropsWithChildren<{
+  data: GetOrdersResType['data']
+}>
+export function OrderTableProvider({
+  children,
+  data
+}: TOrderTableProviderProps) {
   const [orderIdEdit, setOrderIdEdit] = useState<number | undefined>(undefined)
+  const orderStats = useOrderService(data)
 
   const value = useMemo(
     () => ({
       orderIdEdit,
-      setOrderIdEdit
+      setOrderIdEdit,
+      orderStats
     }),
-    [orderIdEdit, setOrderIdEdit]
+    [orderIdEdit, setOrderIdEdit, orderStats]
   )
 
   return (
