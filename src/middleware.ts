@@ -10,6 +10,9 @@ import { jwtDecode } from '@app/api-next/_core/jwt'
 const guestPaths = [ROUTE_PATH.GUEST.BASE]
 const managePaths = [ROUTE_PATH.MANAGE.BASE]
 
+const ownerPaths = [ROUTE_PATH.MANAGE.ACCOUNTS()]
+//
+
 // đây là path chỉ khi ko login mới được vào
 // Khác với path public là log hay ko vẫn vào được
 const nonAuthOnlyPaths = [ROUTE_PATH.LOGIN]
@@ -36,7 +39,9 @@ const checkPathEnter = (pathname: string) => ({
   isEnterPrivatePath: privatePaths.some((path) => pathname.startsWith(path)),
   isEnterNonAuthOnlyPath: nonAuthOnlyPaths.some((path) =>
     pathname.startsWith(path)
-  )
+  ),
+
+  isEnterOwnerPath: ownerPaths.some((path) => pathname.startsWith(path))
 })
 
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#convention
@@ -53,7 +58,8 @@ export function middleware(request: NextRequest) {
     isEnterGuestPath,
     isEnterManagePath,
     isEnterPrivatePath,
-    isEnterNonAuthOnlyPath
+    isEnterNonAuthOnlyPath,
+    isEnterOwnerPath
   } = checkPathEnter(pathname)
 
   // accessToken khi exprired sẽ tự xoá khỏi client nhờ cookie
@@ -115,7 +121,13 @@ export function middleware(request: NextRequest) {
   // Không phải Guest nhưng cố vào route guest
   const isNotGuestEnterGuestPath = !isGuest && isEnterGuestPath
 
-  if (isGuestEnterManagePath || isNotGuestEnterGuestPath) {
+  const isNotOwnerEnterOwnerPath = role !== Role.Owner && isEnterOwnerPath
+
+  if (
+    isGuestEnterManagePath ||
+    isNotGuestEnterGuestPath ||
+    isNotOwnerEnterOwnerPath
+  ) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
