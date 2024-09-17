@@ -12,6 +12,9 @@ import { useIndicator } from '@app/api-next/indicator/use-indicator.hook'
 
 import { DebugParams } from '@module/app-common/debug-params'
 
+import { DishBarChart } from './dishes-bar-chart'
+import { RevenueLineChart } from './revenue-line-chart'
+
 const ICON_CLASS = 'h-4 w-4 text-muted-foreground'
 
 export default function DashboardMain() {
@@ -109,6 +112,16 @@ export default function DashboardMain() {
             <div className='text-2xl font-bold'>{servingTableCount}</div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
+        <div className='lg:col-span-4'>
+          <RevenueLineChart data={revenueByDate} />
+        </div>
+
+        <div className='lg:col-span-3 h-full'>
+          <DishBarChart data={dishIndicator} />
+        </div>
       </div>
     </div>
   )
