@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { Role } from '@app/api-next/_core/api-type.const'
+
 export const CreateEmployeeAccountBody = z
   .object({
     name: z.string().trim().min(2).max(256),
@@ -30,7 +32,8 @@ export const UpdateEmployeeAccountBody = z
     avatar: z.string().url().optional(),
     changePassword: z.boolean().optional(),
     password: z.string().min(6).max(100).optional(),
-    confirmPassword: z.string().min(6).max(100).optional()
+    confirmPassword: z.string().min(6).max(100).optional(),
+    role: z.enum([Role.Owner, Role.Employee]).optional().default(Role.Employee)
   })
   .strict()
   .superRefine(({ confirmPassword, password, changePassword }, ctx) => {

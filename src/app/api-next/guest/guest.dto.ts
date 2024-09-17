@@ -19,7 +19,7 @@ export const GuestLoginRes = z.object({
     guest: z.object({
       id: z.number(),
       name: z.string(),
-      role: z.nativeEnum(Role),
+      role: z.enum([Role.Guest]),
       createdAt: z.date(),
       updatedAt: z.date(),
       tableNumber: z.number().nullable()

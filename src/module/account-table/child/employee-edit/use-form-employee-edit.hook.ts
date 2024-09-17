@@ -2,6 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Role } from '@app/api-next/_core/api-type.const'
+
 import {
   UpdateEmployeeAccountBody,
   UpdateEmployeeAccountBodyType
@@ -25,6 +27,7 @@ export const useFormEmployeeEdit = () => {
     defaultValues: {
       name: '',
       email: '',
+      role: Role.Employee,
       avatar: undefined,
       password: undefined,
       confirmPassword: undefined,
@@ -34,11 +37,12 @@ export const useFormEmployeeEdit = () => {
 
   useEffect(() => {
     if (data) {
-      const { name, avatar, email } = data
+      const { name, avatar, email, role } = data
       form.reset({
         name,
         avatar: avatar ?? undefined,
         email,
+        role,
         changePassword: form.getValues('changePassword'),
         password: form.getValues('password'),
         confirmPassword: form.getValues('confirmPassword')
