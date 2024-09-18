@@ -119,3 +119,8 @@ export const SERVER_API_ORDERS = {
     api: () => `${SERVER_API_ORDERS.api}/pay` as const
   }
 } as const
+
+export const SERVER_API_INDICATOR = {
+  api: '/indicators/dashboard',
+  key: ['indicators', 'dashboard']
+} as const

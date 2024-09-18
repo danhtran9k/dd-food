@@ -6,6 +6,8 @@ import {
   CardTitle
 } from '@core/app-shadcn/card'
 
+import DashboardMain from '@module/dashboard-main'
+
 export default async function Dashboard() {
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
@@ -15,8 +17,9 @@ export default async function Dashboard() {
             <CardTitle>Dashboard</CardTitle>
             <CardDescription>Phân tích các chỉ số</CardDescription>
           </CardHeader>
+
           <CardContent>
-            <h1>DashboardMain</h1>
+            <DashboardMain />
           </CardContent>
         </Card>
       </div>
