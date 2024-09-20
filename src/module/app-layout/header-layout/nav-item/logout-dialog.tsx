@@ -25,7 +25,7 @@ type LogoutDialogProps = {
 }
 
 export function LogoutDialog({ className }: LogoutDialogProps) {
-  const { role, setRoleAuth } = useAuthContext()
+  const { role } = useAuthContext()
 
   const router = useRouter()
   const logoutMutation = useLogoutMutation()
@@ -34,7 +34,6 @@ export function LogoutDialog({ className }: LogoutDialogProps) {
 
     try {
       await logoutMutation.mutateAsync()
-      setRoleAuth()
       router.push(ROUTE_PATH.ROOT)
     } catch (error: any) {
       handleErrorApi({

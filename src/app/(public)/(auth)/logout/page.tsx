@@ -56,7 +56,6 @@ function ProxyComponentLogout() {
         setTimeout(() => {
           ref.current = null
         }, 1000)
-        setRoleAuth()
         router.push(url)
       })
     } else {

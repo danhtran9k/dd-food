@@ -31,3 +31,12 @@ với TH của http ko thể tạo 1 file index.ts chung và export 1 server onl
 -> Cơ bản thì layout là 1 dạng global nhỏ
 Tuy nhiên sẽ sửa lại, với các dạng global (ý nghĩa dùng chung) giờ sẽ đưa vào common hết
 app-layout nhưng thực chất là layout trên từng page chứ ko theo nghĩa layout lớn toàn app
+
+# Với vấn đề socket
+
+- code cũ setup quá tệ tự lấy jwt localStorage vào auth cho socket
+- Phát sinh vấn đề logout - login thì cùng app, socket instance chỉ khởi tạo 1 lần
+
+Phải override lại auth của socket hoặc tạo 1 instance mới
+
+Tuy nhiên có 1 solution rất đơn giản là tracking qua cookie Header của socket
