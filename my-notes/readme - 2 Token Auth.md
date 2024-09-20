@@ -56,3 +56,15 @@ Pooling check expired liên tục, re-new ngầm
 => áp dụng lên toàn app, concept cứ sau INTERVAL lại tính toán lại thời gian cảm thấy ko hay lắm
 auto nhưng trade off quan trọng ở việc decode token lâu ko
 hoặc có thể tối ưu bằng cache token khỏi decode token lại
+
+# Google OAuth
+
+## Step 1
+
+cloud console -> create prj -> APIs - Services -> OAuth consent screen
+External app -> fill vào, skip logo - khỏi verfify phiền Những trường ko required skip hết, mail thì lấy chính mail đang đăng kí
+Scope -> chọn email và profile Có thể skip test user => vào lại dashboard -> chọn Publish App
+
+## Step 2
+
+Credentials -> create Credentials -> OAuth client Id Authorized redirect URIS -> multi được, cho local + development riêng ok http://localhost:[PORT]/api/auth/callback/google

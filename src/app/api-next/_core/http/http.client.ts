@@ -22,7 +22,11 @@ import { THttpMethod, THttpPayload } from './http.type'
 // ý tưởng như kiểu useRef, để track khi logout đang gọi, -> ko gọi thêm
 let clientLogoutRequest: null | Promise<any> = null
 
-const LOGIN_PATHS = [NEXT_API.AUTH.LOGIN.api(), NEXT_API_GUEST.AUTH.LOGIN.api()]
+const LOGIN_PATHS = [
+  NEXT_API.AUTH.LOGIN.api(),
+  NEXT_API_GUEST.AUTH.LOGIN.api(),
+  NEXT_API.AUTH.AUTH_TOKEN.api()
+]
 const LOGOUT_PATHS = [
   NEXT_API.AUTH.LOGOUT.api(),
   NEXT_API_GUEST.AUTH.LOGOUT.api()

@@ -1,3 +1,9 @@
+const FLOWS_LIST = {
+  gg: 'gg'
+}
+
+export const DEBUG_FLOW = FLOWS_LIST.gg
+
 export const HIGHLIGHT_RED = {
   border: '1px solid red'
 }
@@ -20,3 +26,9 @@ export const twHighLight = (color = 'red') =>
   `border border-solid border-${color}-500`
 
 export const mapDefaultPortUrl = (url: string) => url?.replace(':4000', ':4999')
+
+export const debugTimeStamps = (track: number | string, flow = '') => {
+  if (flow === 'gg') {
+    console.log(`🌊_${track} - ${new Date().toLocaleTimeString()}`)
+  }
+}

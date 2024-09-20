@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
@@ -9,6 +11,7 @@ import { handleErrorApi } from '@core/hook-form-error.utils'
 
 import { LoginBodyType } from '@app/api-next/auth/login/login.type'
 import { useLoginMutation } from '@app/api-next/auth/login/use-login-mutation.hook'
+import { getOauthGoogleUrl } from '@app/api-next/auth/token/token-oauth.utils'
 
 import { LoginCardHeader } from './login-card-header'
 import { useClearTokenParams } from './use-clear-token-params'
@@ -94,9 +97,12 @@ export function LoginForm() {
               <Button type='submit' className='w-full'>
                 Đăng nhập
               </Button>
-              <Button variant='outline' className='w-full' type='button'>
-                Đăng nhập bằng Google
-              </Button>
+
+              <Link href={getOauthGoogleUrl()}>
+                <Button variant='outline' className='w-full' type='button'>
+                  Đăng nhập bằng Google
+                </Button>
+              </Link>
             </div>
           </form>
         </Form>

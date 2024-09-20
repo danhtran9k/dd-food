@@ -13,6 +13,9 @@ export const NEXT_API = {
     },
     RENEW_TOKEN: {
       api: () => `${NEXT_API.AUTH.api}/renew-token` as const
+    },
+    AUTH_TOKEN: {
+      api: () => `${NEXT_API.AUTH.api}/token` as const
     }
   },
 

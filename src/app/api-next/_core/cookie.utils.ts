@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 
 import { jwtDecode } from '@app/api-next/_core/jwt'
 
-type TTokens = {
+export type TTokens = {
   accessToken: string
   refreshToken: string
 }
