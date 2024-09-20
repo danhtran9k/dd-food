@@ -1,10 +1,25 @@
 'use client'
 
-import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage
+} from '@core/app-shadcn/form'
 import { Input } from '@core/app-shadcn/input'
 import { Label } from '@core/app-shadcn/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@core/app-shadcn/select'
 import { Switch } from '@core/app-shadcn/switch'
 import { getUrlImage } from '@core/utils'
+
+import { Role, RoleValues } from '@app/api-next/_core/api-type.const'
 
 import {
   FileInputAndPreview,
@@ -106,6 +121,42 @@ export function EditEmployee({ onSubmitSuccess }: EditEmployeeProps) {
                 )}
               />
             ))}
+
+            <FormField
+              control={form.control}
+              name='role'
+              render={({ field }) => (
+                <FormItem>
+                  <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
+                    <Label htmlFor='role'>Chức vụ</Label>
+                    <div className='col-span-3 w-full space-y-2'>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder='Chọn chức vụ' />
+                          </SelectTrigger>
+                        </FormControl>
+
+                        <SelectContent>
+                          {RoleValues.map((role) =>
+                            // ko cho phép set user ngược lại thành guest -> sai logic business
+                            role === Role.Guest ? null : (
+                              <SelectItem key={role} value={role}>
+                                {role}
+                              </SelectItem>
+                            )
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

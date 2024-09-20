@@ -4,6 +4,7 @@ import { Package2, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { useAuthContext } from '@core/app-provider/auth-provider'
 import {
   Tooltip,
   TooltipContent,
@@ -17,6 +18,8 @@ import { menuItems } from './child/menu-item'
 
 export function SideManageBar() {
   const pathname = usePathname()
+  const { role } = useAuthContext()
+
   // Code chỗ này hơi cheat
   // Provider bọc chung hết mọi tooltip
   // Về cơ bản thì ko sai, chỉ có 1 tooltip cùng 1 lúc
@@ -33,10 +36,12 @@ export function SideManageBar() {
             <span className='sr-only'>Acme Inc</span>
           </Link>
 
-          {menuItems.map((Item, index) => {
+          {menuItems.map((Item) => {
             const isActive = pathname === Item.href
+            if (!Item.roles.includes(role as any)) return null
+
             return (
-              <Tooltip key={index}>
+              <Tooltip key={Item.title}>
                 <TooltipTrigger asChild>
                   <Link
                     href={Item.href}

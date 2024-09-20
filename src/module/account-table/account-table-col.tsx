@@ -55,6 +55,20 @@ export const AccountTableCol = () => {
       // cell ko define thì tanstack tự lấy row.getValue('email') ra
     },
     {
+      accessorKey: 'role',
+      header: ({ column }) => {
+        const handleSort = () => {
+          column.toggleSorting(column.getIsSorted() === 'asc')
+        }
+        return (
+          <Button variant='ghost' onClick={handleSort}>
+            Role
+            <CaretSortIcon className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      }
+    },
+    {
       id: 'actions',
       enableHiding: false,
       cell: (cell) => <AccountTableBtnDropdown {...cell} />

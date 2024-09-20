@@ -4,6 +4,7 @@ import { PanelLeft } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { useAuthContext } from '@core/app-provider/auth-provider'
 import { Button } from '@core/app-shadcn/button'
 import {
   Sheet,
@@ -19,6 +20,8 @@ import { SideManageIconMobile } from './child/side-manage-icon-mobile'
 
 export function SideManageBarMobile() {
   const pathname = usePathname()
+  const { role } = useAuthContext()
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -37,11 +40,13 @@ export function SideManageBarMobile() {
         <nav className='grid gap-6 text-lg font-medium'>
           <SideManageIconMobile />
 
-          {menuItems.map((Item, index) => {
+          {menuItems.map((Item) => {
             const isActive = pathname === Item.href
+            if (!Item.roles.includes(role as any)) return null
+
             return (
               <Link
-                key={index}
+                key={Item.title}
                 href={Item.href}
                 className={cn(
                   'flex items-center gap-4 px-2.5  hover:text-foreground',
