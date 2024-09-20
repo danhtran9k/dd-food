@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
 
 import { mapDefaultPortUrl } from '@core/debug/debug.utils'
 import { formatCurrency } from '@core/utils'
@@ -34,6 +35,7 @@ const nextGetDishes = () =>
 // })
 
 export default async function Home() {
+  const t = await getTranslations('HomePage')
   let dishList: DishListResType['data'] = []
   try {
     const result = await nextGetDishes()
@@ -60,7 +62,7 @@ export default async function Home() {
 
         <div className='z-20 relative py-10 md:py-20 px-4 sm:px-10 md:px-20 text-gray-300'>
           <h1 className='text-center text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold'>
-            Nhà hàng Big Boy
+            {t('title')}
           </h1>
 
           <p className='text-center text-sm sm:text-base mt-4'>

@@ -1,4 +1,5 @@
 import { DarkModeToggle } from '@module/app-common/dark-mode-toggle'
+import { SwitchLanguage } from '@module/app-layout/switch-language'
 
 import { HeaderSheetDrawer } from './header-sheet-drawer'
 import { IconHeaderLayout } from './icon-header'
@@ -15,7 +16,8 @@ export const HeaderLayout = () => {
 
       <HeaderSheetDrawer />
 
-      <div className='ml-auto'>
+      <div className='ml-auto flex items-center gap-4'>
+        <SwitchLanguage />
         <DarkModeToggle />
       </div>
     </header>
