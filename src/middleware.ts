@@ -1,22 +1,12 @@
 import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
 
+import { defaultLocale, locales } from '@core/app-i18n/locale-config'
+import { middlewarePath } from '@core/middleware-path'
 import { ROUTE_PATH } from '@core/path.const'
 
 import { Role } from '@app/api-next/_core/api-type.const'
 import { jwtDecode } from '@app/api-next/_core/jwt'
-
-// Gọi là guest nhưng thực chất là ROLE_GUEST (authed)
-const guestPaths = [ROUTE_PATH.GUEST.BASE]
-const managePaths = [ROUTE_PATH.MANAGE.BASE]
-
-const ownerPaths = [ROUTE_PATH.MANAGE.ACCOUNTS()]
-//
-
-// đây là path chỉ khi ko login mới được vào
-// Khác với path public là log hay ko vẫn vào được
-const nonAuthOnlyPaths = [ROUTE_PATH.LOGIN]
-const privatePaths = [...guestPaths, ...managePaths]
 
 // logic chỉ chặn cho path buộc phải auth và chưa auth
 // Còn đúng nghĩa public (auth hay ko auth đều vào được)
@@ -28,25 +18,39 @@ export const config = {
   // Check docs Next
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 
-  matcher: ['/guest/:path*', '/manage/:path*', '/login']
+  // matcher: ['/guest/:path*', '/manage/:path*', '/login']
+  matcher: ['/', '/(vi|en)/:path*']
 }
 
 // Middleware helper ko nên extract ra file khác
 const checkPathEnter = (pathname: string) => ({
-  isEnterGuestPath: guestPaths.some((path) => pathname.startsWith(path)),
-  isEnterManagePath: managePaths.some((path) => pathname.startsWith(path)),
-
-  isEnterPrivatePath: privatePaths.some((path) => pathname.startsWith(path)),
-  isEnterNonAuthOnlyPath: nonAuthOnlyPaths.some((path) =>
+  isEnterGuestPath: middlewarePath.guest.some((path) =>
     pathname.startsWith(path)
   ),
-
-  isEnterOwnerPath: ownerPaths.some((path) => pathname.startsWith(path))
+  isEnterManagePath: middlewarePath.manage.some((path) =>
+    pathname.startsWith(path)
+  ),
+  isEnterPrivatePath: middlewarePath.private.some((path) =>
+    pathname.startsWith(path)
+  ),
+  isEnterNonAuthOnlyPath: middlewarePath.nonAuthOnly.some((path) =>
+    pathname.startsWith(path)
+  ),
+  isEnterOwnerPath: middlewarePath.owner.some((path) =>
+    pathname.startsWith(path)
+  )
 })
 
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#convention
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+  const handleI18nRouting = createMiddleware({
+    locales: locales,
+    defaultLocale: defaultLocale
+  })
+  // Với I18n middleware bắt buộc phải return response tường minh ra
+  const response = handleI18nRouting(request)
+
   const { pathname } = request.nextUrl
 
   // Cookie chỉ lấy value ra, ko validate
@@ -69,19 +73,38 @@ export function middleware(request: NextRequest) {
   if (isEnterPrivatePath && !refreshToken) {
     const url = new URL(ROUTE_PATH.LOGIN, request.url)
     url.searchParams.set('clearTokens', 'true')
-    return NextResponse.redirect(url)
+    const urlString = url.toString()
+    response.headers.set('x-middleware-rewrite', urlString)
+    return response
   }
 
   // =========================================================
-  // !(A & B) = !A || !B
+  // !(A & B) = !A || !B ->
+  // !A & B (A1) /  !A & !B (A2)
+  //  A & !B (B)
   //  - CASE_A: hoặc ko phải privatePath
-  //    - A_1: ko refresh -> pass
+  //    - A_1: ko refresh -> pass (trong 3 case thì chỉ có 1 TH B)
   //    - A_2: refresh -> check xem có phải nonAuthOnlyPath hay ko
   //  - CASE_B: có refreshToken (path vẫn thuộc config mdw)
   // =========================================================
 
-  // Case_A1
-  if (!refreshToken) return
+  // Case_A1 !A & B,
+  // theo logic thì chỉ cần check B là đủ vì case A&B đã check trên
+  // Theo đúng thì còn accessToken ko nên cho vào nonAuthOnlyPaths
+  // !refreshToken & !isEnterPrivatePath, tuy nhiên ko viết tưởng minh ra để ts infer code phía sau
+  if (!refreshToken) {
+    if (isEnterNonAuthOnlyPath && accessToken) {
+      // Bắt buộc dup logic
+      const urlString = new URL(ROUTE_PATH.ROOT, request.url).toString()
+      response.headers.set('x-middleware-rewrite', urlString)
+      return response
+    }
+
+    // Các case !refreshToken còn lại hiển nhiên pass
+    // !isEnterPrivatePath & !accessToken
+    // !isEnterPrivatePath & accessToken & !isEnterNonAuthOnlyPath
+    return response
+  }
 
   // CASE_A2 + B
   // -> chắc chắn có refreshToken
@@ -90,7 +113,9 @@ export function middleware(request: NextRequest) {
   // Đăng nhập rồi thì sẽ không cho vào login nữa, tránh loop
   // Có phân tích trong httpClient
   if (isEnterNonAuthOnlyPath) {
-    return NextResponse.redirect(new URL(ROUTE_PATH.ROOT, request.url))
+    const urlString = new URL(ROUTE_PATH.ROOT, request.url).toString()
+    response.headers.set('x-middleware-rewrite', urlString)
+    return response
   }
 
   // CASE_B: về logic chắn chắn sẽ có refreshToken
@@ -107,8 +132,9 @@ export function middleware(request: NextRequest) {
     const url = new URL(ROUTE_PATH.REFRESH_TOKEN, request.url)
     url.searchParams.set('refreshToken', refreshToken)
     url.searchParams.set('redirect', pathname)
-
-    return NextResponse.redirect(url)
+    const urlString = url.toString()
+    response.headers.set('x-middleware-rewrite', urlString)
+    return response
   }
 
   // Guard value pass -> guard role ngay trong middleware ?
@@ -128,9 +154,11 @@ export function middleware(request: NextRequest) {
     isNotGuestEnterGuestPath ||
     isNotOwnerEnterOwnerPath
   ) {
-    return NextResponse.redirect(new URL('/', request.url))
+    const urlString = new URL('/', request.url).toString()
+    response.headers.set('x-middleware-rewrite', urlString)
+    return response
   }
 
   // Path authorization role check pass
-  return NextResponse.next()
+  return response
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-
+import { usePathname } from '@core/app-i18n/routing'
 import {
   Pagination,
   PaginationContent,

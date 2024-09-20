@@ -20,6 +20,20 @@
       {
         "patterns": [
           {
+            "group": ["next/link"],
+            "message": "Please import from `@/i18n/routing` instead."
+          },
+          {
+            "group": ["next/navigation"],
+            "importNames": [
+              "redirect",
+              "permanentRedirect",
+              "useRouter",
+              "usePathname"
+            ],
+            "message": "Please import from `@/i18n/routing` instead."
+          },
+          {
             "group": ["./app", "*/../app"],
             "message": "App imports must be absolute."
           },

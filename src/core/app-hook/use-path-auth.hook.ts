@@ -1,7 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-
+import { usePathname } from '@core/app-i18n/routing'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import { NON_RENEW_TOKEN_PATH, ROUTE_PATH } from '@core/path.const'
 

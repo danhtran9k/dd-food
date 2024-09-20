@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-
+import { Link } from '@core/app-i18n/routing'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 
 import { LogoutDialog } from './logout-dialog'
