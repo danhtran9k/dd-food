@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { cookies } from 'next/headers'
 
 import { jwtDecode } from '@app/api-next/_core/jwt'
