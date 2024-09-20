@@ -1,8 +1,8 @@
 'use client'
 
 import { Package2 } from 'lucide-react'
-import Link from 'next/link'
 
+import { Link } from '@core/app-i18n/routing'
 import { ROUTE_PATH } from '@core/path.const'
 
 export const SideManageIconMobile = () => {

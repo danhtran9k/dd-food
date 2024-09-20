@@ -1,7 +1,6 @@
 import 'server-only'
 
-import { redirect } from 'next/navigation'
-
+import { redirect } from '@core/app-i18n/routing'
 import { ROUTE_PATH } from '@core/path.const'
 
 import {

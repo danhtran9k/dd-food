@@ -1,9 +1,9 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { usePathAuth } from '@core/app-hook/use-path-auth.hook'
+import { usePathname, useRouter } from '@core/app-i18n/routing'
 import { ROUTE_PATH } from '@core/path.const'
 
 import {

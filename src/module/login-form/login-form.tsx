@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-
+import { Link } from '@core/app-i18n/routing'
 import { Button } from '@core/app-shadcn/button'
 import { Card, CardContent } from '@core/app-shadcn/card'
 import { Form, FormField, FormItem, FormMessage } from '@core/app-shadcn/form'

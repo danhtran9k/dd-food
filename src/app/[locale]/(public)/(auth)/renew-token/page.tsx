@@ -1,9 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
 
 import { useIsParamTokenMatch } from '@core/app-hook/use-is-param-token-match.hook'
+import { useRouter } from '@core/app-i18n/routing'
 import { ROUTE_PATH } from '@core/path.const'
 
 import { checkCanRenewWithRoleOrClearLocal } from '@app/api-next/_core/token.helper'

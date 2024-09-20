@@ -1,7 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
+import { useRouter } from '@core/app-i18n/routing'
 import { Button } from '@core/app-shadcn/button'
 import { ROUTE_PATH } from '@core/path.const'
 import { formatCurrency } from '@core/utils'

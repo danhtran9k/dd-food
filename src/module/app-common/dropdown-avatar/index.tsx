@@ -1,8 +1,7 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-
+import { useRouter } from '@core/app-i18n/routing'
+import { Link } from '@core/app-i18n/routing'
 import {
   DropdownMenu,
   DropdownMenuContent,

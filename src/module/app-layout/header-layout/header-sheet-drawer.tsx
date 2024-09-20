@@ -1,6 +1,6 @@
 import { Menu, Package2 } from 'lucide-react'
-import Link from 'next/link'
 
+import { Link } from '@core/app-i18n/routing'
 import { Button } from '@core/app-shadcn/button'
 import {
   Sheet,

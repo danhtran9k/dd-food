@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 
+import { useRouter } from '@core/app-i18n/routing'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import { toast } from '@core/app-shadcn/use-toast'
 import { ROUTE_PATH } from '@core/path.const'

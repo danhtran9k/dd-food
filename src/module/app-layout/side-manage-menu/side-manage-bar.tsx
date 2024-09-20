@@ -1,9 +1,9 @@
 'use client'
 
 import { Package2, Settings } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
+import { usePathname } from '@core/app-i18n/routing'
+import { Link } from '@core/app-i18n/routing'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import {
   Tooltip,

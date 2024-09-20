@@ -1,8 +1,9 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
+import { useRouter } from '@core/app-i18n/routing'
 import { useAuthContext } from '@core/app-provider/auth-provider'
 import { toast } from '@core/app-shadcn/use-toast'
 import { ROUTE_PATH } from '@core/path.const'

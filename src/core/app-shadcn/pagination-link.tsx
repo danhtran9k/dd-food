@@ -1,7 +1,6 @@
 import { UrlObject } from 'url'
 
-import Link from 'next/link'
-
+import { Link } from '@core/app-i18n/routing'
 import { ButtonProps, buttonVariants } from '@core/app-shadcn/button'
 import { cn } from '@core/utils'
 

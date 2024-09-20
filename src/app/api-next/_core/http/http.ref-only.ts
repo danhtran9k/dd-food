@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation'
-
+import { redirect } from '@core/app-i18n/routing'
 import envConfig from '@core/config'
 import { ROUTE_PATH } from '@core/path.const'
 import { isClient, normalizePath } from '@core/utils'
