@@ -25,7 +25,7 @@ function ProxyComponentRenew() {
       const { canRenew, role } = checkCanRenewWithRoleOrClearLocal()
 
       if (canRenew && role) {
-        mutateFnRenew(role)().then(() => {
+        mutateFnRenew(role).then(() => {
           const url = redirectPathname ?? ROUTE_PATH.ROOT
           router.push(url)
         })

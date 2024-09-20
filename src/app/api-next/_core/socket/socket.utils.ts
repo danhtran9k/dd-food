@@ -13,10 +13,12 @@ export const socketInstance: Socket<
   TServerToClientEvents,
   TClientToServerEvents
 > = io(envConfig.NEXT_PUBLIC_API_ENDPOINT, {
+  // Nếu đã dùng withCredentials thì ko cần auth
   auth: {
     Authorization: isClient()
       ? `Bearer ${clientLocal.access.getToken()}`
-      : undefined,
-    autoConnect: false
-  }
+      : undefined
+  },
+  withCredentials: true,
+  autoConnect: false
 })

@@ -5,11 +5,11 @@ import { isClient } from '@core/utils'
 
 import { EV_SOCKET, socketInstance } from '@app/api-next/_core/socket'
 
-export const useSocketConnect = () => {
+export const useSocketConnect = (isDisabled = false) => {
   const { isAuth } = useAuthContext()
 
   useEffect(() => {
-    if (!isClient() || !isAuth) return
+    if (!isClient() || !isAuth || isDisabled) return
 
     if (!socketInstance.connected) {
       socketInstance.connect()
@@ -38,5 +38,5 @@ export const useSocketConnect = () => {
       socketInstance.removeAllListeners()
       socketInstance.disconnect()
     }
-  }, [isAuth])
+  }, [isAuth, isDisabled])
 }
