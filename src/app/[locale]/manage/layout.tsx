@@ -1,3 +1,5 @@
+import { unstable_setRequestLocale } from 'next-intl/server'
+
 import { DarkModeToggle } from '@module/app-common/dark-mode-toggle'
 import { DropdownAvatar } from '@module/app-common/dropdown-avatar'
 import {
@@ -5,11 +7,13 @@ import {
   SideManageBarMobile
 } from '@module/app-layout/side-manage-menu'
 
-export default function Layout({
-  children
-}: Readonly<{
+type TLayout = {
   children: React.ReactNode
-}>) {
+  params: { locale: string }
+}
+
+export default function Layout({ children, params: { locale } }: TLayout) {
+  unstable_setRequestLocale(locale)
   return (
     <div className='flex min-h-screen w-full flex-col bg-muted/40'>
       <SideManageBar />

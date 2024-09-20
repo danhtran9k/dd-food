@@ -1,9 +1,18 @@
-import { MenuOrders } from "@module/orders-menu";
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
-export default function MenuPage() {
+import { MenuOrders } from '@module/orders-menu'
+
+type TMenuPage = {
+  params: { locale: string }
+}
+
+export default async function MenuPage({ params: { locale } }: TMenuPage) {
+  unstable_setRequestLocale(locale)
+  const t = await getTranslations()
+
   return (
     <div className='max-w-[400px] mx-auto space-y-4'>
-      <h1 className='text-center text-xl font-bold'>🍕 Menu quán</h1>
+      <h1 className='text-center text-xl font-bold'>{t('GuestMenu.title')}</h1>
 
       <MenuOrders />
     </div>

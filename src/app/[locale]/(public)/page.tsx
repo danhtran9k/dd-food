@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { mapDefaultPortUrl } from '@core/debug/debug.utils'
 import { formatCurrency } from '@core/utils'
@@ -34,7 +34,12 @@ const nextGetDishes = () =>
 //   }
 // })
 
-export default async function Home() {
+type THome = {
+  params: { locale: string }
+}
+
+export default async function Home({ params: { locale } }: THome) {
+  unstable_setRequestLocale(locale)
   const t = await getTranslations('HomePage')
   let dishList: DishListResType['data'] = []
   try {

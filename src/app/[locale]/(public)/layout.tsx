@@ -1,10 +1,13 @@
-import { HeaderLayout } from '@module/app-layout/header-layout/'
+import { unstable_setRequestLocale } from 'next-intl/server'
 
-export default function Layout({
-  children
-}: Readonly<{
+import { HeaderLayout } from '@module/app-layout/header-layout/'
+type TLayout = {
   children: React.ReactNode
-}>) {
+  params: { locale: string }
+}
+
+export default function Layout({ children, params: { locale } }: TLayout) {
+  unstable_setRequestLocale(locale)
   return (
     <div className='flex min-h-screen w-full flex-col relative'>
       <HeaderLayout />
