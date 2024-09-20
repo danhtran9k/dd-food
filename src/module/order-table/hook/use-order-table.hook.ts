@@ -9,7 +9,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel
 } from '@tanstack/react-table'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import {
@@ -20,7 +19,8 @@ import {
 
 export const useOrderTable = <K, T>({
   data,
-  columns
+  columns,
+  searchParams
 }: TUseTanStackTable<K, T>) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState({})
@@ -61,8 +61,7 @@ export const useOrderTable = <K, T>({
     option: tableOption
   })
 
-  const searchParam = useSearchParams()
-  const page = searchParam.get('page') ? Number(searchParam.get('page')) : 1
+  const page = searchParams?.get('page') ? Number(searchParams.get('page')) : 1
   const pageIndex = page - 1
 
   useEffect(() => {

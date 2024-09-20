@@ -2,6 +2,17 @@
 
 - package sharp dùng cho production tối ưu image
 
+## With i18n
+
+Khi dùng Suspense thì sẽ bị vô hiệu hóa ssr
+Có 1 trick là dùng 1 component logic ảo để setState params vào và chỉ cần bọc suspense cho chính nó
+Chưa rõ có ảnh hưởng gì nặng ko nhưng cứ tạm vậy trước
+
+Thêm lưu ý là component logic này ko nên lạm dụng, có vài page PROXY ui ko quan trọng ko cần dùng
+Phải check build file mới biết chính xác setup có hiệu quả hay ko
+
+useSearchParams() -> xài khá nhiều trong table Pagination
+
 # Google OAuth
 
 ## Step 1

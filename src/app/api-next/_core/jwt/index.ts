@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { decodeJwt } from 'jose'
 
 import { RoleType } from '@app/api-next/_core/api-type.const'
 
@@ -19,6 +19,6 @@ export interface TokenPayload {
   iat: number
 }
 
-export const jwtDecode = (token: string[]) => {
-  return token.map((token) => jwt.decode(token) as TokenPayload)
+export const jwtDecode = (token: string[]): TokenPayload[] => {
+  return token.map((token) => decodeJwt(token))
 }

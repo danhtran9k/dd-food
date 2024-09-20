@@ -1,4 +1,5 @@
 import { ColumnDef, TableOptions } from '@tanstack/react-table'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 
 export const PAGE_SIZE = 2
 export const PAGE_SIZE_5 = 5
@@ -15,4 +16,5 @@ export type TUseTanStackTable<K, T> = {
   data: T[]
   columns: ColumnDef<T, K>[]
   option?: TTanStackHookOption<T>
+  searchParams?: ReadonlyURLSearchParams | null
 }

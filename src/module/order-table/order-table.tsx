@@ -10,6 +10,10 @@ import { formatDateInput } from '@core/utils/date-time.utils'
 import { useOrderList } from '@app/api-next/orders/use-order-list.hook'
 
 import { ShadcnPagination } from '@module/app-common/shadcn-pagination'
+import {
+  SearchParamsLoader,
+  useSearchParamsState
+} from '@module/app-layout/search-param-loader'
 import { TanStackTable } from '@module/app-vendor/tanstack-table'
 
 import { ComboBoxStatus, OrderStatistic, OrderTableSkeleton } from './child'
@@ -32,8 +36,13 @@ export function OrderTable() {
     (data) => data?.payload?.data
   )
 
+  const [searchParams, setSearchParams] = useSearchParamsState()
   const columns = useMemo(() => OrderTableColumns(), [])
-  const { table, useFilterField } = useOrderTable({ data: data ?? [], columns })
+  const { table, useFilterField } = useOrderTable({
+    data: data ?? [],
+    columns,
+    searchParams
+  })
 
   const [guestName, handleGuestName] = useFilterField('guestName')
   const [tableNumber, handleTableNumber] = useFilterField('tableNumber')
@@ -44,6 +53,7 @@ export function OrderTable() {
 
   return (
     <OrderTableProvider data={data ?? []}>
+      <SearchParamsLoader onParamsReceived={setSearchParams} />
       <div className='w-full'>
         <EditOrder />
 

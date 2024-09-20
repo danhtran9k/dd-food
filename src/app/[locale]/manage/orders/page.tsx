@@ -1,5 +1,3 @@
-import { Suspense } from 'react'
-
 import {
   Card,
   CardContent,
@@ -21,9 +19,7 @@ export default function AccountsPage() {
           </CardHeader>
 
           <CardContent>
-            <Suspense>
-              <OrderTable />
-            </Suspense>
+            <OrderTable />
           </CardContent>
         </Card>
       </div>
