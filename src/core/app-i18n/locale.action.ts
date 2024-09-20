@@ -11,3 +11,7 @@ export const getLocaleCookie = async () =>
 
 export const setLocaleCookie = async (locale: string) =>
   cookies().set(COOKIE_NAME, locale)
+
+// NOTE: đối với dạng i18n routing thì ko cần nữa
+// Navigate thẳng sang route khác luôn, ko thông qua cookie - next proxy nữa
+// hàm chi chỉ dùng ref - tham khảo
